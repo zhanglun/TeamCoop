@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+{% if error %}
+<p class="error">
+    <strong>Error:</strong> {{ error }}
+</p>
+{% endif %}
+    <form action="/checkuser/" method="POST">
+        <label for="username">用户名</label><input type="text" name="username" id="username" />
+        <label for="password">密码</label><input type="password" name="password" id="password" />
+        <input type="submit" value="登录">
+    </form>
+</body>
+</html>
