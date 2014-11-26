@@ -2,12 +2,11 @@ from flask import Flask, request, url_for, make_response, redirect, render_templ
 from datetime import datetime
 from flask.ext.moment import Moment
 
-
-
 app = Flask(__name__)
-app.config.from_pyfile('config.py')
 
 import teamcoop.views
+
+app.config.from_pyfile('config.py')
 
 moment = Moment(app)
 
