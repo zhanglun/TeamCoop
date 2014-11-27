@@ -19,7 +19,7 @@ class DevelopmentConfig(Config):
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or os.path.join(basedir, 'dev\\flaskr.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or os.path.join(basedir, 'dev\\teamcoop.db')
 
 
 class TestingConfig(Config):
@@ -28,7 +28,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or os.path.join(basedir, 'pub\\flaskr.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or os.path.join(basedir, 'pub\\teamcoop.db')
 
 
 config = {
