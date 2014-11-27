@@ -4,13 +4,10 @@ from flask.ext.moment import Moment
 
 app = Flask(__name__)
 
-import teamcoop.views
-
-app.config.from_pyfile('config.py')
+# import teamcoop.views
 
 moment = Moment(app)
 
-print moment
 
 @app.route('/')
 def index():
@@ -52,6 +49,3 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 
-
-if __name__ == '__main__':
-    app.run()
