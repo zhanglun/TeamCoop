@@ -18,39 +18,7 @@ def create_app(config_name):
     app.register_blueprint(share,  url_prefix='/share')
     app.register_blueprint(setting,  url_prefix='/setting')
 
-
-@app.route('/login/')
-def login():
-    return render_template('login.html')
-
-
-@app.route('/checkuser/', methods=['GET', 'POST'])
-def checkuser():
-    error = None
-    if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-            print error
-        elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
-            print error
-        else:
-            session['logged_in'] = True
-            flash('You were logged in')
-            print error
-            return redirect(url_for('index'))
-    return render_template('login.html', error=error)
-
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html', now = datetime.utcnow()), 404
-
-
-@app.errorhandler(500)
-def internal_server_error(e):
-    return render_template('500.html'), 500
+    return app
 
 
 
