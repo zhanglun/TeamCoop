@@ -21,7 +21,6 @@ def submit():
     if form.validate_on_submit():
         # check the password and log user in
         print "username"
-        username = form.username.data
         flash("Successfully created a new book")
         return redirect(url_for('.index'))
 
