@@ -1,1 +1,0 @@
-insert into project_user values(1,2);
