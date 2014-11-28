@@ -11,7 +11,7 @@ def index():
     return render_template('login.html', form=form)
 
 
-@login.route('/checkuser/', methods=['GET', 'POST'])
+@login.route('/signin/', methods=['GET', 'POST'])
 def submit():
     form = userlogin.LoginForm()
     if form.is_submitted():
@@ -21,10 +21,19 @@ def submit():
     if form.validate_on_submit():
         # check the password and log user in
         print "username"
+        name = form.username.data
         flash("Successfully created a new book")
-        return redirect(url_for('.index'))
+        return redirect(url_for('.username', username=name))
 
     return redirect(url_for('.index'))
+
+
+@login.route('/<username>/')
+def username(username):
+
+    return render_template('profile.html', name=username)
+
+
 
 
 
