@@ -1,7 +1,8 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))+"\\db"
+basedir = os.path.abspath(os.path.dirname(__file__)) + "\\db"
 
 class Config:
+    CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
@@ -19,7 +20,7 @@ class DevelopmentConfig(Config):
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or os.path.join(basedir, 'dev\\teamcoop.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or os.path.join(basedir, 'dev\\teamcoop-dev.db')
 
 
 class TestingConfig(Config):
