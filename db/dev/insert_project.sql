@@ -1,1 +1,0 @@
-insert into project (title,description,createUserId) values ('啦啦啦','这是一个测试项目',1);

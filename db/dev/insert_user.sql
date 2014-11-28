@@ -1,1 +1,0 @@
-INSERT INTO USER (username,password,name,gender,address,phone,email) VALUES('fbzhh007','123456','·¶°ØÖÛ','ÄÐ','190224','18607006059','343278606@qq.com');
