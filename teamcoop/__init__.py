@@ -16,11 +16,14 @@ def create_app(config_name):
     from views.setting import setting
     from views.project import project
 
+    from views.api import api
+
     app.register_blueprint(login)
     app.register_blueprint(profile, url_prefix='/profile')
     app.register_blueprint(project, url_prefix='/project')
     app.register_blueprint(share, url_prefix='/share')
     app.register_blueprint(setting, url_prefix='/setting')
+    app.register_blueprint(api, url_prefix='/api')
 
     return app
 
