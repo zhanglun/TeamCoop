@@ -1,13 +1,30 @@
 # coding=utf-8
 from flask import Flask, render_template
-from config import config
+from flask.ext.sqlalchemy import SQLAlchemy
 
+
+
+
+
+# from config import config
+# DEBUG = True
+# SECRET_KEY = 'mysecretkey'
+# SQLALCHEMY_DATABASE_URI = 'sqlite:///db/dev/test.db'
 
 def create_app(config_name):
 
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
+
+    app.config.from_object(config_name)
+    # app.config.from_object(config[config_name])
+    # app.config.from_object(__name__)
+
+    print app.config
+
+    # config[config_name].init_app(app)
+
+    from models import db
+    db.init_app(app)
 
     # views 中每一个文件都是一个蓝图，在这里引入蓝图
     from views.login import login
