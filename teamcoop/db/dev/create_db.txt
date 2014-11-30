@@ -1,0 +1,8 @@
+.read table_user.sql
+.read table_department.sql
+.read table_project.sql
+.read table_task.sql
+.read table_user_department.sql
+.read table_user_project.sql
+.read table_project_comment.sql
+.read table_task_comment.sql
