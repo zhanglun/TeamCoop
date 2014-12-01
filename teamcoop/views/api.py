@@ -38,5 +38,6 @@ def set_person():
         username = request.json['username']
         password = request.json['password']
         confirm_password = request.json['confirm_password']
+
     elif request.method == 'GET':
         return 'API-setting person'
