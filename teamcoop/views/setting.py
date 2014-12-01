@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template
+from __init__ import *
 
 setting = Blueprint('setting', __name__)
 
-@setting.route('/')
+@setting.route('/', methods=['GET', 'POST'])
 def index():
-    return "setting index"
+    return 'SETTING'
