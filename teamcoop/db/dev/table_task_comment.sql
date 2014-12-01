@@ -1,4 +1,4 @@
-create table task_comment (id integer primary key autoincrement,
+create table task_comment (id integer primary key autoincrement unique,
 						   content text not null default '',
 						   taskId integer not null references project(id) on delete cascade deferrable initially deferred,
 						   userId integer not null references user(id) on delete cascade deferrable initially deferred,

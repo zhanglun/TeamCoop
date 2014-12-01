@@ -1,4 +1,4 @@
-create table user (id integer primary key autoincrement,
+create table user (id integer primary key autoincrement unique,
 				   username text not null unique,
 				   password text not null,
 				   name text not null default '',

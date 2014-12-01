@@ -1,4 +1,4 @@
-create table task (id integer primary key autoincrement,
+create table task (id integer primary key autoincrement unique,
 				   title text not null,
 				   description text not null default '',
 				   deadline timestamp not null default (datetime(current_timestamp,'localtime')),
