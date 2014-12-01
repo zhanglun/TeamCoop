@@ -1,0 +1,45 @@
+.issue-list li p {
+    & {
+        &:not(: last-child) {
+            margin-bottom: 0;
+        }
+    }
+    &:last-child {
+        color: #aaa;
+        font-size: .9em;
+    }
+}
+.setting_select {
+    width: 60%;
+    .center-block;
+}
+.projectStateList {
+    small {
+        color: @gray;
+    }
+}
+#issues {
+    table {
+        select {
+            min-width: 4em;
+            width: 7em;
+        }
+        td {
+            vertical-align: middle;
+        }
+    }
+}
+.discussion {
+    ul {
+        p:first-child, p:last-child {
+            color: @gray;
+        }
+        p:not(:first-child){
+            text-indent: 2em;
+        }
+    }
+}
+.martb10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

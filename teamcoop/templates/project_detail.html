@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+<!-- highlight issue tag -->
+{% block project_class %}active{% endblock %} 
+{% block main %}
+<section>
+    <ol class="breadcrumb">
+        <li><a href="#">Home</a>
+        </li>
+        <li><a href="#">Project</a>
+        </li>
+        <li class="active">projectA</li>
+    </ol>
+    <div role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#progress" aria-controls="progress" role="tab" data-toggle="tab">progress</a>
+            </li>
+            <li role="presentation"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">issues</a>
+            </li>
+            <li role="presentation"><a href="#discuss" aria-controls="discuss" role="tab" data-toggle="tab">discuss</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="progress">
+                {% include "partial/progress.html" %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="issues">
+                {% include "partial/issues.html" %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="discuss">
+                {% include "partial/discuss.html" %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock%}
+

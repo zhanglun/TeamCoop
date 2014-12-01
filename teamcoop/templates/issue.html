@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+<!-- highlight issue tag -->
+{% block issue_class %}active{% endblock %}
+
+
+{% block main %} 
+<h4> Personal Issues </h4>
+<ul class="list-unstyled issue-list">
+    <li>
+        <p>XXX assign <a href="#">project A</a> to you, the deadline is 2014.12.12</p>
+        <p>yesterday 18:23</p>
+    </li>
+    <li>
+        <p>XXX assign <a href="#">project A</a> to you, the deadline is 2014.12.12</p>
+        <p>yesterday 18:23</p>
+    </li>
+</ul>
+<h4> All Issues </h4>
+<ul class="list-unstyled issue-list">
+    <li>
+        <p>XXX create <a href="">project B</a></p>
+        <p>yesterday 18:23</p>
+    </li>
+</ul>
+{% endblock%}
+

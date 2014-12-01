@@ -1,0 +1,202 @@
+<div class="title row">
+    <div class="col-md-6">
+        <h4>Assign to me</h4>
+    </div>
+    <div class="col-md-6 text-right">
+        <button class="btn btn-primary btn-sm martb10" data-toggle="modal" data-target="#createIssue">new issue</button>
+        <button class="btn btn-primary btn-sm martb10" data-toggle="modal" data-target="#issueDetail">issue detail</button>
+    </div>
+    <!-- issue create Modal -->
+    <div class="modal fade" id="createIssue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">new issue</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="issueName" class="col-sm-2 control-label">issueName</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="issueName" placeholder="issueName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="participants" class="col-sm-2 control-label">Participants</label>
+                            <div class="col-sm-10">
+                                <select multiple class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="deadline" class="col-sm-2 control-label">deadline</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" placeholder="deadline" id="deadline">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="detail" class="col-sm-2 control-label">detail</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- create detail Modal -->
+    <div class="modal fade" id="issueDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">issue detail</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">issueName</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static">issue A</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">issueDetail</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static">issue A detail</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">assigner</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static">A</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">assignor</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static">B</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">deadline</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static">2014.12.12</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <textarea class="form-control" rows="3"></textarea>
+                    <p class="martb10">
+                        <button class="btn btn-sm btn-primary">submit</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <th>Issuse name</th>
+        <th>Discuss</th>
+        <th>Assigner</th>
+        <th>State</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="">frontend</a>
+            </td>
+            <td>12</td>
+            <td>A</td>
+            <td>
+                <select name="" id="" class="form-control">
+                    <option value="finished">finished</option>
+                    <option value="unfinish">unfinish</option>
+                    <option value="executed">executed</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-danger btn-xs">delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td><a href="">frontend</a>
+            </td>
+            <td>12</td>
+            <td>A</td>
+            <td>
+                <select name="" id="" class="form-control">
+                    <option value="finished">finished</option>
+                    <option value="unfinish">unfinish</option>
+                    <option value="executed">executed</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-danger btn-xs">delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="title row">
+    <div class="col-md-6">
+        <h4>Assign by me</h4>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <th>Issuse name</th>
+        <th>Discuss</th>
+        <th>Assignor</th>
+        <th>State</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="">frontend</a>
+            </td>
+            <td>12</td>
+            <th>B</th>
+            <td>
+                <select name="" id="" class="form-control">
+                    <option value="finished">finished</option>
+                    <option value="unfinish">unfinish</option>
+                    <option value="executed">executed</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-danger btn-xs">delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td><a href="">frontend</a>
+            </td>
+            <td>12</td>
+            <th>B</th>
+            <td>
+                <select name="" id="" class="form-control">
+                    <option value="finished">finished</option>
+                    <option value="unfinish">unfinish</option>
+                    <option value="executed">executed</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-danger btn-xs">delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

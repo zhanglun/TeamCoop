@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+<!-- highlight issue tag -->
+{% block setting_class %}active{% endblock %} 
+{% block main %}
+<h4 class="setting_select"> 
+<div class="btn-group btn-group-justified" role="group">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default">Personal Setting</button>
+    </div>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" disabled="disabled">Member Settings</button>
+    </div>
+</div>
+</h4>
+<div class="row">
+    <form role="form" class="col-md-6 col-md-push-3">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter Username">
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="confirm_passwd">Confirm_password</label>
+            <input type="password" class="form-control" id="confirm_passwd" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+
+    <div class="member-setting col-md-12 hidden">
+        <ol class="breadcrumb">
+            <li><a href="#">Setting</a>
+            </li>
+            <li><a href="#">MemberSetting</a>
+            </li>
+            <li class="active">Department</li>
+        </ol>
+        <section>
+            <!-- Button trigger modal -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#createPartment">create partment</button>
+            <!-- create partment Modal -->
+            <div class="modal fade" id="createPartment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">new Partment</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="partmentName">partmentName</label>
+                                    <input type="text" class="form-control" id="partmentName" placeholder="Enter partmentName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">personName</label>
+                                    <input type="text" class="form-control" id="personName" placeholder="Enter name">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- partment detail Modal -->
+            <div class="modal fade" id="partmentDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">certain partment name</h4>
+                        </div>
+                        <div class="modal-body">
+                        ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <th>DEPARTMENT NAME</th>
+                    <th>NUMBER</th>
+                    <th>ACTION</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="">design</a>
+                        </td>
+                        <td>2</td>
+                        <td>
+                            <button class="btn btn-xs btn-danger">delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="">frontend</a>
+                        </td>
+                        <td>2</td>
+                        <td>
+                            <button class="btn btn-xs btn-danger">delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="">backend</a>
+                        </td>
+                        <td>2</td>
+                        <td>
+                            <button class="btn btn-xs btn-danger">delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+</div>
+
+
+
+{% endblock%}
