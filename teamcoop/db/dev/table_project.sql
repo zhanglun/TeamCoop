@@ -1,4 +1,4 @@
-create table project (id integer primary key autoincrement unique,
+create table project (id integer primary key unique,
 					  title text not null,
 					  description text not null,
 					  level integer not null default 1,
