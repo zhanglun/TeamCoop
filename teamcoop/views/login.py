@@ -20,19 +20,25 @@ def submit():
     if form.validate_on_submit():
         # check the password and log user in
         name = form.username.data
-        u = user.User.query.filter_all(username=name).first()
-        if u is None:
-            flash('用户不存在')
+        print type(name)
+        u = UserModel.User.query.filter_by(username=name).first()
+        if u is None or form.password.data != u.password:
+            flash(u'用户名或密码错误')
+            # if user is not exist, redirect to '/'
             return render_template('login.html', form=form)
-        flash("")
-        return redirect(url_for('.username', username=name))
+        elif form.password.data == u.password:
+            return redirect(url_for('.user', username=name))
+        else:
+            return render_template('login.html', form=form)
 
-    return redirect(url_for('.index'))
 
-
-@login.route('/<username>/')
-def username(username):
-    return render_template('project_dashboard.html', name=username)
+@login.route('/user/<username>/')
+def user(username):
+    print username
+    print type(username)
+    u = UserModel.User.query.filter_by(username=unicode(username)).first()
+    data = {'username': u.username}
+    return render_template('project_dashboard.html', data = data)
 
 
 

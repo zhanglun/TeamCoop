@@ -5,39 +5,51 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-    <link rel="stylesheet" href="stylesheets/styles.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/styles.css') }}"/>
     <title>TeamCoop</title>
 </head>
 
 <body>
-    <section class="container-fluid">
-        <div class="row">
-            <h3 class="text-center">TeamCoop</h3>
-            <div class="col-md-4 col-md-push-4">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                            <input type="email" class="form-control" id="email" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                            <input type="password" class="form-control" id="password" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> Remember me
-                                </label>
-                            </div>
-                    </div>
-                    <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+<section class="container-fluid">
+    <div class="row">
+        <h3 class="text-center">TeamCoop</h3>
 
-    <script src="vendor/jquery.js"></script>
-    <script src="scripts/bootstrap.min.js"></script>
+        <div class="col-md-4 col-md-push-4">
+            <form class="form-horizontal" role="form" action="{{ url_for('.submit') }}" method="POST">
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.username(class='form-control', id='username', placeholder='Username') }}
+                </div>
+                <div class="form-group">
+                    {{ form.password(class="form-control", id="password", placeholder="Password") }}
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Remember me
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {#                    <button type="submit" class="btn btn-primary btn-block">Sign in</button>#}
+                    {{ form.submit(class="btn btn-primary btn-block") }}
+                </div>
+
+            </form>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <strong>{{ message }}</strong>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='vendor/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
 
 </body>
 

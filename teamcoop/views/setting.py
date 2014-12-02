@@ -5,4 +5,4 @@ setting = Blueprint('setting', __name__)
 
 @setting.route('/', methods=['GET', 'POST'])
 def index():
-    return 'SETTING'
+    return render_template('setting.html')

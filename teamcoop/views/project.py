@@ -4,4 +4,15 @@ project = Blueprint('project', __name__)
 
 @project.route('/')
 def index():
-    return 'project index'
+    return render_template('project_dashboard.html')
+    # return 'ddd'
+
+
+@project.route('/dashboard/')
+def dashboard():
+    return render_template('project_dashboard.html')
+
+
+@project.route('/detail/')
+def detail():
+    return render_template('project_detail.html')
