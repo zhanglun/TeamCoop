@@ -12,7 +12,6 @@ class User(db.Model):
     email = db.Column(db.Text, default='')
     createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-
     def __repr__(self):
         return '<User %r>' % self.username
 

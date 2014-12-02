@@ -4,7 +4,14 @@ from __init__ import *
 
 api = Blueprint('api', __name__)
 
-print api_response_dict
+
+@api.route('/team/project/', methods=['GET', 'POST'])
+def project():
+    if request.method == 'POST':
+        return api_response(200, 'success', 'add a new project')
+    elif request.method == 'GET':
+        return api_response(200, 'success', 'get all projects belongs to the team')
+
 
 @api.route('/project/member/', methods=['GET', 'POST'])
 def set_member():
@@ -19,14 +26,9 @@ def set_member():
             db.session.add(new_member)
             db.session.commit()
             # set the response
-            api_response_dict['code'] = 'success'
-            api_response_dict['result'] = 'add a new member'
-            response = make_response(jsonify(api_response_dict))
-            response.status = '200'
+            return api_response(200, 'success', 'add a new member')
         else:
-            response = make_response('already exist')
-            response.status = '200'
-        return response
+            return api_response(200, 'success', 'the member is already exist')
 
     elif request.method == 'GET':
         return "Down!"
@@ -39,5 +41,14 @@ def set_person():
         password = request.json['password']
         confirm_password = request.json['confirm_password']
 
+        if confirm_password != password:
+            return api_response(400, 'bad request', '参数错误')
+
+        person = user.User.query.filter_by(name=name).first()
+        if person is not None:
+            person.username = username
+            person.password = password
+            api_response(200, 'success', 'test')
+
     elif request.method == 'GET':
-        return 'API-setting person'
+        return api_response('200', 'success', 'test')

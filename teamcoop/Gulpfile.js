@@ -13,7 +13,7 @@ var swig = require('gulp-swig');
 
 // Edit this values to best suit your app
 var WEB_PORT = 8000;
-var APP_DIR = 'build';
+var APP_DIR = 'build/asdf/';
 
 
 var paths = {
