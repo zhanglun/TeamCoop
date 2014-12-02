@@ -1,5 +1,4 @@
 # coding:utf-8
-
 from __init__ import *
 
 login = Blueprint("login", __name__)
@@ -20,9 +19,12 @@ def submit():
         print "valid"
     if form.validate_on_submit():
         # check the password and log user in
-        print "username"
         name = form.username.data
-        flash("Successfully created a new book")
+        u = user.User.query.filter_all(username=name).first()
+        if u is None:
+            flash('用户不存在')
+            return render_template('login.html', form=form)
+        flash("")
         return redirect(url_for('.username', username=name))
 
     return redirect(url_for('.index'))
@@ -30,8 +32,7 @@ def submit():
 
 @login.route('/<username>/')
 def username(username):
-
-    return render_template('profile.html', name=username)
+    return render_template('project_dashboard.html', name=username)
 
 
 
