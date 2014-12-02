@@ -8,19 +8,19 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var connect = require('connect');
 var del = require('del');
-var imagemin = require('gulp-imagemin');
+//var imagemin = require('gulp-imagemin');
 var swig = require('gulp-swig');
 
 // Edit this values to best suit your app
 var WEB_PORT = 8000;
-var APP_DIR = 'build/asdf/';
+var APP_DIR = 'static';
 
 
 var paths = {
-    font: 'app/fonts/**/*.*',
-    scripts: 'app/**/*.js',
-    images: 'app/images/**/*',
-    styles: 'app/css/**/*.less',
+    font: 'src/fonts/**/*.*',
+    scripts: 'src/**/*.js',
+    images: 'src/images/**/*',
+    styles: 'src/css/**/*.less',
     tpl: 'templates/**/*.html'
 };
 
@@ -37,14 +37,14 @@ var paths = {
 // };
 
 // bower
-gulp.task('bower', function() {
+gulp.task('bower', function () {
     gulp.src(mainBowerFiles())
         .pipe(gulp.dest(APP_DIR + '/vendor'))
 });
 
 // jshint files
 
-gulp.task('uglify', function() {
+gulp.task('uglify', function () {
     gulp.src(paths.scripts)
         .pipe(sourcemaps.init())
         .pipe(uglify())
@@ -53,18 +53,18 @@ gulp.task('uglify', function() {
 });
 
 // Copy all static images
-gulp.task('images', function() {
+gulp.task('images', function () {
     gulp.src(paths.images)
         .pipe(gulp.dest(APP_DIR + '/images'));
 });
 // fonts
-gulp.task('fonts', function() {
+gulp.task('fonts', function () {
     gulp.src(paths.font)
         .pipe(gulp.dest(APP_DIR + '/fonts'));
 });
 
 // Copy all static images and compress them
-gulp.task('imagesmin', function() {
+gulp.task('imagesmin', function () {
     gulp.src(paths.images)
         .pipe(imagemin({
             optimizationLevel: 3
@@ -72,7 +72,7 @@ gulp.task('imagesmin', function() {
         .pipe(gulp.dest(APP_DIR + '/images'));
 });
 
-gulp.task('less', function() {
+gulp.task('less', function () {
     gulp.src('app/css/styles.less')
         .pipe(less())
         .pipe(minifyCSS())
@@ -80,7 +80,7 @@ gulp.task('less', function() {
 });
 
 // start local http server for development
-gulp.task('http-server', function() {
+gulp.task('http-server', function () {
     serveStatic = require('serve-static');
     connect()
         .use(require('connect-livereload')({
@@ -94,26 +94,26 @@ gulp.task('http-server', function() {
 
 
 // start local http server with watch and livereload set up
-gulp.task('server', function() {
+gulp.task('server', function () {
 
     //gulp.run('lr-server');
 
     var watchFiles = [
-        APP_DIR + '/*.html',
-        APP_DIR + '/javascripts/*.js',
-        APP_DIR + '/images/*',
-        APP_DIR + '/stylesheets/styles.css',
+            APP_DIR + '/*.html',
+            APP_DIR + '/javascripts/*.js',
+            APP_DIR + '/images/*',
+            APP_DIR + '/stylesheets/styles.css',
     ];
 
     var server = livereload();
-    gulp.watch(watchFiles).on('change', function(file) {
+    gulp.watch(watchFiles).on('change', function (file) {
         server.changed(file.path);
     });
 
     gulp.run('http-server');
 });
 
-gulp.task('html', function() {
+gulp.task('html', function () {
     gulp.src(paths.tpl)
         .pipe(swig({
             defaults: {
@@ -126,7 +126,7 @@ gulp.task('html', function() {
         .pipe(gulp.dest(APP_DIR));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
     livereload.listen();
     gulp.watch(paths.styles, ['less']);
     gulp.watch(paths.scripts, ['uglify']);
@@ -135,15 +135,17 @@ gulp.task('watch', function() {
     gulp.watch('app' + '/**').on('change', livereload.changed);
 });
 
-gulp.task('default', function() {
-    gulp.run('bower', 'less', 'uglify', 'images', 'fonts', 'watch', 'server', 'html');
+gulp.task('default', function () {
+//    gulp.run('bower', 'less', 'uglify', 'images', 'fonts', 'watch', 'server', 'html');
+    gulp.run('bower', 'less', 'uglify', 'fonts', 'watch');
 });
 
-gulp.task('dist', function() {
-    gulp.run('bower', 'less', 'uglify', 'images', 'fonts', 'html');
+gulp.task('dist', function () {
+//    gulp.run('bower', 'less', 'uglify', 'images', 'fonts', 'html');
+    gulp.run('bower', 'less', 'uglify', 'fonts');
 });
 
-gulp.task('clean', function(cb) {
+gulp.task('clean', function (cb) {
     // You can use multiple globbing patterns as you would with `gulp.src`
     del([APP_DIR], cb);
     console.log('Files deleted');
