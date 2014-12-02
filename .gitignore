@@ -4,7 +4,7 @@
 *.ipr
 *.iws
 
-
+**/Gulpfile.js
 venv/
 .idea/
 **/node_modules/
