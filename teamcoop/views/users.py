@@ -51,15 +51,15 @@ def user(username, dash):
         data = {'username': u.username}
 
         # TODO: can do better
-        dash = {'issues': 'issues', 'setting': 'setting', 'dashboard': 'dashboard'}
-
-        if dash == 'issues' or '#':
-            data = {'username': u.username}
-            return render_template('issue.html', data=data, dash=dash)
+        part = {'issues': 'issues', 'setting': 'setting', 'dashboard': 'dashboard'}
+        print 'dash'
+        print dash
+        if dash == 'issues':
+            return render_template('issue.html', data=data, dash=part)
         elif dash == 'dashboard':
-            return render_template('project_dashboard.html', data=data, dash=dash)
+            return render_template('project_dashboard.html', data=data, dash=part)
         elif dash == 'setting':
-            return render_template('setting.html', data=data, dash=dash)
+            return render_template('setting.html', data=data, dash=part)
         else:
             return "uid: %s, slug: %s" % (username, dash)
     else:

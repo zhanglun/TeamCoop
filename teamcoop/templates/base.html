@@ -53,7 +53,7 @@
                     <a href="{{ url_for('users.user', username=data.username, dash=dash.issues) }}" class="list-group-item {% block issue_class %}{% endblock %}">issues</a>
                     <a href="{{ url_for('users.user', username=data.username, dash=dash.dashboard) }}" class="list-group-item {% block project_class %}{% endblock %}">project</a>
                     <a href="#" class="list-group-item {% block share_class %}{% endblock %}">share</a>
-                    <a href="#" class="list-group-item {% block setting_class %}{% endblock %}">setting</a>
+                    <a href="{{ url_for('users.user', username=data.username, dash=dash.setting) }}" class="list-group-item {% block setting_class %}{% endblock %}">setting</a>
                 </div>
             </div>
             <div class="col-md-9">
