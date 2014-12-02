@@ -1,8 +1,5 @@
-# from config import config
 from teamcoop import create_app
-
 import os
-# basedir = os.path.abspath(os.path.dirname(__file__)) + "\\db"
 
 class Config:
     CSRF_ENABLED = True
@@ -44,6 +41,7 @@ config = {
 }
 
 app = create_app(config['default'])
+
 
 if __name__ == '__main__':
     print 'TeamCoop Main'

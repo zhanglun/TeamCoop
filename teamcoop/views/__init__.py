@@ -4,10 +4,11 @@
 import json
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify, make_response
 from flask.ext.sqlalchemy import SQLAlchemy
+from werkzeug.routing import BaseConverter
 
 from teamcoop.forms import userlogin
 from teamcoop.models import db
-from teamcoop.models import user as UserModel
+from teamcoop.models import user as usermodel
 
 
 def api_response(status, code, message, result=None):
