@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Examples</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
+    <script src="../static/vendor/jquery.js"></script>
+    <style>
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow: hidden;
+        text-align: center;
+    }
+    ul li {
+        float: left;
+    }
+    /* circle */
+    
+    li:nth-child(odd) span {
+        display: block;
+        width: 3em;
+        height: 3em;
+        line-height: 3em;
+        border-radius: 50%;
+        background: #ccc;
+        text-align: center;
+    }
+    li.checked span,
+    li:nth-child(even).checked {
+        background: red;
+    }
+    /* line */
+    
+    li:nth-child(even) {
+        border-top: 2px solid #fff;
+        background: #ccc;
+        /*width: 30px;*/
+        /*width: 9%;*/
+        
+        height: 5px;
+        margin-top: 2.2em;
+    }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li class="checked">文字<span>1</span>
+        </li>
+        <li></li>
+        <li>文字<span>2</span>
+        </li>
+        <li></li>
+        <li>文字<span>3</span>
+        </li>
+        <li></li>
+        <li>文字<span>4</span>
+        </li>
+        <li></li>
+        <li>文字<span>5</span>
+        </li>
+        <li></li>
+        <li>文字<span>6</span>
+        </li>
+    </ul>
+    <script>
+    $(function() {
+        var progress = {};
+        progress.selector = "ul";
+        progress.circleSize = $(progress.selector + ' li:even').size();
+        progress.circleWidth = $(progress.selector + ' li:even').width();
+        progress.setWidth = function() {
+            var width = ($(progress.selector).width() - progress.circleSize * progress.circleWidth) / (progress.circleSize - 1);
+            $(progress.selector + ' li:odd').width(width);
+        };
+        $(window).on('resize', function() {
+            setTimeout(progress.setWidth, 100);
+        })
+        $(progress.selector).on('click', 'li:even span', function(event) {
+            var eventobj = $(event.target);
+            if (eventobj.hasClass('checked')) {
+                return false;
+            } else {
+                var index = eventobj.parent().index();
+                $(progress.selector + ' li').slice(0, index + 1).addClass('checked');
+            }
+        });
+        progress.setWidth();
+    });
+    </script>
+
+</body>
+
+</html>
