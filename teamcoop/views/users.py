@@ -26,7 +26,7 @@ def submit():
             # if user is not exist, redirect to '/'
             return render_template('login.html', form=form)
         elif form.password.data == u.password:
-            return redirect(url_for('.user', username=name, dash='#'))
+            return redirect(url_for('.user', username=name, dash='issues'))
         else:
             return render_template('login.html', form=form)
 
