@@ -6,7 +6,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask.ext.sqlalchemy import SQLAlchemy
 
 from teamcoop.forms import userlogin
-from teamcoop.models import db, user
+from teamcoop.models import db
+from teamcoop.models import user as UserModel
 
 
 def api_response(status, code, message, result=None):
