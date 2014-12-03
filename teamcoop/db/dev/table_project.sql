@@ -1,6 +1,6 @@
 create table project (id integer primary key unique,
-					  title text not null,
-					  description text not null,
+					  title text not null default '',
+					  description text not null default '',
 					  level integer not null default 1,
 					  deadline date not null default (datetime(current_date,'localtime')),
 					  status integer not null default 1,

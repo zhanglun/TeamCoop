@@ -1,6 +1,6 @@
 create table user (id integer primary key unique,
 				   username text not null unique,
-				   password text not null,
+				   password text not null default '123456',
 				   level integer not null default 2,
 				   name text not null default '',
 				   gender text not null default '',
