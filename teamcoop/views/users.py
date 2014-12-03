@@ -6,8 +6,12 @@ users = Blueprint("users", __name__)
 
 @users.route('/')
 def index():
-    form = userlogin.LoginForm()
-    return render_template('login.html', form=form)
+    if session.get('username') is not None:
+        print session['username']
+        return redirect(url_for('.user_issues', username=session['username']))
+    else:
+        form = userlogin.LoginForm()
+        return render_template('login.html', form=form)
 
 
 @users.route('/signin/', methods=['GET', 'POST'])
@@ -26,22 +30,17 @@ def submit():
             # if user is not exist, redirect to '/'
             return render_template('login.html', form=form)
         elif form.password.data == u.password:
+            session['username'] = name
             return redirect(url_for('.user_issues', username=name))
         else:
             return render_template('login.html', form=form)
 
-
-# @users.route('/user/<regex("[\s]\w+[\s]"):userid>/<slug>/')
-# def project(userid, slug):
-#     u = Model.User.query.filter_by(username=unicode(userid)).first()
-#     if u is not None:
-#         data = {'username': u.username, 'part': str(slug)}
-#         if str(slug) == 'dashboard':
-#             return render_template('project_dashboard.html', data=data)
-#         elif str(slug) == 'setting':
-#             return render_template('setting.html', data=data)
-#     else:
-#         return "uid: %s, slug: %s" % (userid, slug)
+@users.route('/logout/')
+def user_logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    form = userlogin.LoginForm()
+    return redirect(url_for('.index'))
 
 
 @users.route('/user/<username>/issues/')
@@ -50,17 +49,18 @@ def user_issues(username):
     if u is not None:
         data = {'username': u.username}
         # TODO: can do better
+        print session['username']
         return render_template('issue.html', data=data)
     else:
         return "uid: %s" % (username) + '\n' + u'用户不存在'
+
 
 @users.route('/user/<username>/issues/<issue_id>')
 def issues_detail(username, issue_id):
     u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is not None:
         data = {'username': u.username}
-        # TODO: can do better
-        # return render_template('issue.html', data=data)
+
         return 'issue_id: %s' % (issue_id)
     else:
         return "uid: %s" % (username) + '\n' + u'用户不存在'
@@ -102,6 +102,13 @@ def user_setting(username):
         return render_template('setting.html', data=data)
     else:
         return "uid: %s, slug: %s" % (username, dash) + '\n' + u'用户不存在'
+
+
+
+
+
+
+
 
 @users.route('/test/')
 def test():
