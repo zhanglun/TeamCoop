@@ -4,7 +4,7 @@
 {% block main %}
 <section>
     <!-- button create project -->
-    <button class="btn btn-primary" data-toggle="modal" data-target="#createProject">new project</button>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#createProject">新建项目</button>
     <!-- create project Modal -->
     <div class="modal fade" id="createProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -12,65 +12,65 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">new project</h4>
+                    <h4 class="modal-title" id="myModalLabel">新建项目</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
-                            <label for="projectName" class="col-sm-2 control-label">projectName</label>
+                            <label for="projectName" class="col-sm-2 control-label">项目名</label>
                             <div class="col-sm-10">
                                 <input type="email" class="form-control" id="projectName" placeholder="projectName">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="owner" class="col-sm-2 control-label">owner</label>
+                            <label for="owner" class="col-sm-2 control-label">负责人</label>
                             <div class="col-sm-10">
                                 <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    <option>tom</option>
+                                    <option>jerry</option>
+                                    <option>kitty</option>
+                                    <option>steven</option>
+                                    <option>john</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="participants" class="col-sm-2 control-label">Participants</label>
+                            <label for="participants" class="col-sm-2 control-label">参与者</label>
                             <div class="col-sm-10">
                                 <select multiple class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    <option>tom</option>
+                                    <option>jerry</option>
+                                    <option>kitty</option>
+                                    <option>steven</option>
+                                    <option>john</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="importance" class="col-sm-2 control-label">importance</label>
+                            <label for="importance" class="col-sm-2 control-label">重要性</label>
                             <div class="col-sm-10">
                                 <label class="radio-inline">
-                                    <input type="radio" name="importance" value="veryImportant"> very important
+                                    <input type="radio" name="importance" value="veryImportant"> 非常重要
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="importance" value="important"> important
+                                    <input type="radio" name="importance" value="important"> 重要
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="importance" value="normal"> normal
+                                    <input type="radio" name="importance" value="normal"> 一般
                                 </label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="detail" class="col-sm-2 control-label">detail</label>
+                            <label for="detail" class="col-sm-2 control-label">项目详情</label>
                             <div class="col-sm-10">
                                 <textarea class="form-control" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="ispublic" class="col-sm-2 control-label">ispublic</label>
+                            <label for="ispublic" class="col-sm-2 control-label">是否公开</label>
                             <div class="col-sm-10 checkbox">
                                 <label>
-                                    <input type="checkbox"> isPublic
+                                    <input type="checkbox"> 公开项目
                                 </label>
                             </div>
                         </div>
@@ -140,8 +140,5 @@
         </div>
     </div>
 </section>
-
-
-
 
 {% endblock%}

@@ -50,10 +50,10 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="list-group">
-                  <a href="{{ url_for('users.user_issues', username=data.username) }}" class="list-group-item {% block issue_class %}{% endblock %}">issues</a>
-                    <a href="{{ url_for('users.user_project', username=data.username) }}" class="list-group-item {% block project_class %}{% endblock %}">project</a>
+                    <a href="{{ url_for('users.user', username=data.username, dash=dash.issues) }}" class="list-group-item {% block issue_class %}{% endblock %}">动态</a>
+                    <a href="{{ url_for('users.user', username=data.username, dash=dash.dashboard) }}" class="list-group-item {% block project_class %}{% endblock %}">项目</a>
 {#                    <a href="#" class="list-group-item {% block share_class %}{% endblock %}">share</a>#}
-                    <a href="{{ url_for('users.user_setting', username=data.username) }}" class="list-group-item {% block setting_class %}{% endblock %}">setting</a>
+                    <a href="{{ url_for('users.user', username=data.username, dash=dash.setting) }}" class="list-group-item {% block setting_class %}{% endblock %}">设置</a>
                 </div>
             </div>
             <div class="col-md-9">
