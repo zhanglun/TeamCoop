@@ -13,16 +13,17 @@ def project():
         return api_response(200, 'success', 'get all projects belongs to the team')
 
 
+# 项目成员
 @api.route('/project/member/', methods=['GET', 'POST'])
 def set_member():
     if request.method == 'POST':
         # get data from request.json
-        username = request.json['username']
+        username = request.json.get('username')
         # checkout if the user is already exist
-        check = user.User.query.filter_by(username=username).first()
+        check = Model.User.query.filter_by(username=username).first()
         if check is None:
             # create a new member
-            new_member = user.User(username=username)
+            new_member = Model.User(username=username)
             db.session.add(new_member)
             db.session.commit()
             # set the response
@@ -33,7 +34,8 @@ def set_member():
     elif request.method == 'GET':
         return "Down!"
 
-@api.route('/project/person/', methods=['GET', 'POST'])
+# 设置个人信息
+@api.route('/project/setting/person/', methods=['GET', 'POST'])
 def set_person():
     if request.method == 'POST':
         name = request.json['name']
@@ -52,3 +54,31 @@ def set_person():
 
     elif request.method == 'GET':
         return api_response('200', 'success', 'test')
+
+
+# 项目相关
+@api.route('/user/project/', methods=['GET', 'POST'])
+def user_project():
+    if request.method == 'POST':
+        # TODO: add project
+        print request.json['projectname']
+        item = Model.Project.query.filter_by(title=request.json['projectname']).first()
+        if item is None:
+            # TODO: insert
+            return api_response(200, 'success', '新的项目')
+        else:
+            return api_response(200, 'failed', 'already exist')
+    elif request.method == 'GET':
+        # usrename = request.json['username']
+        # TODO: return all projects of user
+        # param: userid
+        return api_response(200, 'success', 'GET method')
+    else:
+        # error
+        return api_response(400, 'bad request', '参数错误')
+
+
+
+
+
+

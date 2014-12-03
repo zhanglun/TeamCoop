@@ -5,6 +5,7 @@
 *.iws
 
 **/Gulpfile.js
+**/test.*
 venv/
 .idea/
 **/node_modules/

@@ -8,7 +8,7 @@ from werkzeug.routing import BaseConverter
 
 from teamcoop.forms import userlogin
 from teamcoop.models import db
-from teamcoop.models import user as usermodel
+from teamcoop.models import model as Model
 
 
 def api_response(status, code, message, result=None):

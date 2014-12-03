@@ -34,7 +34,5 @@ def create_app(config_name):
     app.register_blueprint(setting, url_prefix='/setting')
     app.register_blueprint(api, url_prefix='/api')
 
-
-
     return app
 

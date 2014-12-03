@@ -20,7 +20,7 @@ def submit():
     if form.validate_on_submit():
         # check the password and log user in
         name = form.username.data
-        u = usermodel.User.query.filter_by(username=name).first()
+        u = Model.User.query.filter_by(username=name).first()
         if u is None or form.password.data != u.password:
             flash(u'用户名或密码错误')
             # if user is not exist, redirect to '/'
@@ -33,7 +33,7 @@ def submit():
 
 # @users.route('/user/<regex("[\s]\w+[\s]"):userid>/<slug>/')
 # def project(userid, slug):
-#     u = usermodel.User.query.filter_by(username=unicode(userid)).first()
+#     u = Model.User.query.filter_by(username=unicode(userid)).first()
 #     if u is not None:
 #         data = {'username': u.username, 'part': str(slug)}
 #         if str(slug) == 'dashboard':
@@ -46,10 +46,9 @@ def submit():
 
 @users.route('/user/<username>/<dash>/')
 def user(username, dash):
-    u = usermodel.User.query.filter_by(username=unicode(username)).first()
+    u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is not None:
         data = {'username': u.username}
-
         # TODO: can do better
         part = {'issues': 'issues', 'setting': 'setting', 'dashboard': 'dashboard'}
         print 'dash'
@@ -61,10 +60,15 @@ def user(username, dash):
         elif dash == 'setting':
             return render_template('setting.html', data=data, dash=part)
         else:
+            print dash
             return "uid: %s, slug: %s" % (username, dash)
     else:
-        return "uid: %s, slug: %s" % (username, dash)
+        return "uid: %s, slug: %s" % (username, dash) + '\n' + u'用户不存在'
 
+
+@users.route('/test/')
+def test():
+    return render_template('test.html')
 
 
 

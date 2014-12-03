@@ -1,5 +1,5 @@
 create table task (id integer primary key unique,
-				   title text not null default '',
+				   title text not null,
 				   description text not null default '',
 				   deadline timestamp not null default (datetime(current_timestamp,'localtime')),
 				   executeUserId integer not null references user(id) on delete cascade deferrable initially deferred,
