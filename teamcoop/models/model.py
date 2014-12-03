@@ -9,7 +9,6 @@ class User(db.Model):
     password = db.Column(db.Text, default='123456')
     name = db.Column(db.Text, default='')
     gender = db.Column(db.Text, default='')
-    phone = db.Column(db.Text, default='')
     email = db.Column(db.Text, default='')
     createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 

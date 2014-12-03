@@ -71,7 +71,7 @@ def user_project():
     elif request.method == 'GET':
         # usrename = request.json['username']
         # TODO: return all projects of user
-        # param: userid
+        # param: useridgit
         return api_response(200, 'success', 'GET method')
     else:
         # error
