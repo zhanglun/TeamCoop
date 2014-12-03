@@ -26,7 +26,7 @@ def submit():
             # if user is not exist, redirect to '/'
             return render_template('login.html', form=form)
         elif form.password.data == u.password:
-            return redirect(url_for('.user', username=name, dash='issues'))
+            return redirect(url_for('.user_issues', username=name))
         else:
             return render_template('login.html', form=form)
 
@@ -44,27 +44,64 @@ def submit():
 #         return "uid: %s, slug: %s" % (userid, slug)
 
 
-@users.route('/user/<username>/<dash>/')
-def user(username, dash):
+@users.route('/user/<username>/issues/')
+def user_issues(username):
     u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is not None:
         data = {'username': u.username}
         # TODO: can do better
-        part = {'issues': 'issues', 'setting': 'setting', 'dashboard': 'dashboard'}
-        print 'dash'
-        print dash
-        if dash == 'issues':
-            return render_template('issue.html', data=data, dash=part)
-        elif dash == 'dashboard':
-            return render_template('project_dashboard.html', data=data, dash=part)
-        elif dash == 'setting':
-            return render_template('setting.html', data=data, dash=part)
+        return render_template('issue.html', data=data)
+    else:
+        return "uid: %s" % (username) + '\n' + u'用户不存在'
+
+@users.route('/user/<username>/issues/<issue_id>')
+def issues_detail(username, issue_id):
+    u = Model.User.query.filter_by(username=unicode(username)).first()
+    if u is not None:
+        data = {'username': u.username}
+        # TODO: can do better
+        # return render_template('issue.html', data=data)
+        return 'issue_id: %s' % (issue_id)
+    else:
+        return "uid: %s" % (username) + '\n' + u'用户不存在'
+
+
+@users.route('/user/<username>/project/')
+def user_project(username):
+    u = Model.User.query.filter_by(username=unicode(username)).first()
+    if u is not None:
+        data = {'username': u.username}
+        # TODO: can do better
+        return render_template('project_dashboard.html', data=data)
+    else:
+        return "uid: %s" % (username) + '\n' + u'用户不存在'
+
+
+@users.route('/user/<username>/project/<project_id>')
+def project_detail(username, project_id):
+    u = Model.User.query.filter_by(username=unicode(username)).first()
+    if u is None:
+        return "uid: %s" % (username) + '\n' + u'用户不存在'
+    else:
+        # project = Model.Project.query.filter_by(project_id=unicode(project_id)).first()
+        if project_id is not None:
+            data = {'username': u.username, 'project_id': project_id}
+            return render_template('project_detail.html', data=data)
         else:
-            print dash
-            return "uid: %s, slug: %s" % (username, dash)
+            return redirect(url_for('.user_project', username=username))
+            # return "pid: %s" % (project_id) + '\n' + u'项目不存在'   
+        
+
+@users.route('/user/<username>/setting/')
+def user_setting(username):
+    u = Model.User.query.filter_by(username=unicode(username)).first()
+    if u is not None:
+        data = {'username': u.username}
+        # TODO: can do better
+        print panel
+        return render_template('setting.html', data=data)
     else:
         return "uid: %s, slug: %s" % (username, dash) + '\n' + u'用户不存在'
-
 
 @users.route('/test/')
 def test():

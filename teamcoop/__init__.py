@@ -28,8 +28,7 @@ def create_app(config_name):
     from views.api import api
 
     app.register_blueprint(users)
-    app.register_blueprint(profile, url_prefix='/profile')
-    app.register_blueprint(project, url_prefix='/project')
+    app.register_blueprint(project)
     app.register_blueprint(share, url_prefix='/share')
     app.register_blueprint(setting, url_prefix='/setting')
     app.register_blueprint(api, url_prefix='/api')

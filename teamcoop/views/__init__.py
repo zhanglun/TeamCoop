@@ -16,3 +16,5 @@ def api_response(status, code, message, result=None):
     response = make_response(jsonify(response_dict))
     response.status = str(status)
     return response
+
+panel = {'issues': 'issues', 'setting': 'setting', 'dashboard': 'dashboard'}

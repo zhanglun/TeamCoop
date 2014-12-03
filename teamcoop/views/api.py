@@ -13,12 +13,13 @@ def project():
         return api_response(200, 'success', 'get all projects belongs to the team')
 
 
-# 项目成员
-@api.route('/project/member/', methods=['GET', 'POST'])
-def set_member():
+# Team成员
+@api.route('/team/member/', methods=['GET', 'POST'])
+def team_member():
     if request.method == 'POST':
         # get data from request.json
-        username = request.json.get('username')
+        # TODO:
+        # project_id
         # checkout if the user is already exist
         check = Model.User.query.filter_by(username=username).first()
         if check is None:
@@ -33,6 +34,19 @@ def set_member():
 
     elif request.method == 'GET':
         return "Down!"
+
+
+# 项目成员
+@api.route('/project/member/', methods=['GET', 'POST'])
+def project_member():
+    if request.method == 'POST':
+        project_id = ''
+        username = ''
+        # TODO: insert
+        return api_response(200, 'success', 'project member')
+    elif request.method == 'GET':
+        return api_response(200, 'success', 'project member')
+
 
 # 设置个人信息
 @api.route('/project/setting/person/', methods=['GET', 'POST'])
