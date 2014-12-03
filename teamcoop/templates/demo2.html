@@ -30,13 +30,13 @@
         border-radius: 50%;
         background: #ccc;
         text-align: center;
+        cursor: pointer;
     }
     li.checked span,
     li:nth-child(even).checked {
-        background: red;
+        background: #13f;
     }
     /* line */
-    
     li:nth-child(even) {
         border-top: 2px solid #fff;
         background: #ccc;
@@ -51,7 +51,7 @@
 
 <body>
     <ul>
-        <li class="checked">文字<span>1</span>
+        <li class="">文字<span>1</span>
         </li>
         <li></li>
         <li>文字<span>2</span>
@@ -79,6 +79,7 @@
             var width = ($(progress.selector).width() - progress.circleSize * progress.circleWidth) / (progress.circleSize - 1);
             $(progress.selector + ' li:odd').width(width);
         };
+        // resize div width
         $(window).on('resize', function() {
             setTimeout(progress.setWidth, 100);
         })
