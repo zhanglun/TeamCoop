@@ -43,3 +43,45 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+// progressbar in project detail
+
+.progressBar {
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow: hidden;
+        text-align: center;
+    }
+    ul li {
+        float: left;
+    }
+    /* circle */
+    
+    li:nth-child(odd) span {
+        display: block;
+        width: 3em;
+        height: 3em;
+        line-height: 3em;
+        border-radius: 50%;
+        background: @gray-light;
+        text-align: center;
+        cursor: pointer;
+    }
+    li.checked span, li:nth-child(even).checked {
+        background: @brand-primary;
+    }
+    /* line */
+    
+    li:nth-child(even) {
+        border-top: 2px solid #fff;
+        background: @gray-light;
+        /*width: 30px;*/
+        /*width: 9%;*/
+        
+        height: 5px;
+        margin-top: 2.2em;
+    }
+}
+

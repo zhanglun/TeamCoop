@@ -10,6 +10,27 @@
         <button class="btn btn-default btn-xs">Edit</button>
     </dd>
 </dl>
+<div class="progressBar">
+    <ul>
+        <li class="">需求<span>1</span>
+        </li>
+        <li></li>
+        <li>策划<span>2</span>
+        </li>
+        <li></li>
+        <li>设计<span>3</span>
+        </li>
+        <li></li>
+        <li>研发<span>4</span>
+        </li>
+        <li></li>
+        <li>测试<span>5</span>
+        </li>
+        <li></li>
+        <li>上线<span>6</span>
+        </li>
+    </ul>
+</div>
 <hr>
 <h4>project state</h4>
 <ul class="list-unstyled projectStateList">
@@ -20,3 +41,31 @@
     <li class="clearfix">XXX edit the progress <small class="pull-right">9 hours ago</small>
     </li>
 </ul>
+{% block footerscript %}
+<script>
+$(function() {
+    var progress = {};
+    progress.selector = ".progressBar ul";
+    progress.circleSize = $(progress.selector + ' li:even').size();
+    progress.circleWidth = $(progress.selector + ' li:even').width();
+    progress.setWidth = function() {
+        var width = ($(progress.selector).width() - progress.circleSize * progress.circleWidth) / (progress.circleSize - 1);
+        $(progress.selector + ' li:odd').width(width);
+    };
+    // resize div width
+    $(window).on('resize', function() {
+        setTimeout(progress.setWidth, 100);
+    })
+    $(progress.selector).on('click', 'li:even span', function(event) {
+        var eventobj = $(event.target);
+        if (eventobj.hasClass('checked')) {
+            return false;
+        } else {
+            var index = eventobj.parent().index();
+            $(progress.selector + ' li').slice(0, index + 1).addClass('checked');
+        }
+    });
+    progress.setWidth();
+});
+</script>
+{% endblock %}
