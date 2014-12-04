@@ -62,7 +62,6 @@ class Project(db.Model):
     #     self.status = status
     #     self.isPublic = isPublic
 
-
     def __repr__(self):
         return '<Project %r>' % self.title
 

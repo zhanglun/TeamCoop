@@ -32,7 +32,7 @@ def submit():
             return render_template('login.html', form=form)
         elif form.password.data == u.password:
             session['username'] = name
-            return redirect(url_for('.user_issues', username=name))
+            return redirect(url_for('users.user_issues', username=name))
         else:
             return render_template('login.html', form=form)
 
