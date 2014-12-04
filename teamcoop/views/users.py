@@ -30,11 +30,12 @@ def issues_detail(username, issue_id):
 def user_project(username):
     u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is not None:
-        project_items = Model.Project.query.filter_by(createuserid=u.id).order_by(Model.Project.title).all()
+        user_project_items = Model.Project.query.filter_by(createuserid=u.id).order_by(Model.Project.title).all()
+        user_project_others = Model.Project.query.filter(Model.Project.createuserid != u.id).all()
         data = {'username': u.username}
-        # req_projects =
-        # TODO: can do better
-        return render_template('project_dashboard.html', data=data, projects=project_items)
+        print user_project_items
+        return render_template('project_dashboard.html', data=data, user_project_items=user_project_items,
+                               user_project_others=user_project_others)
     else:
         return "uid: %s" % username + '\n' + u'用户不存在'
 

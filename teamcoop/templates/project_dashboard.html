@@ -86,8 +86,8 @@
     <!-- related project -->
     <h4>Related Project</h4>
     <div class="row">
-        {% if projects %}
-            {% for item in projects %}
+        {% if user_project_items %}
+            {% for item in user_project_items %}
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
                         <img data-src="holder.js/300x300" alt="..." src="
@@ -109,30 +109,25 @@
     <!--  other public project -->
     <h4>Other Project</h4>
     <div class="row">
-        <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-                <img data-src="holder.js/300x300" alt="..." src="images/demo.jpg">
-                <div class="caption">
-                    <h5>Project A</h5>
+        {% if user_project_others %}
+            {% for item in user_project_others %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <img data-src="holder.js/300x300" alt="..." src="
+                        {{ url_for('static', filename='images/150H.jpg') }}">
+                        <div class="caption">
+                            <h5>{{ item['title']|safe }}</h5>
+                            <p>{{ item['description']|safe }}</p>
+                            <p>创建时间：{{ item['createtime']|safe }}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-                <img data-src="holder.js/300x300" alt="..." src="images/demo.jpg">
-                <div class="caption">
-                    <h5>Project A</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-                <img data-src="holder.js/300x300" alt="..." src="images/demo.jpg">
-                <div class="caption">
-                    <h5>Project A</h5>
-                </div>
-            </div>
-        </div>
+            {% endfor %}
+
+        {% else %}
+            <p>没有其他的项目，你让别人创建一个呗 (*^__^*) 嘻嘻……</p>
+        {% endif %}
+
     </div>
 </section>
 
