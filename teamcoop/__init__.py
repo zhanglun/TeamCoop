@@ -19,18 +19,13 @@ def create_app(config_name):
     db.init_app(app)
 
     # views 中每一个文件都是一个蓝图，在这里引入蓝图
+    from views.login import login
     from views.users import users
-    from views.profile import profile
-    from views.share import share
-    from views.setting import setting
-    from views.project import project
 
     from views.api import api
 
-    app.register_blueprint(users)
-    app.register_blueprint(project)
-    app.register_blueprint(share, url_prefix='/share')
-    app.register_blueprint(setting, url_prefix='/setting')
+    app.register_blueprint(login)
+    app.register_blueprint(users, url_prefix='/u')
     app.register_blueprint(api, url_prefix='/api')
 
     return app
