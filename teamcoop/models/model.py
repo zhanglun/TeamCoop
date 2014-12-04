@@ -48,11 +48,20 @@ class Project(db.Model):
     title = db.Column(db.Text, unique=True)
     description = db.Column(db.Text, nullable=False)
     level = db.Column(db.Integer, nullable=False, default=1)
-    deadline = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    deadline = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
     status = db.Column(db.Integer, nullable=False, default=1)
     isPublic = db.Column(db.Integer, nullable=False, default=1)
     createuserid = db.Column(db.Integer, nullable=False)
-    createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
+
+    # def __init__(self):
+    #     self.title = title
+    #     self.description = description
+    #     self.level = level
+    #     self.deadline = deadline
+    #     self.status = status
+    #     self.isPublic = isPublic
+
 
     def __repr__(self):
         return '<Project %r>' % self.title

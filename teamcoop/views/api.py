@@ -2,15 +2,11 @@
 from flask import Blueprint, render_template
 from __init__ import *
 
+# temp
+import random
+import datetime
+
 api = Blueprint('api', __name__)
-
-
-@api.route('/team/project/', methods=['GET', 'POST'])
-def project():
-    if request.method == 'POST':
-        return api_response(200, 'success', 'add a new project')
-    elif request.method == 'GET':
-        return api_response(200, 'success', 'get all projects belongs to the team')
 
 
 # Team成员
@@ -53,6 +49,7 @@ def project_member():
         return api_response(200, 'success', 'project member')
 
 
+
 # 设置个人信息
 @api.route('/project/setting/person/', methods=['GET', 'POST'])
 def set_person():
@@ -75,27 +72,41 @@ def set_person():
         return api_response('200', 'success', 'test')
 
 
-# 项目相关
+# 用户有关的项目
 @api.route('/user/project/', methods=['GET', 'POST'])
-def user_project():
+def project():
     if request.method == 'POST':
-        # TODO: add project
-        print request.json['projectname']
-        item = Model.Project.query.filter_by(title=request.json['projectname']).first()
-        if item is None:
-            # TODO: insert
-            return api_response(200, 'success', '新的项目')
+        # title = request.json['title']
+        # user_id = request.json['user_id']
+        # description = request.json['description']
+        # level = request.json['level']
+        # deadline = request.json['deadline']
+        # is_public = request.json['is_public']
+        title = u'项目编号-' + str(random.randint(0, 10)) + ' : ' + str(datetime.datetime.utcnow())
+        description = u'项目描述： ' + u'这个是项目描述啊' * random.randint(1, 10) + 'ABC' * random.randint(0, 20)
+        level = 1
+        deadline = datetime.datetime.utcnow()
+        status = 1
+        is_public = 1
+        # user_id = 2
+        user_id = random.randint(1, 5)
+
+        project_item = Model.Project.query.filter_by(title=title).first()
+
+        if project_item is None:
+            project_new = Model.Project(title=title, description=description, level=level, deadline=deadline, status=status, isPublic=is_public, createuserid=user_id)
+            db.session.add(project_new)
+            db.session.commit()
+            return api_response(200, 'success', 'add a new project: ' + title)
         else:
-            return api_response(200, 'failed', 'already exist')
+            return 'already exist!'
     elif request.method == 'GET':
-        # usrename = request.json['username']
         # TODO: return all projects of user
-        # param: useridgit
-        return api_response(200, 'success', 'GET method')
+        # param: userid
+        return api_response(200, 'success', 'get all projects belongs to the team')
     else:
         # error
         return api_response(400, 'bad request', '参数错误')
-
 
 
 
