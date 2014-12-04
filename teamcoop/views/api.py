@@ -21,6 +21,11 @@ def team_member():
         # TODO:
         # project_id
         # checkout if the user is already exist
+        username = request.json['username']
+        print request.json
+        if username is None:
+            # return api_response(400, 'fail', '参数错误')
+            return 'asdf'
         check = Model.User.query.filter_by(username=username).first()
         if check is None:
             # create a new member

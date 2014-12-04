@@ -96,9 +96,9 @@ def project_detail(username, project_id):
 def user_setting(username):
     u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is not None:
-        data = {'username': u.username}
+        data = {'username': u.username,'user_level': u.level}
         # TODO: can do better
-        print panel
+        print data
         return render_template('setting.html', data=data)
     else:
         return "uid: %s, slug: %s" % (username, dash) + '\n' + u'用户不存在'
@@ -112,7 +112,7 @@ def user_setting(username):
 
 @users.route('/test/')
 def test():
-    return render_template('test.html')
+    return render_template('login_test.html')
 
 
 

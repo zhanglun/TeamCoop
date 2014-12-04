@@ -3,6 +3,7 @@ from __init__ import *
 
 setting = Blueprint('setting', __name__)
 
-@setting.route('/', methods=['GET', 'POST'])
-def index():
+@setting.route('/<username>', methods=['GET', 'POST'])
+def setting_user(usrename):
+
     return render_template('setting.html')

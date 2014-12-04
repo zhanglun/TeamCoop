@@ -7,6 +7,7 @@ class User(db.Model):
     # id = db.relationship('UserProject', primaryjoin='user.id')
     username = db.Column(db.Text, unique=True)
     password = db.Column(db.Text, default='123456')
+    level = db.Column(db.Integer, default=2)
     name = db.Column(db.Text, default='')
     gender = db.Column(db.Text, default='')
     email = db.Column(db.Text, default='')
