@@ -118,7 +118,7 @@ def project():
     elif request.method == 'GET':
         # TODO: return all projects of user
         # param: userid
-        userid = request.json['user_id']
+        # userid = request.json['user_id']
         userid = 2
         if userid is not None:
             projects = Model.UserProject.query.filter_by(userId=userid).order_by(Model.UserProject.projectId).all()
