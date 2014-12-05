@@ -118,9 +118,20 @@ def project():
     elif request.method == 'GET':
         # TODO: return all projects of user
         # param: userid
-        return api_response(200, 'success', 'get all projects belongs to the team')
+        userid = request.json['user_id']
+        userid = 2
+        if userid is not None:
+            projects = Model.UserProject.query.filter_by(userId=userid).order_by(Model.UserProject.projectId).all()
+            # response_data={}
+            for x in projects:  
+                index = projects.index(x)
+                projects[index] = projects[index].get_json()
+
+            return api_response(200, 'success', 'get all projects belongs to the team', projects )
+        else:
+            # error
+            return api_response(400, 'bad request', '参数错误')
     else:
-        # error
         return api_response(400, 'bad request', '参数错误')
 
 

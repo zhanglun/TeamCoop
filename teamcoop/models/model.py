@@ -40,8 +40,11 @@ class UserProject(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     level = db.Column(db.Integer, nullable=False, default=2)
 
+    def get_json(self):
+        return {'id':self.id,'project_id':self.projectId,'user_id':self.userId,'level':self.level}
+
     def __repr__(self):
-        return '<UserProject %r %r>' % self.userId % self.projectId
+        return '<UserProject %r %r>' % (self.userId, self.projectId)
 
 
 #project
@@ -58,16 +61,6 @@ class Project(db.Model):
     createuserid = db.Column(db.Integer, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
-
-    # def __init__(self, title,description,level,deadline,status,isPublic,createuserid,createtime):
-    #     self.title = title
-    #     self.description = description
-    #     self.level = level
-    #     self.deadline = deadline
-    #     self.status = status
-    #     self.isPublic = isPublic
-    #     self.createuserid = createuserid
-    #     self.createtime = createtime
 
     def __repr__(self):
         return '<Project %r>' % (self.title)
