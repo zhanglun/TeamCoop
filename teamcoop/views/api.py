@@ -89,34 +89,35 @@ def project():
         status = 1
         is_public = 1
         # user_id = 2
-        user_id = random.randint(1, 5)
+        creater_id = random.randint(1, 5)
+        person_in_charge = range(1,4)
+        members = range(5,7)
 
         project_item = Model.Project.query.filter_by(title=title).first()
 
         if project_item is None:
             # add new project to database
-            project_new = Model.Project(title=title, description=description, level=level, deadline=deadline, status=status, isPublic=is_public, createuserid=user_id)
+            project_new = Model.Project(title=title, description=description, level=level, deadline=deadline, status=status, isPublic=is_public, createuserid=creater_id)
             db.session.add(project_new)
             db.session.commit()
 
             # add new row to user_project
             project_new_id = Model.Project.query.filter_by(title=title).first().id
-            project_new_user_id = Model.Project.query.filter_by(title=title).first().createuserid
-            project_new_user_level = Model.User.query.filter_by(id=project_new_user_id).first().level
 
-            if project_new_id and project_new_user_id and project_new_user_level:
-                user_project_col = Model.UserProject(projectId=project_new_id, userId=project_new_user_id, level=project_new_user_level)
-                db.session.add(user_project_col)
-                db.session.commit()
-                return api_response(200, 'success', 'add a new project: ' + title)
-            else:
-                return api_response(500, 'server insert faild', 'please contact Admin')
+            for x in person_in_charge:
+                charger = Model.UserProject(projectId=project_new_id, userId=x, level=1)
+                db.session.add(charger)
+                # db.session.commit()
 
-
+            for x in members:
+                member = Model.UserProject(projectId=project_new_id, userId=x, level=2)
+                db.session.add(member)
+            
+            db.session.commit()
+            return api_response(200, 'success', 'add a new project: ' + title)
         else:
             return 'already exist!'
     elif request.method == 'GET':
-        # TODO: return all projects of user
         # param: userid
         # userid = request.json['user_id']
         userid = 2
