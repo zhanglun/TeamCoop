@@ -13,6 +13,10 @@ class User(db.Model):
     email = db.Column(db.Text, default='')
     createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
+    # def get_id():
+    #     return id
+
+
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -30,10 +34,10 @@ class UserDepartMent(db.Model):
 class UserProject(db.Model):
     __tablename__ = 'user_project'
     id = db.Column(db.Integer, primary_key=True)
-    projectId = db.Column(db.Integer, nullable=False)
-    userId = db.Column(db.Integer, nullable=False)
-    # projectId = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-    # userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # projectId = db.Column(db.Integer, nullable=False)
+    # userId = db.Column(db.Integer, nullable=False)
+    projectId = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     level = db.Column(db.Integer, nullable=False, default=2)
 
     def __repr__(self):
@@ -54,16 +58,19 @@ class Project(db.Model):
     createuserid = db.Column(db.Integer, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
-    # def __init__(self):
+
+    # def __init__(self, title,description,level,deadline,status,isPublic,createuserid,createtime):
     #     self.title = title
     #     self.description = description
     #     self.level = level
     #     self.deadline = deadline
     #     self.status = status
     #     self.isPublic = isPublic
+    #     self.createuserid = createuserid
+    #     self.createtime = createtime
 
     def __repr__(self):
-        return '<Project %r>' % self.title
+        return '<Project %r>' % (self.title)
 
 
 

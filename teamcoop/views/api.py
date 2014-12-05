@@ -82,7 +82,7 @@ def project():
         # level = request.json['level']
         # deadline = request.json['deadline']
         # is_public = request.json['is_public']
-        title = u'项目编号-' + str(random.randint(0, 10)) + ' : ' + str(datetime.datetime.utcnow())
+        title = u'项目编号-today -12-5-' + str(random.randint(0, 10)) + ' : ' + str(datetime.datetime.utcnow())
         description = u'项目描述： ' + u'这个是项目描述啊' * random.randint(1, 10) + 'ABC' * random.randint(0, 20)
         level = 1
         deadline = datetime.datetime.utcnow()
@@ -94,10 +94,25 @@ def project():
         project_item = Model.Project.query.filter_by(title=title).first()
 
         if project_item is None:
+            # add new project to database
             project_new = Model.Project(title=title, description=description, level=level, deadline=deadline, status=status, isPublic=is_public, createuserid=user_id)
             db.session.add(project_new)
             db.session.commit()
-            return api_response(200, 'success', 'add a new project: ' + title)
+
+            # add new row to user_project
+            project_new_id = Model.Project.query.filter_by(title=title).first().id
+            project_new_user_id = Model.Project.query.filter_by(title=title).first().createuserid
+            project_new_user_level = Model.User.query.filter_by(id=project_new_user_id).first().level
+
+            if project_new_id and project_new_user_id and project_new_user_level:
+                user_project_col = Model.UserProject(projectId=project_new_id, userId=project_new_user_id, level=project_new_user_level)
+                db.session.add(user_project_col)
+                db.session.commit()
+                return api_response(200, 'success', 'add a new project: ' + title)
+            else:
+                return api_response(500, 'server insert faild', 'please contact Admin')
+
+
         else:
             return 'already exist!'
     elif request.method == 'GET':
