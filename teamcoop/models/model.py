@@ -61,12 +61,24 @@ class Project(db.Model):
     createuserid = db.Column(db.Integer, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
+    def __repr__(self):
+        return '<Project %r>' % self.title
+
+# department
+
+class DepartMent(db.Model):
+    __tablename__ = 'department'
+    id = db.Column(db.Integer, primary_key=True)
+    depName = db.Column(db.Text, nullable=False, default='')
+    parentId = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
-        return '<Project %r>' % (self.title)
+        return '<Department %r>' % self.depName
 
 
-
-
+# class UserDepartMent(db.Model):
+#     __tablename__ = 'user_department'
+#     id = db.Column(db.Integerm, primary_key=True)
+#     department_id
 
 

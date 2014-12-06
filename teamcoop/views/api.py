@@ -34,7 +34,32 @@ def team_member():
             return api_response(200, 'success', 'the member is already exist')
 
     elif request.method == 'GET':
-        return "Down!"
+
+        u = Model.User.query.all()
+        print u
+
+        return api_response(200, 'success', 'all team members')
+
+
+
+@api.route('/team/department/', methods=['GET', 'POST'])
+def team_department():
+    if request.method == 'POST':
+        depart_name = u'开发部--' + str(datetime.datetime.utcnow())
+        depart = Model.DepartMent.query.filter_by(depName=depart_name).first()
+        if depart is  None:
+            new_department = Model.DepartMent(depName=depart_name)
+            db.session.add(new_department)
+            db.session.commit()
+            return '新增部门'
+        else:
+            return api_response(400, 'fail', 'department is already exist')
+    elif request.method == 'GET':
+        depart = Model.DepartMent.query.all()
+        print depart
+        return '所有部门'
+    else:
+        return 'method Error！'
 
 
 # 项目成员
@@ -135,6 +160,11 @@ def project():
         return api_response(400, 'bad request', '参数错误')
 
 
-
-
-
+@api.route('/department/member/')
+def depart_member():
+    if request.method == 'POST':
+        return '新增成员'
+    elif request.method == 'GET':
+        return '所有成员'
+    else:
+        return 'Method Error!'
