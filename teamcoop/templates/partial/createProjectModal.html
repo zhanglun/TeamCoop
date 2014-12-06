@@ -11,31 +11,29 @@
                     <div class="form-group">
                         <label for="projectName" class="col-sm-2 control-label">项目名</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="projectName" placeholder="projectName">
+                            <input type="text" class="form-control" placeholder="projectName" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="owner" class="col-sm-2 control-label">负责人</label>
                         <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>tom</option>
-                                <option>jerry</option>
-                                <option>kitty</option>
-                                <option>steven</option>
-                                <option>john</option>
-                            </select>
+                            <div class="input-group">
+                                <input type="text" class="form-control">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select_member">+</button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="participants" class="col-sm-2 control-label">参与者</label>
                         <div class="col-sm-10">
-                            <select multiple class="form-control">
-                                <option>tom</option>
-                                <option>jerry</option>
-                                <option>kitty</option>
-                                <option>steven</option>
-                                <option>john</option>
-                            </select>
+                            <div class="input-group">
+                                <input type="text" class="form-control">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select_member">+</button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -62,7 +60,7 @@
                     <div class="form-group">
                         <label for="detail" class="col-sm-2 control-label">项目详情</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="3"></textarea>
+                            <textarea class="form-control" rows="3" required></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -76,8 +74,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                <button type="button" class="btn btn-primary btn-submit">提交</button>
+                <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#createProject_2">新建项目</button> -->
             </div>
         </div>
     </div>
