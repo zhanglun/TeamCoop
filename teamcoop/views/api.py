@@ -49,7 +49,6 @@ def project_member():
         return api_response(200, 'success', 'project member')
 
 
-
 # 设置个人信息
 @api.route('/project/setting/person/', methods=['GET', 'POST'])
 def set_person():
@@ -93,9 +92,9 @@ def project():
         person_in_charge = range(1,4)
         members = range(5,7)
 
-        project_item = Model.Project.query.filter_by(title=title).first()
+        item = Model.Project.query.filter_by(title=title).first()
 
-        if project_item is None:
+        if item is None:
             # add new project to database
             project_new = Model.Project(title=title, description=description, level=level, deadline=deadline, status=status, isPublic=is_public, createuserid=creater_id)
             db.session.add(project_new)

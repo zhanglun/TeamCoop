@@ -14,8 +14,10 @@
             {% for item in user_project_items %}
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
+                    <a href="{{ url_for('users.project_detail', username=data.username, project_id=item['id']) }}">
                         <img data-src="holder.js/300x300" alt="..." src="
                         {{ url_for('static', filename='images/149H.jpg') }}">
+                        </a>
                         <div class="caption">
                             <h5>{{ item['title']|safe }}</h5>
                             <p>{{ item['description']|safe }}</p>
@@ -39,8 +41,10 @@
             {% for item in user_project_others %}
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
-                        <img data-src="holder.js/300x300" alt="..." src="
+                        <a href="{{ url_for('project.project_detail', project_id=item['id']) }}">
+                            <img data-src="holder.js/300x300" alt="..." src="
                         {{ url_for('static', filename='images/150H.jpg') }}">
+                        </a>
                         <div class="caption">
                             <h5>{{ item['title']|safe }}</h5>
                             <p>{{ item['description']|safe }}</p>

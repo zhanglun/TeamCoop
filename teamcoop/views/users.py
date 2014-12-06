@@ -18,7 +18,7 @@ def user_issues(username):
         return "uid: %s" % username + '\n' + u'用户不存在'
 
 
-@users.route('/<username>/issues/<issue_id>')
+@users.route('/<username>/issues/<issue_id>/')
 def issues_detail(username, issue_id):
     u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is not None:
@@ -37,13 +37,14 @@ def user_project(username):
         user_project_others = Model.Project.query.filter(Model.Project.createuserid != u.id).all()
         data = {'username': u.username}
         print user_project_items
+        print user_project_others
         return render_template('project_dashboard.html', data=data, user_project_items=user_project_items,
                                user_project_others=user_project_others)
     else:
         return "uid: %s" % username + '\n' + u'用户不存在'
 
 
-@users.route('/<username>/project/<project_id>')
+@users.route('/<username>/project/<project_id>/')
 def project_detail(username, project_id):
     u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is None:

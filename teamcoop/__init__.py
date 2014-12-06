@@ -21,10 +21,12 @@ def create_app(config_name):
     # views 中每一个文件都是一个蓝图，在这里引入蓝图
     from views.login import login
     from views.users import users
+    from views.project import project
 
     from views.api import api
 
     app.register_blueprint(login)
+    app.register_blueprint(project, url_prefix='/project')
     app.register_blueprint(users, url_prefix='/u')
     app.register_blueprint(api, url_prefix='/api')
 
