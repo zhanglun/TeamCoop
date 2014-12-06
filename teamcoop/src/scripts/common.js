@@ -9,6 +9,7 @@ $(function() {
     $(".form_datetime").datetimepicker({
         format: "dd MM yyyy - hh:ii",
         autoclose: true,
+        startDate: new Date()
     });
 })
 
