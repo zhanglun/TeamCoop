@@ -18,7 +18,25 @@ var data = {
 };
 
 var memberlist = {};
-memberlist.data = {};
+memberlist.static_data = {
+    'design': [{
+        'id': 1,
+        'name': 'xiaoming'
+    }, {
+        'id': 2,
+        'name': 'xiaobai'
+    }],
+    'frontend': [{
+        'id': 3,
+        'name': 'xiaosong'
+    }, {
+        'id': 4,
+        'name': 'xiaoli'
+    }]
+};
+memberlist.data_charger = {};
+memberlist.data_participant = {};
+memberlist.trigger = null;
 
 
 memberlist.renderPartmentList = function(data) {
@@ -42,11 +60,13 @@ memberlist.renderPartmentList = function(data) {
 
 }
 memberlist.rendermemberlist = function(partmentName) {
+    var data = (memberlist.trigger.attr('id').indexOf('charger') == -1) ? memberlist.data_participant : memberlist.data_charger;
+
     $('#member').attr('title', partmentName).empty();
 
-    $.each(data[partmentName], function(i, v) {
+    $.each(memberlist.static_data[partmentName], function(i, v) {
         // recoard selection
-        if (memberlist.data.hasOwnProperty(v['id']) == true) {
+        if (data.hasOwnProperty(v['id']) == true) {
             $('#member').append('<li class="list-group-item active" data-userid="' + v['id'] + '">' + v['name'] + '</li>');
         } else {
             $('#member').append('<li class="list-group-item" data-userid="' + v['id'] + '">' + v['name'] + '</li>');
@@ -57,14 +77,35 @@ memberlist.rendermemberlist = function(partmentName) {
 memberlist.getSelectList = function() {
     $('#member li').each(function() {
         var key = $(this).attr('data-userid'),
-            value = $(this).html();
+            value = $(this).html(),
+            data = (memberlist.trigger.attr('id').indexOf('charger') == -1) ? memberlist.data_participant : memberlist.data_charger;
         if ($(this).hasClass('active')) {
-            memberlist.data[key] = value;
+            data[key] = value;
         } else {
-            delete memberlist.data[key];
+            delete data[key];
         }
     });
 }
 
-// todo: get data from api
-memberlist.renderPartmentList(data);
+memberlist.sendForward = function() {
+    $('#send-forward').on('click', function() {
+        var data = (memberlist.trigger.attr('id').indexOf('charger') == -1) ? memberlist.data_participant : memberlist.data_charger;
+        $.each(data, function(key, value) {
+            memberlist.trigger.parentsUntil('.col-sm-10').find('input').get(0).value += value + ',';
+        });
+        $('#select_member').modal('hide');
+        var data = (memberlist.trigger.attr('id').indexOf('charger') == -1) ? memberlist.data_participant : memberlist.data_charger;
+        data = {};
+        memberlist.trigger = null;
+        $('#member,#partment').empty();
+    });
+}
+
+
+$('#select_chargers,#select_participants').on('click', function() {
+    memberlist.trigger = $(this);
+    $('#select_member').modal('show');
+    // todo: get data from api
+    memberlist.renderPartmentList(memberlist.static_data);
+    memberlist.sendForward();
+});

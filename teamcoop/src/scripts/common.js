@@ -74,7 +74,6 @@ $(function() {
     $(':password').last().on('blur', function(event) {
         var input = $(event.target);
         if ($(':password').first().val() != $(':password').last().val()) {
-            console.log(input.parentsUntil('form').get(0));
             input.parentsUntil('form').addClass('has-error');
         }
     });
