@@ -3,15 +3,18 @@ from __init__ import *
 
 users = Blueprint("users", __name__)
 
+
+
+
 @users.route('/<username>/issues/')
 def user_issues(username):
     u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is not None:
         data = {'username': u.username}
         # TODO: can do better
-        print session['username']
         return render_template('issue.html', data=data)
     else:
+        # return
         return "uid: %s" % username + '\n' + u'用户不存在'
 
 
@@ -64,7 +67,7 @@ def user_setting(username):
         # print data
         return render_template('setting.html', data=data)
     else:
-        return "uid: %s, slug: %s" % (username, dash) + '\n' + u'用户不存在'
+        return "uid: %s" % username + '\n' + u'用户不存在'
 
 
 

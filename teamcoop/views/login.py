@@ -7,21 +7,19 @@ login = Blueprint('login', __name__)
 
 @login.route('/')
 def index():
-    if session.get('username') is not None:
-        print session['username']
+    username = session.get('username')
+    u = Model.User.query.filter_by(username=username).first()
+    if username and u:
         return redirect(url_for('users.user_issues', username=session['username']))
     else:
         form = userlogin.LoginForm()
+        # session.pop('username')
         return render_template('login.html', form=form)
 
 
 @login.route('/signin/', methods=['GET', 'POST'])
 def submit():
     form = userlogin.LoginForm()
-    if form.is_submitted():
-        print "submitted"
-    if form.validate():
-        print "valid"
     if form.validate_on_submit():
         # check the password and log user in
         name = form.username.data
@@ -30,11 +28,17 @@ def submit():
             flash(u'用户名或密码错误')
             # if user is not exist, redirect to '/'
             return render_template('login.html', form=form)
-        elif form.password.data == u.password:
-            session['username'] = name
+        
+        if form.password.data == u.password:
+            if form.remember.data ==True:
+                session['username'] = name
+
             return redirect(url_for('users.user_issues', username=name))
         else:
+            flash(u'用户名或密码错误')
             return render_template('login.html', form=form)
+    else:
+        return "登陆错误，请联系管理员"
 
 @login.route('/logout/')
 def user_logout():
