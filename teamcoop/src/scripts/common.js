@@ -1,3 +1,17 @@
+$(function() {
+    // set modal initializes
+    $('.modal').modal({
+        'backdrop': 'static',
+        'keyboard': false,
+        'show': false // show when modal initializes
+    });
+    // datepicker init
+    $(".form_datetime").datetimepicker({
+        format: "dd MM yyyy - hh:ii",
+        autoclose: true,
+    });
+})
+
 var postData = {};
 
 postData.getData = function(formSelector) {
@@ -8,6 +22,9 @@ postData.getData = function(formSelector) {
     $.each(fields, function(index, obj) {
         var name = obj.name,
             value = obj.value;
+        if ($.trim(value) == '') {
+            return;
+        }
         if (data.hasOwnProperty(name) == false) {
             data[name] = value;
         } else if ($.isArray(data[name]) == true) {
@@ -44,7 +61,7 @@ $(function() {
     $(':input').on('blur', function(event) {
         var input = $(event.target);
         // required
-        if (input.attr('required') == 'required' && /^\s*$/.test(input.val())) {
+        if (input.attr('required') == 'required' && $.trim(input.val()) == '') {
             input.parentsUntil('form').addClass('has-error');
         }
     });
@@ -61,8 +78,6 @@ $(function() {
         }
     });
 });
-
-
 
 // setting module part
 var settingModule = {};

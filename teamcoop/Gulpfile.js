@@ -131,7 +131,7 @@ gulp.task('watch', function () {
     gulp.watch(paths.styles, ['less']);
     gulp.watch(paths.scripts, ['uglify']);
     gulp.watch(paths.images, ['images']);
-    gulp.watch(paths.tpl, ['html']);
+    // gulp.watch(paths.tpl, ['html']);
     gulp.watch('app' + '/**').on('change', livereload.changed);
 });
 

@@ -1,6 +1,6 @@
 .issue-list li p {
     & {
-        &:not(: last-child) {
+        &:not(:last-child) {
             margin-bottom: 0;
         }
     }
@@ -34,7 +34,7 @@
         p:first-child, p:last-child {
             color: @gray;
         }
-        p:not(:first-child){
+        p:not(:first-child) {
             text-indent: 2em;
         }
     }
@@ -43,9 +43,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
-
 // progressbar in project detail
-
 .progressBar {
     ul {
         margin: 0;
@@ -84,4 +82,14 @@
         margin-top: 2.2em;
     }
 }
+// project_dashboard
+.project_dashboard {
+    .caption {
+        h5,p {
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            overflow-x: hidden;
+        }
 
+    }
+}
