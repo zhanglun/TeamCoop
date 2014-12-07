@@ -72,6 +72,11 @@ class DepartMent(db.Model):
     depName = db.Column(db.Text, nullable=False, default='')
     parentId = db.Column(db.Integer, nullable=False, default=0)
 
+
+    def get_json(self):
+        return {'id': self.id, 'department_name': self.depName, 'parent_id': self.parentId}
+
+
     def __repr__(self):
         return '<Department %r>' % self.depName
 

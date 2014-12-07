@@ -56,8 +56,11 @@ def team_department():
             return api_response(400, 'fail', 'department is already exist')
     elif request.method == 'GET':
         depart = Model.DepartMent.query.all()
-        print depart
-        return '所有部门'
+        for x in depart:
+            index = depart.index(x)
+            depart[index] = x.get_json()
+            # print x.get_json()
+        return api_response(200, 'success', 'get team all department', depart)
     else:
         return 'method Error！'
 
