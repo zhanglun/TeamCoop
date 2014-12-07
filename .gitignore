@@ -10,5 +10,3 @@ venv/
 **/node_modules/
 **/bower_components/
 **/static/**
-
-**/db/teamcoop.db
