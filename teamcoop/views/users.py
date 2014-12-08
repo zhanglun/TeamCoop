@@ -4,7 +4,27 @@ from __init__ import *
 users = Blueprint("users", __name__)
 
 
+def get_related_issus(username):
+    # add or del in user_department
 
+    # add ro del in user_project
+
+    # create or del a task
+
+    # create or del a project
+
+    # add task_comment
+
+
+    pass
+
+
+def get_other_issus(username):
+    user_id = Model.User.quewry.filter_by(username=username).first().id
+    u = Model.User.query.all()
+    # 与自己无关的user project
+    u_project = Model.UserProject.query.filter(userId!=user_id).all()
+    pass
 
 @users.route('/<username>/issues/')
 def user_issues(username):
@@ -12,6 +32,9 @@ def user_issues(username):
     if u is not None:
         data = {'username': u.username}
         # TODO: can do better
+        #  
+
+
         return render_template('issue.html', data=data)
     else:
         # return

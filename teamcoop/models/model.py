@@ -13,9 +13,6 @@ class User(db.Model):
     email = db.Column(db.Text, default='')
     createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-    # def get_id():
-    #     return id
-
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -26,6 +23,7 @@ class UserDepartMent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     departmentId = db.Column(db.Integer, nullable=False)
     userId = db.Column(db.Text, nullable=False)
+
 
     def __repr__(self):
         return '<UserDepartMent %r %r>' & self.userId % self.departmentId
@@ -40,8 +38,10 @@ class UserProject(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     level = db.Column(db.Integer, nullable=False, default=2)
 
+
     def get_json(self):
         return {'id':self.id,'project_id':self.projectId,'user_id':self.userId,'level':self.level}
+
 
     def __repr__(self):
         return '<UserProject %r %r>' % (self.userId, self.projectId)
@@ -60,6 +60,7 @@ class Project(db.Model):
     isPublic = db.Column(db.Integer, nullable=False, default=1)
     createuserid = db.Column(db.Integer, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
+
 
     def __repr__(self):
         return '<Project %r>' % self.title
@@ -81,9 +82,32 @@ class DepartMent(db.Model):
         return '<Department %r>' % self.depName
 
 
-# class UserDepartMent(db.Model):
-#     __tablename__ = 'user_department'
-#     id = db.Column(db.Integerm, primary_key=True)
-#     department_id
+class Task(db.Model):
+    __tablename__ = 'task'
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    title = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False, default = '')
+    deadline = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
+    executeUserId = db.Column(db.Integer, nullable=False, default=0)
+    createUserId = db.Column(db.Integer, nullable=False, default=0)
+    status = db.Column(db.Integer, nullable=False, default=1)
+    createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
+    def __repr__(self):
+        return '<Task %r>' % self.title
+
+
+class TaskComment(db.Model):
+    __tablename__ = 'task_comment'
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    content = db.Column(db.Text, nullable=False, default='')
+    taskId = db.Column(db.Integer, nullable=False) 
+    userId = db.Column(db.Integer, nullable=False)
+    createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
+
+    def __repr__(self):
+        return '<TaskComment %r>' % self.content
+
+
+ 
 
