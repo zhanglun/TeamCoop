@@ -87,6 +87,8 @@ memberlist.sendForward = function() {
     $.each(data, function(key, value) {
         input.value += value + ',';
     });
+    // remove last indefieder
+    input.value = input.value.substr(0,input.value.length-1);
     memberlist.modalhide();
     if (memberlist.triggerbutton.attr('id').indexOf('charger') == -1) {
         memberlist.data_participants = {};
