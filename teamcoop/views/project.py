@@ -1,9 +1,12 @@
-from flask import Blueprint, render_template
+# coding:utf-8
+
+from __init__ import *
 
 project = Blueprint('project', __name__)
 
-@project.route('/user/<username>/dashboard/project/<project_id>')
-def proejct_detail(username, project_id):
-    data = {'username': username}
+@project.route('/<project_id>/')
+def project_detail(project_id):
+    item = Model.Project.query.filter_by(id=project_id).first()
+    print session['username']
+    data = {'username': session['username']}
     return render_template('project_detail.html', data=data)
-

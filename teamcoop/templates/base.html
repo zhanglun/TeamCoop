@@ -36,7 +36,7 @@
                             <li><a href="#">Something else here</a>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="{{ url_for('users.user_logout') }}">Log out</a>
+                            <li><a href="{{ url_for('login.user_logout') }}">Log out</a>
                             </li>
                         </ul>
                     </li>
@@ -64,6 +64,8 @@
 
     <script src="{{ url_for('static', filename='vendor/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/common.js') }}"></script>
     {% block footerscript %}{% endblock %}
 </body>
 

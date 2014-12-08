@@ -4,7 +4,6 @@
 *.ipr
 *.iws
 
-**/Gulpfile.js
 **/test.*
 venv/
 .idea/

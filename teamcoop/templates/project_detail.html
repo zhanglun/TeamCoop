@@ -37,3 +37,14 @@
 
 {% endblock%}
 
+{% block footerscript %}
+<script>
+    $('#deadline').datetimepicker({
+        format: "dd MM yyyy - hh:ii",
+        autoclose: true,
+        todayBtn: true,
+        pickerPosition: "bottom-left"
+    });
+</script>
+{% endblock%}
+
