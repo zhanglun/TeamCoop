@@ -66,7 +66,6 @@ def get_other_issues(userid):
 @users.route('/<username>/issues/')
 def user_issues(username):
     u = Model.User.query.filter_by(username=unicode(username)).first()
-    print u.id
     user_id = u.id
     if u is not None:
         data = {'username': u.username, 'userid': u.id}

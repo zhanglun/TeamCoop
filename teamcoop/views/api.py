@@ -38,9 +38,10 @@ def team_member():
 
         # depart = Model.DepartMent.query.all()
         depart = Model.UserDepartMent.query.order_by(Model.UserDepartMent.departmentId).all()
-        # print depart
-        # for d in depart:
-        #     print d
+
+        # for x in depart:
+        #     depart_user =
+
         u = Model.User.query.all()
         for x in u:
             index = u.index(x)
@@ -131,15 +132,26 @@ def set_person():
 @api.route('/user/project/', methods=['GET', 'POST'])
 def project():
     if request.method == 'POST':
-        title = request.json['title']
-        description = request.json['description']
-        level = request.json['level']
-        deadline = request.json['deadline']
-        is_public = request.json['is_public']
+        # print request.json
+        # title = request.json['title']
+        # description = request.json['description']
+        # level = request.json['level']
+        # deadline = request.json['deadline']
+        # is_public = request.json['is_public']
+        # status = 1
+        # creater_id = request.json['creater_id']
+        # person_in_charge = request.json['person_in_charge']
+        # members = request.json['members']
+
+        title = "request.json['title']"
+        description = "request.json['description']"
+        level = 1
+        deadline = datetime.datetime.utcnow()
+        is_public = 1
         status = 1
-        creater_id = request.json['creater_id']
-        person_in_charge = request.json['person_in_charge']
-        members = request.json['members']
+        creater_id = 2
+        person_in_charge = range(1, 3)
+        members = range(3, 4)
 
         item = Model.Project.query.filter_by(title=title).first()
 
@@ -214,16 +226,13 @@ def depart_member():
             db.session.commit()
         return '新增成员'
     elif request.method == 'GET':
-        # department_id = request.json['department_id']
-        department_id = 2
+        department_id = request.json['department_id']
+        # department_id = 2
         members = Model.UserDepartMent.query.filter_by(departmentId=department_id).order_by(
             Model.UserDepartMent.userId).all()
         for x in members:
-            print 'x'
             index = members.index(x)
             members[index] = x.userId
-        members = {'members': members}
-        print members
 
         return api_response(200, 'success', 'department\'s member', members)
     else:
