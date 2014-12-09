@@ -37,24 +37,44 @@ def team_member():
         # 返回所有部门和各成员
 
         # depart = Model.DepartMent.query.all()
-        depart = Model.UserDepartMent.query.order_by(Model.UserDepartMent.departmentId).all()
 
-        # for x in depart:
-        #     depart_user =
+        depart = Model.DepartMent.query.all()
+        print 'depart'
+        print depart
+        result = []
+        if depart is None:
+            return api_response(200, 'success', 'no department')
+        else:
+            for x in depart:
+                depart_id = x.id
+                members = Model.UserDepartMent.query.filter_by(departmentId=depart_id).all()
+                print members
+                if members is not None:
+                    m_list = []
+                    for m in members:
+                        print 'm.userId'
+                        print m.userId
+                        u = Model.User.query.filter_by(id=m.userId).first()
+                        m_list.append(u.get_json())
 
-        u = Model.User.query.all()
-        for x in u:
-            index = u.index(x)
-            department = Model.UserDepartMent.query.filter_by(userId=x.id).first()
-            if department is not None:
-                x = x.get_json()
-                x['department_id'] = department.departmentId
-            else:
-                x = x.get_json()
-                x['department_id'] = 0
-            u[index] = x
+                    result.append({'department_id': depart_id, 'members': m_list})
 
-        return api_response(200, 'success', 'all team members', u)
+            # print result
+            return api_response(200, 'success', 'no department', result)
+
+        # u = Model.User.query.all()
+        # for x in u:
+        #     index = u.index(x)
+        #     department = Model.UserDepartMent.query.filter_by(userId=x.id).first()
+        #     if department is not None:
+        #         x = x.get_json()
+        #         x['department_id'] = department.departmentId
+        #     else:
+        #         x = x.get_json()
+        #         x['department_id'] = 0
+        #     u[index] = x
+        #
+        # return api_response(200, 'success', 'all team members', u)
 
 
 
@@ -135,14 +155,12 @@ def project():
         title = request.json['title']
         description = request.json['description']
         level = request.json.get('level')
-        print level
         deadline = request.json.get('deadline')
         is_public = request.json.get('is_public')
         status = 1
         creater_id = request.json.get('creater_id')
         person_in_charge = request.json.get('person_in_charge')
         members = request.json.get('members')
-
 
         item = Model.Project.query.filter_by(title=title).first()
 
