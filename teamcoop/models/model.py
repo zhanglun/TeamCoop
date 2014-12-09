@@ -19,7 +19,6 @@ class User(db.Model):
     # def __init__(self, para_dict):
     # self.id = para_dict.id
 
-
     def get_time(self):
         return self.createtime
 
@@ -37,15 +36,11 @@ class UserDepartMent(db.Model):
     departmentId = db.Column(db.Integer, nullable=False)
     userId = db.Column(db.Text, nullable=False)
 
-    @property
-    def get_depart_id(self):
-        return slef.departmentId
-
     def get_time(self):
         return self.createtime
 
     def __repr__(self):
-        return '<UserDepartMent %r %r>' & self.userId % self.departmentId
+        return '<UserDepartMent userid: %d departmentid: %d>' % (self.userId, self.departmentId)
 
 
 class UserProject(db.Model):

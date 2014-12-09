@@ -38,9 +38,9 @@ def team_member():
 
         # depart = Model.DepartMent.query.all()
         depart = Model.UserDepartMent.query.order_by(Model.UserDepartMent.departmentId).all()
-        print depart
-        for d in depart:
-            print d.depName
+        # print depart
+        # for d in depart:
+        #     print d
         u = Model.User.query.all()
         for x in u:
             index = u.index(x)
@@ -214,6 +214,17 @@ def depart_member():
             db.session.commit()
         return '新增成员'
     elif request.method == 'GET':
-        return '所有成员'
+        # department_id = request.json['department_id']
+        department_id = 2
+        members = Model.UserDepartMent.query.filter_by(departmentId=department_id).order_by(
+            Model.UserDepartMent.userId).all()
+        for x in members:
+            print 'x'
+            index = members.index(x)
+            members[index] = x.userId
+        members = {'members': members}
+        print members
+
+        return api_response(200, 'success', 'department\'s member', members)
     else:
         return 'Method Error!'
