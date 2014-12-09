@@ -17,12 +17,11 @@ def team_member():
         # TODO:
         # project_id
         # checkout if the user is already exist
-        username = request.json['username']
+        # username = request.json['username']
         # print request.json
-        # username = 'admin'
+        username = 'admin'
         if username is None:
-            # return api_response(400, 'fail', '参数错误')
-            return 'asdf'
+            return api_response(400, 'fail', '参数错误')
         check = Model.User.query.filter_by(username=username).first()
         if check is None:
             # create a new member
@@ -35,7 +34,13 @@ def team_member():
             return api_response(200, 'success', 'the member is already exist')
 
     elif request.method == 'GET':
+        # 返回所有部门和各成员
 
+        # depart = Model.DepartMent.query.all()
+        depart = Model.UserDepartMent.query.order_by(Model.UserDepartMent.departmentId).all()
+        print depart
+        for d in depart:
+            print d.depName
         u = Model.User.query.all()
         for x in u:
             index = u.index(x)
@@ -55,14 +60,26 @@ def team_member():
 @api.route('/team/department/', methods=['GET', 'POST'])
 def team_department():
     if request.method == 'POST':
-        # depart_name = request.json['']
-        depart_name = u'开发部--' + str(datetime.datetime.utcnow())
+        depart_name = request.json['department_name']
+        members = request.json['members']
         depart = Model.DepartMent.query.filter_by(depName=depart_name).first()
         if depart is None:
             new_department = Model.DepartMent(depName=depart_name)
             db.session.add(new_department)
             db.session.commit()
-            return '新增部门'
+            for x in members:
+                u = Model.User.query.filter_by(username=x).first()
+                if x is not None:
+                    new_user = Model.User(username=x)
+                    db.session.add(new_user)
+                    db.session.commit()
+                    user_depart = Model.UserDepartMent(departmentId=new_department.id, userId=new_user.id)
+                    db.session.add(user_depart)
+                else:
+                    user_depart = Model.UserDepartMent(departmentId=new_department.id, userId=u.id)
+                    db.session.add(user_depart)
+            db.session.commit()
+            return '新增部门和成员'
         else:
             return api_response(400, 'fail', 'department is already exist')
     elif request.method == 'GET':
@@ -115,21 +132,14 @@ def set_person():
 def project():
     if request.method == 'POST':
         title = request.json['title']
-        user_id = request.json['user_id']
         description = request.json['description']
         level = request.json['level']
         deadline = request.json['deadline']
         is_public = request.json['is_public']
-        # title = u'项目编号-today -12-5-' + str(random.randint(0, 10)) + ' : ' + str(datetime.datetime.utcnow())
-        # description = u'项目描述： ' + u'这个是项目描述啊' * random.randint(1, 10) + 'ABC' * random.randint(0, 20)
-        # level = 1
-        # deadline = datetime.datetime.utcnow()
-        # status = 1
-        # is_public = 1
-        # # user_id = 2
-        creater_id = random.randint(1, 5)
-        person_in_charge = range(1, 4)
-        members = range(5, 7)
+        status = 1
+        creater_id = request.json['creater_id']
+        person_in_charge = request.json['person_in_charge']
+        members = request.json['members']
 
         item = Model.Project.query.filter_by(title=title).first()
 
@@ -145,7 +155,6 @@ def project():
             for x in person_in_charge:
                 charger = Model.UserProject(projectId=project_new_id, userId=x, level=1)
                 db.session.add(charger)
-                # db.session.commit()
 
             for x in members:
                 member = Model.UserProject(projectId=project_new_id, userId=x, level=2)
@@ -157,8 +166,8 @@ def project():
             return 'already exist!'
     elif request.method == 'GET':
         # param: userid
-        # userid = request.json['user_id']
-        userid = 2
+        userid = request.json['user_id']
+        # userid = 2
         if userid is not None:
             projects = Model.UserProject.query.filter_by(userId=userid).order_by(Model.UserProject.projectId).all()
             # response_data={}
@@ -174,9 +183,35 @@ def project():
         return api_response(400, 'bad request', '参数错误')
 
 
-@api.route('/department/member/')
+@api.route('/department/member/', methods=['GET', 'POST'])
 def depart_member():
     if request.method == 'POST':
+        # depart = request.json['department_id']
+        # username = request.json['username']
+        # aa = request.json['username']
+
+        department_id = 1
+        department_name = u'开发部'
+        username = 'zhanglun' + str(datetime.datetime.utcnow())
+
+        d = Model.DepartMent.query.filter_by(depName=department_name).first()
+
+        if d is not None:
+            return api_response(200, 'fail', 'already exist')
+
+        u = Model.User.query.filter_by(username=username).first()
+
+        if u is not None:
+            return api_response(200, 'fail', 'already exist')
+        else:
+            user_new = Model.User(username=username)
+            db.session.add(user_new)
+            db.session.commit()
+            print '===='
+            user_id = user_new.id
+            new = Model.UserDepartMent(userId=user_id, departmentId=department_id)
+            db.session.add(new)
+            db.session.commit()
         return '新增成员'
     elif request.method == 'GET':
         return '所有成员'
