@@ -71,6 +71,7 @@ def user_issues(username):
         data = {'username': u.username, 'userid': u.id}
         # TODO: can do better
         #
+        session['username'] = u.username
         get_related_issues(user_id)
         get_other_issues(user_id)
         return render_template('issue.html', data=data)
@@ -97,6 +98,7 @@ def user_project(username):
         user_project_items = Model.Project.query.filter_by(createuserid=u.id).order_by(Model.Project.title).all()
         user_project_others = Model.Project.query.filter(Model.Project.createuserid != u.id).all()
         data = {'username': u.username, 'userid': u.id}
+        session['username'] = username
         print user_project_items
         print user_project_others
         return render_template('project_dashboard.html', data=data, user_project_items=user_project_items,

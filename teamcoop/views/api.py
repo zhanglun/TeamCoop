@@ -133,25 +133,27 @@ def set_person():
 def project():
     if request.method == 'POST':
         # print request.json
-        # title = request.json['title']
-        # description = request.json['description']
-        # level = request.json['level']
-        # deadline = request.json['deadline']
-        # is_public = request.json['is_public']
-        # status = 1
-        # creater_id = request.json['creater_id']
-        # person_in_charge = request.json['person_in_charge']
-        # members = request.json['members']
-
-        title = "request.json['title']"
-        description = "request.json['description']"
-        level = 1
-        deadline = datetime.datetime.utcnow()
-        is_public = 1
+        print '==='
+        print request.get_json(force=True)
+        title = request.json['title']
+        description = request.json['description']
+        level = request.json['level']
+        deadline = request.json['deadline']
+        is_public = request.json['is_public']
         status = 1
-        creater_id = 2
-        person_in_charge = range(1, 3)
-        members = range(3, 4)
+        creater_id = request.json['creater_id']
+        person_in_charge = request.json['person_in_charge']
+        members = request.json['members']
+
+        # title = "request.json['title']"
+        # description = "request.json['description']"
+        # level = 1
+        # deadline = datetime.datetime.utcnow()
+        # is_public = 1
+        # status = 1
+        # creater_id = 2
+        # person_in_charge = range(1, 3)
+        # members = range(3, 4)
 
         item = Model.Project.query.filter_by(title=title).first()
 
