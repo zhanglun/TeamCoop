@@ -59,7 +59,6 @@ def team_member():
 
                     result.append({'department_id': depart_id, 'members': m_list})
 
-            # print result
             return api_response(200, 'success', 'no department', result)
 
         # u = Model.User.query.all()
@@ -156,6 +155,7 @@ def project():
         description = request.json['description']
         level = request.json.get('level')
         deadline = request.json.get('deadline')
+        deadline = dateutil.parser.parse(deadline)
         is_public = request.json.get('is_public')
         status = 1
         creater_id = request.json.get('creater_id')
@@ -166,6 +166,8 @@ def project():
 
         if item is None:
             # add new project to database
+            print '><><><>>'
+            print type(deadline)
             project_new = Model.Project(title=title, description=description, level=level, deadline=deadline, status=status, isPublic=is_public, createuserid=creater_id)
             db.session.add(project_new)
             db.session.commit()

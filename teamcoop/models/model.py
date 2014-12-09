@@ -12,7 +12,7 @@ class User(db.Model):
     name = db.Column(db.Text, default='')
     gender = db.Column(db.Text, default='')
     email = db.Column(db.Text, default='')
-    createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
     para_dict = {'id': id}
 
