@@ -17,8 +17,9 @@ def team_member():
         # TODO:
         # project_id
         # checkout if the user is already exist
-        username = request.json['username']
-        print request.json
+        # username = request.json['username']
+        # print request.json
+        username = 'admin'
         if username is None:
             # return api_response(400, 'fail', '参数错误')
             return 'asdf'
@@ -47,7 +48,7 @@ def team_department():
     if request.method == 'POST':
         depart_name = u'开发部--' + str(datetime.datetime.utcnow())
         depart = Model.DepartMent.query.filter_by(depName=depart_name).first()
-        if depart is  None:
+        if depart is None:
             new_department = Model.DepartMent(depName=depart_name)
             db.session.add(new_department)
             db.session.commit()
@@ -117,8 +118,8 @@ def project():
         is_public = 1
         # user_id = 2
         creater_id = random.randint(1, 5)
-        person_in_charge = range(1,4)
-        members = range(5,7)
+        person_in_charge = range(1, 4)
+        members = range(5, 7)
 
         item = Model.Project.query.filter_by(title=title).first()
 

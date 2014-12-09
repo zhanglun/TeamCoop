@@ -13,6 +13,13 @@ class User(db.Model):
     email = db.Column(db.Text, default='')
     createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
+    para_dict = {'id': id}
+
+    # def __init__(self, para_dict):
+    #     self.id = para_dict.id
+
+    def get_time(self):
+        return self.createtime
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -24,6 +31,8 @@ class UserDepartMent(db.Model):
     departmentId = db.Column(db.Integer, nullable=False)
     userId = db.Column(db.Text, nullable=False)
 
+    def get_time(self):
+        return self.createtime
 
     def __repr__(self):
         return '<UserDepartMent %r %r>' & self.userId % self.departmentId
@@ -37,11 +46,13 @@ class UserProject(db.Model):
     projectId = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     level = db.Column(db.Integer, nullable=False, default=2)
-
+    createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
     def get_json(self):
-        return {'id':self.id,'project_id':self.projectId,'user_id':self.userId,'level':self.level}
+        return {'id': self.id, 'project_id': self.projectId, 'user_id': self.userId, 'level': self.level}
 
+    def get_time(self):
+        return self.createtime
 
     def __repr__(self):
         return '<UserProject %r %r>' % (self.userId, self.projectId)
@@ -61,6 +72,8 @@ class Project(db.Model):
     createuserid = db.Column(db.Integer, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
+    def get_time(self):
+        return self.createtime
 
     def __repr__(self):
         return '<Project %r>' % self.title
@@ -72,11 +85,13 @@ class DepartMent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     depName = db.Column(db.Text, nullable=False, default='')
     parentId = db.Column(db.Integer, nullable=False, default=0)
-
+    createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
     def get_json(self):
         return {'id': self.id, 'department_name': self.depName, 'parent_id': self.parentId}
 
+    def get_time(self):
+        return self.createtime
 
     def __repr__(self):
         return '<Department %r>' % self.depName
@@ -93,6 +108,9 @@ class Task(db.Model):
     status = db.Column(db.Integer, nullable=False, default=1)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
+    def get_time(self):
+        return self.createtime
+
     def __repr__(self):
         return '<Task %r>' % self.title
 
@@ -104,6 +122,9 @@ class TaskComment(db.Model):
     taskId = db.Column(db.Integer, nullable=False) 
     userId = db.Column(db.Integer, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
+
+    def get_time(self):
+        return self.createtime
 
     def __repr__(self):
         return '<TaskComment %r>' % self.content
