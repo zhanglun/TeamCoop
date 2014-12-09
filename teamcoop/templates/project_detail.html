@@ -38,6 +38,8 @@
 {% endblock%}
 
 {% block footerscript %}
+<script src="{{ url_for('static', filename='scripts/progress.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/selectMemberModule.js') }}"></script>
 <script>
     $('#deadline').datetimepicker({
         format: "dd MM yyyy - hh:ii",
@@ -45,6 +47,8 @@
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+
+    memberlist.init();
 </script>
 {% endblock%}
 

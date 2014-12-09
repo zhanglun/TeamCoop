@@ -1,4 +1,4 @@
-<dl class="dl-horizontal">
+<!-- <dl class="dl-horizontal">
     <dt>project detail:</dt>
     <dd>dota2</dd>
     <dt>deadline:</dt>
@@ -9,7 +9,17 @@
     <dd>
         <button class="btn btn-default btn-xs">Edit</button>
     </dd>
-</dl>
+</dl> -->
+<div class="row martb10">
+    <p class="col-sm-2 text-right">项目详情:</p>
+    <p class="col-sm-4">dota2</p>
+    <p class="col-sm-2 text-right">截止日期:</p>
+    <p class="col-sm-4">2014.12.10</p>
+    <p class="col-sm-2 text-right">重要程度:</p>
+    <p class="col-sm-10">重要</p>
+    <p class="col-sm-2 text-right">项目状态:</p>
+    <p class="col-sm-4"><button class="btn btn-default btn-xs" id="edit_btn">编辑</button></p>
+</div>
 <div class="progressBar">
     <ul>
         <li class="">需求<span>1</span>
@@ -41,31 +51,4 @@
     <li class="clearfix">XXX edit the progress <small class="pull-right">9 hours ago</small>
     </li>
 </ul>
-{% block footerscript %}
-<script>
-$(function() {
-    var progress = {};
-    progress.selector = ".progressBar ul";
-    progress.circleSize = $(progress.selector + ' li:even').size();
-    progress.circleWidth = $(progress.selector + ' li:even').width();
-    progress.setWidth = function() {
-        var width = ($(progress.selector).width() - progress.circleSize * progress.circleWidth) / (progress.circleSize - 1);
-        $(progress.selector + ' li:odd').width(width);
-    };
-    // resize div width
-    $(window).on('resize', function() {
-        setTimeout(progress.setWidth, 100);
-    })
-    $(progress.selector).on('click', 'li:even span', function(event) {
-        var eventobj = $(event.target);
-        if (eventobj.hasClass('checked')) {
-            return false;
-        } else {
-            var index = eventobj.parent().index();
-            $(progress.selector + ' li').slice(0, index + 1).addClass('checked');
-        }
-    });
-    progress.setWidth();
-});
-</script>
-{% endblock %}
+
