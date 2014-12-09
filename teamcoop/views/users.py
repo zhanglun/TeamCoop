@@ -3,23 +3,27 @@ from __init__ import *
 
 users = Blueprint("users", __name__)
 
-issues_body = {'subject': '管理员', 'object': 'XX', 'action': 'action'}
+issues_body = {'subject': '管理员', 'object': 'XX', 'action': ''}
+
+
+# 添加了新成员
+# 创建了新项目
+# 在XX项目中添加了新成员
+# 在XX项目中添加了新任务，并分配给XX
+# 在XX项目中的XX任务中发布了评论
+
+
 
 class IssueControler():
     pass
 
 
 def get_related_issues(userid):
-    result = []
     # 管理员添加用户
     u = Model.User.query.all()
-    for x in u:
-        result.append(u'管理员添加了新用户：'+ x.username)
 
-    print 'result'
-    print result
     # 管理员添加部门
-    depart = Model.DepartMent.query.all()
+    depart = Model.DepartMent.query.filter(Model.Project.createuserid == userid).all()
 
     # 用户添加项目
     project = Model.Project.query.filter(Model.Project.createuserid == userid).all()

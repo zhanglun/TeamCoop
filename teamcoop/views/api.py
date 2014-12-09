@@ -17,9 +17,9 @@ def team_member():
         # TODO:
         # project_id
         # checkout if the user is already exist
-        # username = request.json['username']
+        username = request.json['username']
         # print request.json
-        username = 'admin'
+        # username = 'admin'
         if username is None:
             # return api_response(400, 'fail', '参数错误')
             return 'asdf'
@@ -37,9 +37,11 @@ def team_member():
     elif request.method == 'GET':
 
         u = Model.User.query.all()
-        print u
+        for x in u:
+            index = u.index(x)
+            u[index] = x.get_json()
 
-        return api_response(200, 'success', 'all team members')
+        return api_response(200, 'success', 'all team members', u)
 
 
 
@@ -104,19 +106,19 @@ def set_person():
 @api.route('/user/project/', methods=['GET', 'POST'])
 def project():
     if request.method == 'POST':
-        # title = request.json['title']
-        # user_id = request.json['user_id']
-        # description = request.json['description']
-        # level = request.json['level']
-        # deadline = request.json['deadline']
-        # is_public = request.json['is_public']
-        title = u'项目编号-today -12-5-' + str(random.randint(0, 10)) + ' : ' + str(datetime.datetime.utcnow())
-        description = u'项目描述： ' + u'这个是项目描述啊' * random.randint(1, 10) + 'ABC' * random.randint(0, 20)
-        level = 1
-        deadline = datetime.datetime.utcnow()
-        status = 1
-        is_public = 1
-        # user_id = 2
+        title = request.json['title']
+        user_id = request.json['user_id']
+        description = request.json['description']
+        level = request.json['level']
+        deadline = request.json['deadline']
+        is_public = request.json['is_public']
+        # title = u'项目编号-today -12-5-' + str(random.randint(0, 10)) + ' : ' + str(datetime.datetime.utcnow())
+        # description = u'项目描述： ' + u'这个是项目描述啊' * random.randint(1, 10) + 'ABC' * random.randint(0, 20)
+        # level = 1
+        # deadline = datetime.datetime.utcnow()
+        # status = 1
+        # is_public = 1
+        # # user_id = 2
         creater_id = random.randint(1, 5)
         person_in_charge = range(1, 4)
         members = range(5, 7)

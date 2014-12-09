@@ -21,6 +21,9 @@ class User(db.Model):
     def get_time(self):
         return self.createtime
 
+    def get_json(self):
+        return {'id': self.id, 'username': self.username,'level': self.level,'name': self.name,'gender': self.gender,'email': self.email, 'createtime': self.createtime}
+
     def __repr__(self):
         return '<User %r>' % self.username
 
