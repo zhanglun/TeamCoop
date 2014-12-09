@@ -57,6 +57,11 @@ postData.postdata = function(url, data, callback) {
     });
 };
 
+// check form input, return boolean
+postData.checkForm = function(formSelector) {
+    return $(formSelector + '>div').hasClass('has-error');
+}
+
 // confirm input of required 
 $(function() {
     $(':input').on('blur', function(event) {
@@ -95,6 +100,24 @@ settingModule.memberSetting = function() {
 
 // new project btn event bind
 $('#project_btn').on('click', function() {
+    if (postData.checkForm('#project_form')) {
+        return false;
+    }
+    // check success
     var data = postData.getData('#project_form');
-    console.log(data);
-})
+    // string to array
+    if (data.hasOwnProperty('members') == true) {
+        data.members = data.members.split(',');
+    }
+    if (data.hasOwnProperty('person_in_charge') == true) {
+        data.person_in_charge = data.person_in_charge.split(',');
+    }
+    postData.postdata('/api/user/project/', data, function(json) {
+        if (json['code'] == 'success') {
+            $('#createProject :input').val('');
+            $('#createProject').modal('hide');
+        } else {
+            alert(json['message']);
+        }
+    })
+});

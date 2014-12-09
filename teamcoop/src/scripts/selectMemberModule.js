@@ -49,7 +49,6 @@ memberlist.renderPartmentList = function() {
 
 memberlist.renderMemberlist = function(partmentName) {
     var data = (memberlist.triggerbutton.attr('id').indexOf('charger') == -1) ? memberlist.data_participants : memberlist.data_chargers;
-
     $('#member').attr('title', partmentName).empty();
 
     $.each(memberlist.static_data[partmentName], function(i, v) {
@@ -63,7 +62,7 @@ memberlist.renderMemberlist = function(partmentName) {
 }
 
 memberlist.getSelectList = function() {
-    var data = {};
+    var data = (memberlist.triggerbutton.attr('id').indexOf('charger') == -1) ? memberlist.data_participants : memberlist.data_chargers;
     $('#member li').each(function() {
         var key = $(this).attr('data-userid'),
             value = $(this).html();
@@ -88,7 +87,7 @@ memberlist.sendForward = function() {
         input.value += value + ',';
     });
     // remove last indefieder
-    input.value = input.value.substr(0,input.value.length-1);
+    input.value = input.value.substr(0, input.value.length - 1);
     memberlist.modalhide();
     if (memberlist.triggerbutton.attr('id').indexOf('charger') == -1) {
         memberlist.data_participants = {};
