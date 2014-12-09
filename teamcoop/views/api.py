@@ -39,7 +39,14 @@ def team_member():
         u = Model.User.query.all()
         for x in u:
             index = u.index(x)
-            u[index] = x.get_json()
+            department = Model.UserDepartMent.query.filter_by(userId=x.id).first()
+            if department is not None:
+                x = x.get_json()
+                x['department_id'] = department.departmentId
+            else:
+                x = x.get_json()
+                x['department_id'] = 0
+            u[index] = x
 
         return api_response(200, 'success', 'all team members', u)
 
@@ -48,6 +55,7 @@ def team_member():
 @api.route('/team/department/', methods=['GET', 'POST'])
 def team_department():
     if request.method == 'POST':
+        # depart_name = request.json['']
         depart_name = u'开发部--' + str(datetime.datetime.utcnow())
         depart = Model.DepartMent.query.filter_by(depName=depart_name).first()
         if depart is None:

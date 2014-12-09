@@ -1,6 +1,7 @@
 from __init__ import *
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -16,13 +17,15 @@ class User(db.Model):
     para_dict = {'id': id}
 
     # def __init__(self, para_dict):
-    #     self.id = para_dict.id
+    # self.id = para_dict.id
+
 
     def get_time(self):
         return self.createtime
 
     def get_json(self):
-        return {'id': self.id, 'username': self.username,'level': self.level,'name': self.name,'gender': self.gender,'email': self.email, 'createtime': self.createtime}
+        return {'id': self.id, 'username': self.username, 'level': self.level, 'name': self.name, 'gender': self.gender,
+                'email': self.email, 'createtime': self.createtime}
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -33,6 +36,10 @@ class UserDepartMent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     departmentId = db.Column(db.Integer, nullable=False)
     userId = db.Column(db.Text, nullable=False)
+
+    @property
+    def get_depart_id(self):
+        return slef.departmentId
 
     def get_time(self):
         return self.createtime
@@ -61,7 +68,7 @@ class UserProject(db.Model):
         return '<UserProject %r %r>' % (self.userId, self.projectId)
 
 
-#project
+# project
 class Project(db.Model):
     __tablename__ = 'project'
     id = db.Column(db.Integer, primary_key=True)
@@ -80,6 +87,7 @@ class Project(db.Model):
 
     def __repr__(self):
         return '<Project %r>' % self.title
+
 
 # department
 
@@ -104,7 +112,7 @@ class Task(db.Model):
     __tablename__ = 'task'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     title = db.Column(db.Text, nullable=False)
-    description = db.Column(db.Text, nullable=False, default = '')
+    description = db.Column(db.Text, nullable=False, default='')
     deadline = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
     executeUserId = db.Column(db.Integer, nullable=False, default=0)
     createUserId = db.Column(db.Integer, nullable=False, default=0)
@@ -122,7 +130,7 @@ class TaskComment(db.Model):
     __tablename__ = 'task_comment'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     content = db.Column(db.Text, nullable=False, default='')
-    taskId = db.Column(db.Integer, nullable=False) 
+    taskId = db.Column(db.Integer, nullable=False)
     userId = db.Column(db.Integer, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
