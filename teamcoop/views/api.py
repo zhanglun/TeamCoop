@@ -17,9 +17,9 @@ def team_member():
         # TODO:
         # project_id
         # checkout if the user is already exist
-        # username = request.json['username']
+        username = request.json['username']
         # print request.json
-        username = 'admin'
+        # username = 'admin'
         if username is None:
             return api_response(400, 'fail', '参数错误')
         check = Model.User.query.filter_by(username=username).first()
@@ -132,28 +132,17 @@ def set_person():
 @api.route('/user/project/', methods=['GET', 'POST'])
 def project():
     if request.method == 'POST':
-        # print request.json
-        print '==='
-        print request.get_json(force=True)
         title = request.json['title']
         description = request.json['description']
-        level = request.json['level']
-        deadline = request.json['deadline']
-        is_public = request.json['is_public']
+        level = request.json.get('level')
+        print level
+        deadline = request.json.get('deadline')
+        is_public = request.json.get('is_public')
         status = 1
-        creater_id = request.json['creater_id']
-        person_in_charge = request.json['person_in_charge']
-        members = request.json['members']
+        creater_id = request.json.get('creater_id')
+        person_in_charge = request.json.get('person_in_charge')
+        members = request.json.get('members')
 
-        # title = "request.json['title']"
-        # description = "request.json['description']"
-        # level = 1
-        # deadline = datetime.datetime.utcnow()
-        # is_public = 1
-        # status = 1
-        # creater_id = 2
-        # person_in_charge = range(1, 3)
-        # members = range(3, 4)
 
         item = Model.Project.query.filter_by(title=title).first()
 
@@ -165,15 +154,15 @@ def project():
 
             # add new row to user_project
             project_new_id = Model.Project.query.filter_by(title=title).first().id
+            if person_in_charge is not None:
+                for x in person_in_charge:
+                    charger = Model.UserProject(projectId=project_new_id, userId=x, level=1)
+                    db.session.add(charger)
+            if members is not None:
+                for x in members:
+                    member = Model.UserProject(projectId=project_new_id, userId=x, level=2)
+                    db.session.add(member)
 
-            for x in person_in_charge:
-                charger = Model.UserProject(projectId=project_new_id, userId=x, level=1)
-                db.session.add(charger)
-
-            for x in members:
-                member = Model.UserProject(projectId=project_new_id, userId=x, level=2)
-                db.session.add(member)
-            
             db.session.commit()
             return api_response(200, 'success', 'add a new project: ' + title)
         else:
@@ -185,7 +174,7 @@ def project():
         if userid is not None:
             projects = Model.UserProject.query.filter_by(userId=userid).order_by(Model.UserProject.projectId).all()
             # response_data={}
-            for x in projects:  
+            for x in projects:
                 index = projects.index(x)
                 projects[index] = projects[index].get_json()
 

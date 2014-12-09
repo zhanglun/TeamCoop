@@ -18,6 +18,7 @@
         $('#addMember').bind('click', function () {
             var url = '/api/team/member/';
             var data = '{"username":"' + $('#tst').val() + '"}';
+            console.log(data);
             $.ajax({
                 type: "POST",
                 url: url,

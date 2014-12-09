@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     // set modal initializes
     $('.modal').modal({
         'backdrop': 'static',
@@ -15,12 +15,12 @@ $(function() {
 
 var postData = {};
 
-postData.getData = function(formSelector) {
+postData.getData = function (formSelector) {
     var fields = $(formSelector + ' :input').serializeArray();
     // var fields = $('.form-horizontal').serializeArray()
     // array of form-data
     var data = {};
-    $.each(fields, function(index, obj) {
+    $.each(fields, function (index, obj) {
         var name = obj.name,
             value = obj.value;
         if ($.trim(value) == '') {
@@ -42,41 +42,41 @@ postData.getData = function(formSelector) {
     return data;
 };
 
-postData.postdata = function(url, data, callback) {
+postData.postdata = function (url, data, callback) {
     $.ajax({
         url: url,
         type: "POST",
         data: data,
-        dataType: "json",
-        success: function(json) {
+        contentType: 'application/json;charset=UTF-8',
+        success: function (json) {
             callback(json);
         },
-        error: function() {
+        error: function () {
             // something error
         }
     });
 };
 
 // check form input, return boolean
-postData.checkForm = function(formSelector) {
+postData.checkForm = function (formSelector) {
     return $(formSelector + '>div').hasClass('has-error');
 }
 
 // confirm input of required 
-$(function() {
-    $(':input').on('blur', function(event) {
+$(function () {
+    $(':input').on('blur', function (event) {
         var input = $(event.target);
         // required
         if (input.attr('required') == 'required' && $.trim(input.val()) == '') {
             input.parentsUntil('form').addClass('has-error');
         }
     });
-    $(':input').on('focus', function(event) {
+    $(':input').on('focus', function (event) {
         var input = $(event.target);
         input.parentsUntil('form').removeClass('has-error');
     });
 
-    $(':password').last().on('blur', function(event) {
+    $(':password').last().on('blur', function (event) {
         var input = $(event.target);
         if ($(':password').first().val() != $(':password').last().val()) {
             input.parentsUntil('form').addClass('has-error');
@@ -88,21 +88,21 @@ $(function() {
 var settingModule = {};
 
 // 个人设置
-settingModule.personalSetting = function() {
+settingModule.personalSetting = function () {
 
 
 };
 //  admin成员设置
-settingModule.memberSetting = function() {
+settingModule.memberSetting = function () {
     // add partment and user
-    postData.postdata('/api/team/department/', {}, function(json) {
+    postData.postdata('/api/team/department/', {}, function (json) {
         console.log(json);
     });
 };
 settingModule.memberSetting();
 
 // new project btn event bind
-$('#project_btn').on('click', function() {
+$('#project_btn').on('click', function () {
     if (postData.checkForm('#project_form')) {
         return false;
     }
@@ -117,8 +117,9 @@ $('#project_btn').on('click', function() {
     }
     // data add userid
     data['creater_id'] = $('[data-userid]').attr('data-userid');
-    data = JSON.stringify(data);
-    postData.postdata('/api/user/project/', data, function(json) {
+    data = JSON.stringify(data)
+    console.log(data);
+    postData.postdata('/api/user/project/', data, function (json) {
         console.log(json);
         if (json['code'] == 'success') {
             $('#createProject :input').val('');
