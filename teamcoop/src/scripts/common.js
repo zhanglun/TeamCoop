@@ -88,15 +88,18 @@ $(function() {
 var settingModule = {};
 
 // 个人设置
-settingModule.personalSetting = function() {};
-//  admin成员设置
-settingModule.memberSetting = function() {
-    // add user
-    var url = "/api/team/member/";
+settingModule.personalSetting = function() {
 
 
 };
-
+//  admin成员设置
+settingModule.memberSetting = function() {
+    // add partment and user
+    postData.postdata('/api/team/department/', {}, function(json) {
+        console.log(json);
+    });
+};
+settingModule.memberSetting();
 
 // new project btn event bind
 $('#project_btn').on('click', function() {
@@ -112,7 +115,11 @@ $('#project_btn').on('click', function() {
     if (data.hasOwnProperty('person_in_charge') == true) {
         data.person_in_charge = data.person_in_charge.split(',');
     }
+    // data add userid
+    data['creater_id'] = $('[data-userid]').attr('data-userid');
+    data = JSON.stringify(data);
     postData.postdata('/api/user/project/', data, function(json) {
+        console.log(json);
         if (json['code'] == 'success') {
             $('#createProject :input').val('');
             $('#createProject').modal('hide');
