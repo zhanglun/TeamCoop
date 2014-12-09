@@ -1,3 +1,12 @@
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .issue-list li p {
     & {
         &:not(:last-child) {
@@ -45,6 +54,7 @@
 }
 // progressbar in project detail
 .progressBar {
+    .noselect;
     ul {
         margin: 0;
         padding: 0;
@@ -67,7 +77,12 @@
         text-align: center;
         cursor: pointer;
     }
-    li.checked span, li:nth-child(even).checked {
+    li.checked span{
+        // .glyphicon;
+        // .glyphicon-ok;
+        background: @brand-primary;
+    }
+    li:nth-child(even).checked {
         background: @brand-primary;
     }
     /* line */
@@ -79,7 +94,7 @@
         /*width: 9%;*/
         
         height: 5px;
-        margin-top: 2.2em;
+        margin-top: 2.6em;
     }
 }
 // project_dashboard
@@ -90,6 +105,5 @@
             white-space:nowrap;
             overflow-x: hidden;
         }
-
     }
 }

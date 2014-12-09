@@ -9,15 +9,15 @@
     {% include "partial/createProjectModal.html" %}
     {% include "partial/selectMemberModal.html" %}
     <!-- related project -->
-    <h4>Related Project</h4>
+    <h4>和我相关的项目</h4>
     <div class="row">
         {% if user_project_items %}
             {% for item in user_project_items %}
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
-                    <a href="{{ url_for('users.project_detail', username=data.username, project_id=item['id']) }}">
-                        <img data-src="holder.js/300x300" alt="..." src="
-                        {{ url_for('static', filename='images/149H.jpg') }}">
+                        <a href="{{ url_for('users.project_detail', username=data.username, project_id=item['id']) }}">
+                            <!-- <img data-src="holder.js/300x300" alt="..." src="{{ url_for('static', filename='images/149H.jpg') }}"> -->
+                            <img data-src="holder.js/300x300" alt="..." src="http://placehold.it/350x150">
                         </a>
                         <div class="caption">
                             <h5>{{ item['title']|safe }}</h5>
@@ -36,15 +36,15 @@
 
     </div>
     <!--  other public project -->
-    <h4>Other Project</h4>
+    <h4>其他项目</h4>
     <div class="row">
         {% if user_project_others %}
             {% for item in user_project_others %}
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
                         <a href="{{ url_for('project.project_detail', project_id=item['id']) }}">
-                            <img data-src="holder.js/300x300" alt="..." src="
-                        {{ url_for('static', filename='images/150H.jpg') }}">
+                            <!-- <img data-src="holder.js/300x300" alt="..." src="{{ url_for('static', filename='images/150H.jpg') }}"> -->
+                            <img data-src="holder.js/300x300" alt="..." src="http://placehold.it/350x150">
                         </a>
                         <div class="caption">
                             <h5>{{ item['title']|safe }}</h5>
