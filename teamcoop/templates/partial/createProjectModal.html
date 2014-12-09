@@ -7,18 +7,18 @@
                 <h4 class="modal-title" id="myModalLabel">新建项目</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" id="project_form">
                     <div class="form-group">
                         <label for="projectName" class="col-sm-2 control-label">项目名</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="projectName" required>
+                            <input type="text" class="form-control" placeholder="projectName" name="title" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="owner" class="col-sm-2 control-label">负责人</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" readonly>
+                                <input type="text" class="form-control" name="person_in_charge" readonly>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" id="select_chargers">+</button>
                                     <!-- <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select_member">+</button> -->
@@ -30,7 +30,7 @@
                         <label for="participants" class="col-sm-2 control-label">参与者</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" readonly>
+                                <input type="text" class="form-control"  name="members" readonly>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" id="select_participants">+</button>
                                     <!-- <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select_member">+</button> -->
@@ -42,34 +42,34 @@
                         <label for="importance" class="col-sm-2 control-label">重要性</label>
                         <div class="col-sm-10">
                             <label class="radio-inline">
-                                <input type="radio" name="importance" value="veryImportant"> 非常重要
+                                <input type="radio" name="level" value="veryImportant"> 非常重要
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="importance" value="important"> 重要
+                                <input type="radio" name="level" value="important"> 重要
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="importance" value="normal"> 一般
+                                <input type="radio" name="level" value="normal"> 一般
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="deadline" class="col-sm-2 control-label">截止日期</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control form_datetime" readonly>
+                            <input type="text" class="form-control form_datetime" name="deadline" readonly>
                         </div>
 
                     </div>
                     <div class="form-group">
                         <label for="detail" class="col-sm-2 control-label">项目详情</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="3" required></textarea>
+                            <textarea class="form-control" rows="3" name="description" required></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="ispublic" class="col-sm-2 control-label">是否公开</label>
                         <div class="col-sm-10 checkbox">
                             <label>
-                                <input type="checkbox"> 公开项目
+                                <input type="checkbox" name="is_public"> 公开项目
                             </label>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
             </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
-                <button type="button" class="btn btn-primary btn-submit">提交</button>
+                <button type="button" class="btn btn-primary" id="project_btn">提交</button>
                 <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#createProject_2">新建项目</button> -->
             </div>
         </div>

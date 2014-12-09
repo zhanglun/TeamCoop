@@ -91,3 +91,10 @@ settingModule.memberSetting = function() {
 
 
 };
+
+
+// new project btn event bind
+$('#project_btn').on('click', function() {
+    var data = postData.getData('#project_form');
+    console.log(data);
+})
