@@ -104,9 +104,20 @@ def team_department():
             return api_response(400, 'fail', 'department is already exist')
     elif request.method == 'GET':
         depart = Model.DepartMent.query.all()
+        # depart = Model.UserDepartMent.query.all()
         for x in depart:
             index = depart.index(x)
-            depart[index] = x.get_json()
+            # x = x.get_json
+            depart_id = x.id
+            counts = Model.UserDepartMent.query.filter_by(departmentId=depart_id).count()
+
+            print '<><><><'
+            print counts
+            print x.get_json()
+            x = x.get_json()
+            x['counts'] = counts
+            depart[index] = x
+
             # print x.get_json()
         return api_response(200, 'success', 'get team all department', depart)
     else:
@@ -155,7 +166,8 @@ def project():
         description = request.json['description']
         level = request.json.get('level')
         deadline = request.json.get('deadline')
-        deadline = dateutil.parser.parse(deadline)
+        if deadline:
+            deadline = dateutil.parser.parse(deadline)
         is_public = request.json.get('is_public')
         status = 1
         creater_id = request.json.get('creater_id')
@@ -166,8 +178,6 @@ def project():
 
         if item is None:
             # add new project to database
-            print '><><><>>'
-            print type(deadline)
             project_new = Model.Project(title=title, description=description, level=level, deadline=deadline, status=status, isPublic=is_public, createuserid=creater_id)
             db.session.add(project_new)
             db.session.commit()
