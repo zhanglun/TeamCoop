@@ -41,8 +41,9 @@ postData.getData = function(formSelector) {
     });
     return data;
 };
-
+// ajax POST
 postData.postdata = function(url, data, callback) {
+    data = JSON.stringify(data);
     $.ajax({
         url: url,
         type: "POST",
@@ -57,6 +58,7 @@ postData.postdata = function(url, data, callback) {
     });
 };
 
+// ajax GET
 postData.getdata = function(url, callback) {
     $.ajax({
         url: url,
@@ -125,11 +127,8 @@ $('#project_btn').on('click', function() {
         // not checked is public 
         data.is_public = 2;
     }
-    console.log(data);
     // data add userid
     data['creater_id'] = $('[data-userid]').attr('data-userid');
-    // console.log(data);
-    data = JSON.stringify(data);
     postData.postdata('/api/user/project/', data, function(json) {
         if (json['code'] == 'success') {
             $('#createProject :input').val('');
