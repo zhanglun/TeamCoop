@@ -9,22 +9,24 @@ memberlist.errorTip = function(msg) {
 // data 
 memberlist.partment_data = {};
 memberlist.member_data = {};
-// get all static data
-postData.getdata('/api/team/department/', function(json) {
-    if (json['code'] == 'success') {
-        memberlist.partment_data = json['result'];
-    } else {
-        memberlist.errorTip(json['message']);
+memberlist.getStaticData = function() {
+        // get all static data
+        postData.getdata('/api/team/department/', function(json) {
+            if (json['code'] == 'success') {
+                memberlist.partment_data = json['result'];
+            } else {
+                memberlist.errorTip(json['message']);
+            }
+        });
+        postData.getdata('/api/team/member/', function(json) {
+            if (json['code'] == 'success') {
+                memberlist.member_data = json['result'];
+            } else {
+                memberlist.errorTip(json['message']);
+            }
+        });
     }
-});
-postData.getdata('/api/team/member/', function(json) {
-    if (json['code'] == 'success') {
-        memberlist.member_data = json['result'];
-    } else {
-        memberlist.errorTip(json['message']);
-    }
-});
-// select connent data
+    // select connent data
 memberlist.data_chargers = {};
 memberlist.data_participants = {};
 // trigger btn
@@ -110,6 +112,7 @@ memberlist.sendForward = function() {
 
 // bind event
 memberlist.init = function() {
+    memberlist.getStaticData();
     $('#select_chargers,#select_participants').on('click', function() {
         memberlist.triggerbutton = $(this);
         memberlist.modalshow();
