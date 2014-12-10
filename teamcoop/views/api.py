@@ -52,8 +52,6 @@ def team_member():
                 if members is not None:
                     m_list = []
                     for m in members:
-                        print 'm.userId'
-                        print m.userId
                         u = Model.User.query.filter_by(id=m.userId).first()
                         m_list.append(u.get_json())
 
@@ -74,7 +72,6 @@ def team_member():
         #     u[index] = x
         #
         # return api_response(200, 'success', 'all team members', u)
-
 
 
 @api.route('/team/department/', methods=['GET', 'POST'])
@@ -110,10 +107,6 @@ def team_department():
             # x = x.get_json
             depart_id = x.id
             counts = Model.UserDepartMent.query.filter_by(departmentId=depart_id).count()
-
-            print '<><><><'
-            print counts
-            print x.get_json()
             x = x.get_json()
             x['counts'] = counts
             depart[index] = x
@@ -216,45 +209,92 @@ def project():
         return api_response(400, 'bad request', '参数错误')
 
 
-@api.route('/department/member/', methods=['GET', 'POST'])
-def depart_member():
+# @api.route('/department/member/', methods=['GET', 'POST'])
+# def depart_member():
+#     if request.method == 'POST':
+#         # depart = request.json['department_id']
+#         # username = request.json['username']
+#         # aa = request.json['username']
+#
+#         department_id = 1
+#         department_name = u'开发部'
+#         username = 'zhanglun' + str(datetime.datetime.utcnow())
+#
+#         d = Model.DepartMent.query.filter_by(depName=department_name).first()
+#
+#         if d is not None:
+#             return api_response(200, 'fail', 'already exist')
+#
+#         u = Model.User.query.filter_by(username=username).first()
+#
+#         if u is not None:
+#             return api_response(200, 'fail', 'already exist')
+#         else:
+#             user_new = Model.User(username=username)
+#             db.session.add(user_new)
+#             db.session.commit()
+#             print '===='
+#             user_id = user_new.id
+#             new = Model.UserDepartMent(userId=user_id, departmentId=department_id)
+#             db.session.add(new)
+#             db.session.commit()
+#         return '新增成员'
+#     elif request.method == 'GET':
+#         department_id = request.json['department_id']
+#         members = Model.UserDepartMent.query.filter_by(departmentId=department_id).order_by(
+#             Model.UserDepartMent.userId).all()
+#         for x in members:
+#             index = members.index(x)
+#             members[index] = x.userId
+#
+#         return api_response(200, 'success', 'department\'s member', members)
+#     else:
+#         return 'Method Error!'
+
+
+# 部门详情中管理成员
+@api.route('/department/detail/member/', methods=['GET', 'POST', 'DELETE'])
+def department_member():
     if request.method == 'POST':
-        # depart = request.json['department_id']
-        # username = request.json['username']
-        # aa = request.json['username']
+        # 添加成员
+        depart_id = request.json['department_id']
+        members = request.json['members']
+        if depart_id is None:
+            return api_response(200, 'success', u'没有部门id，TM怎么添加！')
+        if len(members) == 0:
+            return api_response(200, 'success', u'没有新成员你发送个蛋请求！')
 
-        department_id = 1
-        department_name = u'开发部'
-        username = 'zhanglun' + str(datetime.datetime.utcnow())
-
-        d = Model.DepartMent.query.filter_by(depName=department_name).first()
-
-        if d is not None:
-            return api_response(200, 'fail', 'already exist')
-
-        u = Model.User.query.filter_by(username=username).first()
-
-        if u is not None:
-            return api_response(200, 'fail', 'already exist')
-        else:
-            user_new = Model.User(username=username)
-            db.session.add(user_new)
-            db.session.commit()
-            print '===='
-            user_id = user_new.id
-            new = Model.UserDepartMent(userId=user_id, departmentId=department_id)
-            db.session.add(new)
-            db.session.commit()
-        return '新增成员'
-    elif request.method == 'GET':
-        department_id = request.json['department_id']
-        # department_id = 2
-        members = Model.UserDepartMent.query.filter_by(departmentId=department_id).order_by(
-            Model.UserDepartMent.userId).all()
         for x in members:
-            index = members.index(x)
-            members[index] = x.userId
+            u = Model.User.query.filter_by(username=x).first()
+            if u is None:
+                u = Model.User(usernanme=x)
+                db.session.add(u)
+                db.session.commit()
+                user_depart = Model.UserDepartMent(userId=u.id, departmentId=depart_id)
+                db.session.add(user_depart)
+                db.session.commit()
+            else:
+                return api_response(200, 'fail', u'这个人早就在其他部门了')
 
-        return api_response(200, 'success', 'department\'s member', members)
-    else:
-        return 'Method Error!'
+    elif request.method == 'GET':
+        # 获取所有成员
+        depart_id = request.json['depart_id']
+        user_depart = Model.UserDepartMent.query.filter_by(departmentId=depart_id).order_by(
+            Model.UserDepartMent.userId).all()
+        m_list = []
+        for x in user_depart:
+            u = Model.User.query.filter_by(id=x.userId).first()
+            m_list.append(u.get_json())
+        return api_response(200, 'success', 'all members of the department', m_list)
+    elif request.method == 'DELETE':
+        # 删除成员
+        depart_id = request.json['department_id']
+        members = request.json['members']
+        for x in members:
+            u = Model.User.query.filter_by(id=x).first()
+            user_depart = Model.UserDepartMent.query.filter_by(userId=u.id).first()
+            db.session.delete(u)
+            db.session.delete(user_depart)
+
+        db.session.commit()
+        return 'Down!'
