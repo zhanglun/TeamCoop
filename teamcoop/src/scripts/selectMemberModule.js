@@ -1,6 +1,10 @@
 // module namespace
 var memberlist = {};
 // data 
+memberlist.errorTip = function(msg) {
+    console.log(msg);
+    alert('something error occured. refresh you page');
+}
 memberlist.static_data = {
     'design': [{
         'id': 1,
@@ -23,6 +27,23 @@ memberlist.static_data = {
         'name': 'xiaoli'
     }]
 };
+memberlist.partment_data = {};
+memberlist.member_data = {};
+// get all static data
+postData.getdata('/api/team/department/', function(json) {
+    if (json['code'] == 'success') {
+        memberlist.partment_data = json['result'];
+    } else {
+        memberlist.errorTip(json['message']);
+    }
+});
+postData.getdata('/api/team/member/', function(json) {
+    if (json['code'] == 'success') {
+        memberlist.member_data = json['result'];
+    } else {
+        memberlist.errorTip(json['message']);
+    }
+});
 // select connent data
 memberlist.data_chargers = {};
 memberlist.data_participants = {};
@@ -40,23 +61,28 @@ memberlist.modalhide = function() {
 
 memberlist.renderPartmentList = function() {
     $('#partment,#member').empty();
-    $.each(memberlist.static_data, function(key, obj) {
-        $('#partment').append('<li class="list-group-item">' + key + '</li>');
+    $.each(memberlist.partment_data, function(index, obj) {
+        $('#partment').append('<li class="list-group-item" data-partid="' + obj['id'] + '">' + obj['department_name'] + '</li>');
         $('#partment li').first().addClass('active');
     });
     $('#partment li').first().trigger('click');
 }
 
-memberlist.renderMemberlist = function(partmentName) {
+memberlist.renderMemberlist = function(partmentId) {
     var data = (memberlist.triggerbutton.attr('id').indexOf('charger') == -1) ? memberlist.data_participants : memberlist.data_chargers;
-    $('#member').attr('title', partmentName).empty();
+    $('#member').attr('title', partmentId).empty();
 
-    $.each(memberlist.static_data[partmentName], function(i, v) {
-        // recoard selection
-        if (data.hasOwnProperty(v['id']) == true) {
-            $('#member').append('<li class="list-group-item active" data-userid="' + v['id'] + '">' + v['name'] + '</li>');
-        } else {
-            $('#member').append('<li class="list-group-item" data-userid="' + v['id'] + '">' + v['name'] + '</li>');
+    $.each(memberlist.member_data, function(i, v) {
+        if (v['department_id'] == partmentId) {
+            var members = v['members'];
+            $.each(members, function(i, o) {
+                // recoard selection
+                if (data.hasOwnProperty(o['id']) == true) {
+                    $('#member').append('<li class="list-group-item active" data-userid="' + o['id'] + '">' + o['username'] + '</li>');
+                } else {
+                    $('#member').append('<li class="list-group-item" data-userid="' + o['id'] + '">' + o['username'] + '</li>');
+                }
+            });
         }
     });
 }
@@ -107,12 +133,12 @@ memberlist.init = function() {
     });
     // bind only once
     $('#partment').on('click', 'li', function() {
-        var partmentName = $(this).html();
+        var partmentId = $(this).attr('data-partid');
         // toggle class
         $('#partment li').removeClass('active');
         $(this).addClass('active');
         // render member list
-        memberlist.renderMemberlist(partmentName);
+        memberlist.renderMemberlist(partmentId);
     });
     $('#member').on('click', 'li', function(event) {
         $(this).toggleClass('active');
