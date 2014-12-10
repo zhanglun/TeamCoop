@@ -1,32 +1,12 @@
 // module namespace
 var memberlist = {};
-// data 
+
 memberlist.errorTip = function(msg) {
     console.log(msg);
     alert('something error occured. refresh you page');
 }
-memberlist.static_data = {
-    'design': [{
-        'id': 1,
-        'name': 'xiaoming'
-    }, {
-        'id': 2,
-        'name': 'xiaobai'
-    }, {
-        'id': 5,
-        'name': 'xiaobai'
-    }, {
-        'id': 6,
-        'name': 'xiaobai'
-    }],
-    'frontend': [{
-        'id': 3,
-        'name': 'xiaosong'
-    }, {
-        'id': 4,
-        'name': 'xiaoli'
-    }]
-};
+
+// data 
 memberlist.partment_data = {};
 memberlist.member_data = {};
 // get all static data
@@ -107,13 +87,17 @@ memberlist.getSelectList = function() {
 
 memberlist.sendForward = function() {
     var data = (memberlist.triggerbutton.attr('id').indexOf('charger') == -1) ? memberlist.data_participants : memberlist.data_chargers;
-    var input = memberlist.triggerbutton.parentsUntil('.col-sm-10').find('input').get(0);
-    input.value = '';
+    var inputValue = memberlist.triggerbutton.parentsUntil('.col-sm-10').find('input').get(0),
+        inputKey = memberlist.triggerbutton.parentsUntil('.col-sm-10').find('input').get(1);
+    inputKey.value = '';
+    inputValue.value = '';
     $.each(data, function(key, value) {
-        input.value += value + ',';
+        inputKey.value += key + ',';
+        inputValue.value += value + ',';
     });
     // remove last indefieder
-    input.value = input.value.substr(0, input.value.length - 1);
+    inputKey.value = inputKey.value.substr(0, inputKey.value.length - 1);
+    inputValue.value = inputValue.value.substr(0, inputValue.value.length - 1);
     memberlist.modalhide();
     if (memberlist.triggerbutton.attr('id').indexOf('charger') == -1) {
         memberlist.data_participants = {};

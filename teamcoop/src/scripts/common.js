@@ -72,6 +72,13 @@ postData.getdata = function(url, callback) {
 
 // check form input, return boolean
 postData.checkForm = function(formSelector) {
+    $(formSelector + ' :input').each(function(index, obj) {
+        var input = $(obj);
+        // required
+        if (input.attr('required') == 'required' && $.trim(input.val()) == '') {
+            input.parentsUntil('form').addClass('has-error');
+        }
+    });
     return $(formSelector + '>div').hasClass('has-error');
 }
 
@@ -130,18 +137,17 @@ $('#project_btn').on('click', function() {
     }
     if (data.hasOwnProperty('is_public') == true) {
         // checked ispublic
-        data.person_in_charge = 1;
-    }else{
+        data.is_public = 1;
+    } else {
         // not checked is public 
-        data.person_in_charge = 2;
+        data.is_public = 2;
     }
-
+    console.log(data);
     // data add userid
     data['creater_id'] = $('[data-userid]').attr('data-userid');
-    // data ispublic 
+    // console.log(data);
     data = JSON.stringify(data);
     postData.postdata('/api/user/project/', data, function(json) {
-        console.log(json);
         if (json['code'] == 'success') {
             $('#createProject :input').val('');
             $('#createProject').modal('hide');
