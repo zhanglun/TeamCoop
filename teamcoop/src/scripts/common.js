@@ -7,7 +7,7 @@ $(function() {
     });
     // datepicker init
     $(".form_datetime").datetimepicker({
-        format: "dd MM yyyy - hh:ii",
+        format: "yyyy-mm-ddThh:ii:ssZ",
         autoclose: true,
         startDate: new Date()
     });

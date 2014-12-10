@@ -59,7 +59,6 @@ def team_member():
 
                     result.append({'department_id': depart_id, 'members': m_list})
 
-            # print result
             return api_response(200, 'success', 'no department', result)
 
         # u = Model.User.query.all()
@@ -105,9 +104,20 @@ def team_department():
             return api_response(400, 'fail', 'department is already exist')
     elif request.method == 'GET':
         depart = Model.DepartMent.query.all()
+        # depart = Model.UserDepartMent.query.all()
         for x in depart:
             index = depart.index(x)
-            depart[index] = x.get_json()
+            # x = x.get_json
+            depart_id = x.id
+            counts = Model.UserDepartMent.query.filter_by(departmentId=depart_id).count()
+
+            print '<><><><'
+            print counts
+            print x.get_json()
+            x = x.get_json()
+            x['counts'] = counts
+            depart[index] = x
+
             # print x.get_json()
         return api_response(200, 'success', 'get team all department', depart)
     else:
@@ -156,6 +166,8 @@ def project():
         description = request.json['description']
         level = request.json.get('level')
         deadline = request.json.get('deadline')
+        if deadline:
+            deadline = dateutil.parser.parse(deadline)
         is_public = request.json.get('is_public')
         status = 1
         creater_id = request.json.get('creater_id')
