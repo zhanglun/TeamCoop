@@ -104,23 +104,6 @@ $(function() {
     });
 });
 
-// setting module part
-var settingModule = {};
-
-// 个人设置
-settingModule.personalSetting = function() {
-
-
-};
-//  admin成员设置
-settingModule.memberSetting = function() {
-    // add partment and user
-    // postData.postdata('/api/team/department/', {}, function (json) {
-    // console.log(json);
-    // });
-};
-settingModule.memberSetting();
-
 // new project btn event bind
 $('#project_btn').on('click', function() {
     if (postData.checkForm('#project_form')) {

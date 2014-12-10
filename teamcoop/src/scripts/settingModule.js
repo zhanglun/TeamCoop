@@ -1,6 +1,34 @@
 // setting module part
 var settingModule = {};
 
+settingModule.partmentList = {};
+settingModule.memberList = {};
+// data
+settingModule.getStaticData = function() {
+    postData.getdata('/api/team/department/', function(json) {
+        if (json['code'] == 'success') {
+            settingModule.partmentList = json['result'];
+        } else {
+            memberlist.errorTip(json['message']);
+        }
+        postData.getdata('/api/team/member/', function(json) {
+            if (json['code'] == 'success') {
+                settingModule.memberList = json['result'];
+            } else {
+                memberlist.errorTip(json['message']);
+            }
+            postData.getdata('/api/team/member/', function(json) {
+                if (json['code'] == 'success') {
+                    settingModule.memberList = json['result'];
+                } else {
+                    memberlist.errorTip(json['message']);
+                }
+            });
+        });
+    });
+
+}
+
 // toggle selection
 settingModule.toggle = function() {
     $('.setting_select button').on('click', function(event) {
@@ -27,7 +55,7 @@ settingModule.addperson = function(formselector) {
     $(formselector + ' button').last().hide();
 }
 
-// 个人设置
+// personSetting
 settingModule.personalSetting = function() {
 
 
@@ -35,9 +63,11 @@ settingModule.personalSetting = function() {
 
 //  admin成员设置
 settingModule.memberSetting = function() {
+    console.log(settingModule.partmentList);
     // render partment and user
-    postData.postdata('/api/team/department/', {}, function(json) {
-        console.log(json);
+    $.each(settingModule.partmentList, function(index, obj) {
+        $('#partmentList tbody').empty();
+        $('#partmentList tbody').append('<tr><td><a href="javascript:void(0);" data-partid="' + obj['id'] + '">' + obj['partmentName'] + '</a></td><td>2</td><td><button class="btn btn-xs btn-danger">delete</button></td></tr>')
     });
 };
 // 部门详情
@@ -66,9 +96,12 @@ settingModule.resetModal = function() {
 }
 
 $(function() {
+    settingModule.getStaticData();
     settingModule.toggle();
     settingModule.memberDetail();
     settingModule.addperson('#partmentdetailform');
     settingModule.addperson('#newpartmentform');
     settingModule.resetModal();
+
+
 })
