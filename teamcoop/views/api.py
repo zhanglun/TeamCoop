@@ -130,8 +130,9 @@ def team_department():
 def drop_department():
     if request.method == 'POST':
         depart_id = request.json.get('department_id')
-        p = Model.DepartMent.query.filter_by(id=depart_id).first_or_404()
-        db.session.delete(p)
+        for x in depart_id:
+            p = Model.DepartMent.query.filter_by(id=x).first_or_404()
+            db.session.delete(p)
         db.session.commit()
         return api_response(200, 'success', 'delete department')
     else:
@@ -302,6 +303,7 @@ def department_member():
         if len(members) == 0:
             return api_response(200, 'success', u'没有新成员你发送个蛋请求！')
 
+        check_list = []
         for x in members:
             u = Model.User.query.filter_by(username=x).first()
             if u is None:
@@ -311,9 +313,10 @@ def department_member():
                 user_depart = Model.UserDepartMent(userId=u.id, departmentId=depart_id)
                 db.session.add(user_depart)
                 db.session.commit()
-                return api_response(200, 'success', u'添加成功')
+                check_list.append(True)
             else:
-                return api_response(200, 'fail', u'这个人早就在其他部门了')
+                check_list.append(False)
+        return api_response(200, 'success', u'操作结束', check_list)
 
     elif request.method == 'GET':
         # 获取所有成员
@@ -325,18 +328,6 @@ def department_member():
             u = Model.User.query.filter_by(id=x.userId).first()
             m_list.append(u.get_json())
         return api_response(200, 'success', 'all members of the department', m_list)
-    elif request.method == 'DELETE':
-        # 删除成员
-        depart_id = request.json['department_id']
-        members = request.json['members']
-        for x in members:
-            u = Model.User.query.filter_by(id=x).first()
-            user_depart = Model.UserDepartMent.query.filter_by(userId=u.id).all()
-            db.session.delete(u)
-            db.session.delete(user_depart)
-
-        db.session.commit()
-        return 'Down!'
 
 
 # Task
