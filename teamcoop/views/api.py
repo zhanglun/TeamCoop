@@ -113,9 +113,32 @@ def team_department():
 
             # print x.get_json()
         return api_response(200, 'success', 'get team all department', depart)
-    else:
-        return 'method Error！'
+    elif reuqest.method == 'DELETE':
+        depart_id = request.json.get('department_id')
+        depart = Model.Department.query.filter_by(id=depart_id).first()
+        user_depart = Model.UsreDepart.query.filter_by(departmentId=depart_id).all()
+        for x in user_depart:
+            u = Model.User.query.filter_by(id=x.userId).first()
+            db.session.delete(x)
+            db.session.delete(u)
+        db.session.delete(depart)
+        return 'method Delete'
 
+#
+
+@api.route('/project/detail/status', methods=['GET', 'POST'])
+def project_status():
+    if request.method == 'POST':
+        project_id = request.json['project_id']
+        status = request.json['project_status']
+        p = Model.Project.query.filter_by(id=project_id).first_or_404()
+        p.status = status
+        db.session.commit()
+        return 'success'
+    elif reuqest.method == 'GET':
+        project_id = request.json['project_id']
+        p = Model.Project.query.filter_by(id=project_id).first_or_404()
+        return api_response(200, 'success', 'project status', {'status': p.status})
 
 # 项目成员
 @api.route('/project/member/', methods=['GET', 'POST'])
