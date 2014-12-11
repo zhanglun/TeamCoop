@@ -43,9 +43,15 @@ settingModule.addperson = function(formselector) {
         }
         $(formselector + ' button').last().hide();
     });
+
     $(formselector).on('click', 'button', function(event) {
         var eventObj = $(event.target);
-        eventObj.parentsUntil('form', '.form-group').remove();
+        if (eventObj.parentsUntil('form', '.form-group').find('p.form-control-static').size() == 0) {
+            eventObj.parentsUntil('form', '.form-group').remove();
+        } else {
+            // static delete member in partment
+            settingModule.deletemember($(formselector).attr('data-partid'), eventObj.attr('data-userid'), eventObj);
+        }
         $(formselector + ' button').last().hide();
     });
     $(formselector + ' button').last().hide();
@@ -62,13 +68,12 @@ settingModule.memberSetting = function() {
     // render partment and user
     $('#partmentList tbody').empty();
     $.each(settingModule.partmentList, function(index, obj) {
-        $('#partmentList tbody').append('<tr><td><a href="javascript:void(0);" data-partid="' + obj['id'] + '">' + obj['department_name'] + '</a></td><td>' + obj['counts'] + '</td><td><button class="btn btn-xs btn-danger">delete</button></td></tr>');
+        $('#partmentList tbody').append('<tr><td><a href="javascript:void(0);" data-partid="' + obj['id'] + '">' + obj['department_name'] + '</a></td><td>' + obj['counts'] + '</td><td><button class="btn btn-xs btn-danger" type="button">delete</button></td></tr>');
     });
 };
 
 // 部门详情
 settingModule.memberDetail = function() {
-
     $('#partmentList').on('click', 'a', function(event) {
         var eventObj = $(event.target);
         var partid = eventObj.attr('data-partid'),
@@ -80,7 +85,7 @@ settingModule.memberDetail = function() {
         $.each(settingModule.memberList, function(index, obj) {
             if (obj['department_id'] == partid) {
                 $.each(obj['members'], function(i, o) {
-                    $('#partmentDetail form').prepend('<div class="form-group"><label class="col-sm-2 control-label">姓名</label><div class="col-sm-8"><p class="form-control-static">' + o['username'] + '</p></div> <div class="col-sm-2"><button class="btn btn-danger btn-sm" data-userid="' + o['id'] + '">delete</button></div>');
+                    $('#partmentDetail form').prepend('<div class="form-group"><label class="col-sm-2 control-label">姓名</label><div class="col-sm-8"><p class="form-control-static">' + o['username'] + '</p></div> <div class="col-sm-2"><button class="btn btn-danger btn-sm" type="button" data-userid="' + o['id'] + '">delete</button></div>');
                 });
             }
         });
@@ -118,15 +123,31 @@ settingModule.addpartment = function() {
 
 settingModule.delpartment = function(event) {
     var eventObj = $(event.target),
-        partmentId = eventObj.parentsUntil('tbody').find('a').attr('data-partid'),
+        partmentId = [],
         partmentName = eventObj.parentsUntil('tbody').find('a').html();
+    partmentId.push(eventObj.parentsUntil('tbody').find('a').attr('data-partid'));
     if (postData.confirm('确认删除' + partmentName + '吗?') == true) {
         var data = {
             "department_id": partmentId
         };
-        data = JSON.stringify(data);
-        postData.deletedata('/api/team/department/', data, function(json) {
-            console.log(json);
+        postData.postdata('/api/team/department/trash/', data, function(json) {
+            postData.getdata('/api/team/department/', function(json) {
+                if (json['code'] == 'success') {
+                    settingModule.partmentList = json['result'];
+                    // render partmentlist
+                    settingModule.memberSetting();
+                } else {
+                    memberlist.errorTip(json['message']);
+                }
+            });
+            postData.getdata('/api/team/member/', function(json) {
+                if (json['code'] == 'success') {
+                    settingModule.memberList = json['result'];
+                } else {
+                    // $('#newpartmentform>div').first().addClass('has-error');
+                    memberlist.errorTip(json['message']);
+                }
+            });
         });
     }
 }
@@ -140,7 +161,32 @@ settingModule.addmember = function() {
     data["department_id"] = $('#partmentdetailform').attr('data-partid');
     postData.postdata('/api/department/detail/member/', data, function(json) {
         $('#partmentDetail').modal('hide');
+        // console.log(json);
+        if (json['code'] == 'success') {
+            var result = json['result'],
+                text = '';
+            $.each(result, function(index, value) {
+                if (value == false) {
+                    text += data.members[index];
+                }
+            });
+            alert(text + '已存在,其余添加成功');
+        }
     });
+}
+
+settingModule.deletemember = function(partid, userid, elem) {
+    if (postData.confirm('确认删除吗?') == true) {
+        var data = {};
+        data['department_id'] = partid;
+        data['members'] = [];
+        data['members'].push(userid);
+        console.log(data);
+        postData.postdata('/api/department/detail/member/trash/', data, function(json) {
+            // console.log(json);
+            elem.remove();
+        });
+    }
 }
 
 
