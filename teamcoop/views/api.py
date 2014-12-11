@@ -312,9 +312,11 @@ def project():
 def department_member():
     if request.method == 'POST':
         depart_id = request.json['department_id']
-        members = request.json['members']
+        members = request.json.get('members')
         if depart_id is None:
             return api_response(200, 'success', u'没有部门id，TM怎么添加！')
+        if members is None:
+            return api_response(200, 'success', u'没有新成员你发送个蛋请求！')
         if len(members) == 0:
             return api_response(200, 'success', u'没有新成员你发送个蛋请求！')
 
@@ -349,7 +351,7 @@ def department_member():
 def drop_member():
     if request.method == 'POST':
         depart_id = request.json['department_id']
-        members = request.json['members']
+        members = request.json.get('members')
 
         m_drop = Model.UserDepartMent.query.filter(Model.UserDepartMent.departmentId == depart_id and
                                                    Model.UserDepartMent.userId.in_(members)).delete()
