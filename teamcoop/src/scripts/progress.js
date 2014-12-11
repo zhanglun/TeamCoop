@@ -27,7 +27,7 @@ $(function() {
         } else {
             var index = eventobj.parent().index();
             $(progress.selector + ' li').slice(0, index + 1).addClass('checked');
-            $(progress.selector + ' li').slice(0, index + 1).find('span').html('');
+            $(progress.selector + ' li').slice(0, index + 1).find('span').html('').addClass('glyphicon glyphicon-ok');
         }
     });
     progress.setWidth();

@@ -72,6 +72,20 @@ postData.getdata = function(url, callback) {
     });
 };
 
+// ajax DELETE
+postData.deletedata = function(url, callback) {
+    $.ajax({
+        url: url,
+        type: "DELETE",
+        success: function(json) {
+            callback(json);
+        },
+        error: function() {
+            // something error
+        }
+    });
+};
+
 // check form input, return boolean
 postData.checkForm = function(formSelector) {
     $(formSelector + ' :input').each(function(index, obj) {
@@ -82,6 +96,11 @@ postData.checkForm = function(formSelector) {
         }
     });
     return $(formSelector + '>div').hasClass('has-error');
+}
+
+// confirm 
+postData.confirm = function(text) {
+    return confirm(text);
 }
 
 // confirm input of required 

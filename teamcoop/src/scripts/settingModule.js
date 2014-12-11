@@ -62,13 +62,14 @@ settingModule.memberSetting = function() {
     // render partment and user
     $('#partmentList tbody').empty();
     $.each(settingModule.partmentList, function(index, obj) {
-        $('#partmentList tbody').append('<tr><td><a href="javascript:void(0);" data-partid="' + obj['id'] + '">' + obj['department_name'] + '</a></td><td>' + obj['counts'] + '</td><td><button class="btn btn-xs btn-danger">delete</button></td></tr>')
+        $('#partmentList tbody').append('<tr><td><a href="javascript:void(0);" data-partid="' + obj['id'] + '">' + obj['department_name'] + '</a></td><td>' + obj['counts'] + '</td><td><button class="btn btn-xs btn-danger">delete</button></td></tr>');
     });
 };
 
 // 部门详情
 settingModule.memberDetail = function() {
-    $('#partmentList').on('click', 'a', function(event) {
+
+    $('#partmentList').on('partment.click', 'a', function(event) {
         var eventObj = $(event.target);
         var partid = eventObj.attr('data-partid'),
             partname = eventObj.html();
@@ -93,11 +94,21 @@ settingModule.addpartment = function() {
         data.members = data.members.split(',');
     }
     postData.postdata('/api/team/department/', data, function(json) {
-        $('#createModal').modal('hide');
+        $('#createPartment').modal('hide');
+        // render new partmentlist
+        postData.getdata('/api/team/department/', function(json) {
+            if (json['code'] == 'success') {
+                settingModule.partmentList = json['result'];
+                // render partmentlist
+                settingModule.memberSetting();
+            } else {
+                memberlist.errorTip(json['message']);
+            }
+        });
     });
     // Todo
     // error 
-    $('#newpartmentform>div').first().addClass('has-error');
+    // $('#newpartmentform>div').first().addClass('has-error');
 }
 
 settingModule.addmember = function() {
@@ -107,7 +118,7 @@ settingModule.addmember = function() {
         data.members = data.members.split(',');
     }
     postData.postdata('/api/team/department/', data, function(json) {
-        $('#createModal').modal('hide');
+        $('#createPartment').modal('hide');
     });
     // Todo
     // error 
