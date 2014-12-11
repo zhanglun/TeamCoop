@@ -118,8 +118,8 @@ def drop_department():
     if request.method == 'POST':
         depart_id = request.json.get('department_id')
         for x in depart_id:
-            p = Model.DepartMent.query.filter_by(id=x).first_or_404()
-            db.session.delete(p)
+            p = Model.DepartMent.query.filter(Model.DepartMent.id == x)
+            p.delete()
         db.session.commit()
         return api_response(200, 'success', 'delete department')
     else:
@@ -359,8 +359,6 @@ def drop_member():
         pass
     else:
         return '405'
-
-
 
 
 
