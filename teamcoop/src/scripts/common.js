@@ -73,10 +73,11 @@ postData.getdata = function(url, callback) {
 };
 
 // ajax DELETE
-postData.deletedata = function(url, callback) {
+postData.deletedata = function(url, data, callback) {
     $.ajax({
         url: url,
         type: "DELETE",
+        data: data,
         success: function(json) {
             callback(json);
         },

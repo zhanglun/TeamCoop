@@ -105,10 +105,30 @@ settingModule.addpartment = function() {
                 memberlist.errorTip(json['message']);
             }
         });
+        postData.getdata('/api/team/member/', function(json) {
+            if (json['code'] == 'success') {
+                settingModule.memberList = json['result'];
+            } else {
+                // $('#newpartmentform>div').first().addClass('has-error');
+                memberlist.errorTip(json['message']);
+            }
+        });
     });
-    // Todo
-    // error 
-    // $('#newpartmentform>div').first().addClass('has-error');
+}
+
+settingModule.delpartment = function(event) {
+    var eventObj = $(event.target),
+        partmentId = eventObj.parentsUntil('tbody').find('a').attr('data-partid'),
+        partmentName = eventObj.parentsUntil('tbody').find('a').html();
+    if (postData.confirm('确认删除' + partmentName + '吗?') == true) {
+        var data = {
+            "department_id": partmentId
+        };
+        data = JSON.stringify(data);
+        postData.deletedata('/api/team/department/', data, function(json) {
+            console.log(json);
+        });
+    }
 }
 
 settingModule.addmember = function() {
@@ -117,12 +137,12 @@ settingModule.addmember = function() {
     if (typeof data.members == 'string') {
         data.members = data.members.split(',');
     }
-    postData.postdata('/api/team/department/', data, function(json) {
-        $('#createPartment').modal('hide');
+    data["department_id"] = parseInt($('#partmentdetailform').attr('data-partid'));
+    data = JSON.stringify(data);
+    console.log(data);
+    postData.postdata('/api/department/detail/member/', data, function(json) {
+        $('#partmentDetail').modal('hide');
     });
-    // Todo
-    // error 
-    $('#newpartmentform>div').first().addClass('has-error');
 }
 
 
@@ -148,6 +168,10 @@ $(function() {
     settingModule.addperson('#partmentdetailform');
     settingModule.addperson('#newpartmentform');
     settingModule.resetModal();
-
+    // new partment event bind
     $('#department_btn').on('click', settingModule.addpartment);
+    // new member event bind
+    $('#partmentDetail_btn').on('click', settingModule.addmember);
+    // partment detail event bind
+    $('#partmentList').on('click', 'button', settingModule.delpartment);
 });
