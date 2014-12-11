@@ -69,7 +69,7 @@ settingModule.memberSetting = function() {
 // 部门详情
 settingModule.memberDetail = function() {
 
-    $('#partmentList').on('partment.click', 'a', function(event) {
+    $('#partmentList').on('click', 'a', function(event) {
         var eventObj = $(event.target);
         var partid = eventObj.attr('data-partid'),
             partname = eventObj.html();
@@ -137,9 +137,7 @@ settingModule.addmember = function() {
     if (typeof data.members == 'string') {
         data.members = data.members.split(',');
     }
-    data["department_id"] = parseInt($('#partmentdetailform').attr('data-partid'));
-    data = JSON.stringify(data);
-    console.log(data);
+    data["department_id"] = $('#partmentdetailform').attr('data-partid');
     postData.postdata('/api/department/detail/member/', data, function(json) {
         $('#partmentDetail').modal('hide');
     });

@@ -114,25 +114,39 @@ def team_department():
             # print x.get_json()
         return api_response(200, 'success', 'get team all department', depart)
     elif reuqest.method == 'DELETE':
-        depart_id = request.json.get('department_id')
-        depart = Model.Department.query.filter_by(id=depart_id).first()
-        user_depart = Model.UsreDepart.query.filter_by(departmentId=depart_id).all()
-        for x in user_depart:
-            u = Model.User.query.filter_by(id=x.userId).first()
-            db.session.delete(x)
-            db.session.delete(u)
-        db.session.delete(depart)
+        # depart_id = request.json.get('department_id')
+        # depart = Model.Department.query.filter_by(id=depart_id).first()
+        # user_depart = Model.UsreDepart.query.filter_by(departmentId=depart_id).all()
+        # for x in user_depart:
+        #     u = Model.User.query.filter_by(id=x.userId).first()
+        #     db.session.delete(x)
+        #     db.session.delete(u)
+        # db.session.delete(depart)
         return 'method Delete'
 
-#
+# 删除部门
 
-@api.route('/project/detail/status', methods=['GET', 'POST'])
+@api.route('/team/department/trash/', methods=['POST'])
+def drop_department():
+    if request.method == 'POST':
+        depart_id = request.json.get('department_id')
+        p = Model.DepartMent.query.filter_by(id=depart_id).first_or_404()
+        db.session.delete(p)
+        db.session.commit()
+        return api_response(200, 'success', 'delete department')
+    else:
+        return '405'
+
+
+
+@api.route('/project/detail/status/', methods=['GET', 'POST'])
 def project_status():
     if request.method == 'POST':
         project_id = request.json['project_id']
         status = request.json['project_status']
         p = Model.Project.query.filter_by(id=project_id).first_or_404()
         p.status = status
+        db.session.add(p)
         db.session.commit()
         return 'success'
     elif reuqest.method == 'GET':
@@ -281,6 +295,7 @@ def department_member():
     if request.method == 'POST':
         # 添加成员
         depart_id = request.json['department_id']
+
         members = request.json['members']
         if depart_id is None:
             return api_response(200, 'success', u'没有部门id，TM怎么添加！')
@@ -290,12 +305,13 @@ def department_member():
         for x in members:
             u = Model.User.query.filter_by(username=x).first()
             if u is None:
-                u = Model.User(usernanme=x)
+                u = Model.User(username=x)
                 db.session.add(u)
                 db.session.commit()
                 user_depart = Model.UserDepartMent(userId=u.id, departmentId=depart_id)
                 db.session.add(user_depart)
                 db.session.commit()
+                return api_response(200, 'success', u'添加成功')
             else:
                 return api_response(200, 'fail', u'这个人早就在其他部门了')
 
@@ -315,9 +331,38 @@ def department_member():
         members = request.json['members']
         for x in members:
             u = Model.User.query.filter_by(id=x).first()
-            user_depart = Model.UserDepartMent.query.filter_by(userId=u.id).first()
+            user_depart = Model.UserDepartMent.query.filter_by(userId=u.id).all()
             db.session.delete(u)
             db.session.delete(user_depart)
 
         db.session.commit()
         return 'Down!'
+
+
+# Task
+@api.route('/project/task/', methods=['GET', 'POST'])
+def project_task():
+    if request.method == 'POST':
+        title = request.json.get('title')
+        description = request.json.get('description')
+        deadline = request.json.get('deadline')
+        execute_user_id = request.json.get('execute_user_id')
+        create_user_id = request.json.get('create_user_id')
+        status = 1
+        createtime = request.json.get('create_time')
+
+        t = Model.Task.query.filter_by(title=title).first_or_404()
+
+        new_t = Model.Task(title=title, description=description, execute_user_id=execute_user_id, deadline=deadline,
+                           create_user_id=create_user_id, createtime=createtime, status=status)
+        db.session.add(new_t)
+        db.session.commit()
+    elif reuqest.method == 'GET':
+        return '等胖子加表咯~~'
+        # project_id = request.json.get('project_id')
+        #
+        # p = Model.Task.query.filter_by(id=project_id).all()
+        # task_list = []
+        # for x in p:
+        #     Model.
+        #
