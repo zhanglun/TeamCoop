@@ -9,6 +9,8 @@ import datetime
 api = Blueprint('api', __name__)
 
 
+# ====Team=========================== #
+# =================================== #
 # Team成员
 @api.route('/team/member/', methods=['GET', 'POST'])
 def team_member():
@@ -73,7 +75,7 @@ def team_member():
         #
         # return api_response(200, 'success', 'all team members', u)
 
-
+# Team 添加部门，获取所有部门
 @api.route('/team/department/', methods=['GET', 'POST'])
 def team_department():
     if request.method == 'POST':
@@ -101,31 +103,16 @@ def team_department():
             return api_response(400, 'fail', 'department is already exist')
     elif request.method == 'GET':
         depart = Model.DepartMent.query.all()
-        # depart = Model.UserDepartMent.query.all()
         for x in depart:
             index = depart.index(x)
-            # x = x.get_json
             depart_id = x.id
             counts = Model.UserDepartMent.query.filter_by(departmentId=depart_id).count()
             x = x.get_json()
             x['counts'] = counts
             depart[index] = x
-
-            # print x.get_json()
         return api_response(200, 'success', 'get team all department', depart)
-    elif reuqest.method == 'DELETE':
-        # depart_id = request.json.get('department_id')
-        # depart = Model.Department.query.filter_by(id=depart_id).first()
-        # user_depart = Model.UsreDepart.query.filter_by(departmentId=depart_id).all()
-        # for x in user_depart:
-        #     u = Model.User.query.filter_by(id=x.userId).first()
-        #     db.session.delete(x)
-        #     db.session.delete(u)
-        # db.session.delete(depart)
-        return 'method Delete'
 
-# 删除部门
-
+#Team 删除部门
 @api.route('/team/department/trash/', methods=['POST'])
 def drop_department():
     if request.method == 'POST':
@@ -139,7 +126,10 @@ def drop_department():
         return '405'
 
 
+# ====Project======================== #
+# =================================== #
 
+# Project-状态
 @api.route('/project/detail/status/', methods=['GET', 'POST'])
 def project_status():
     if request.method == 'POST':
@@ -155,20 +145,49 @@ def project_status():
         p = Model.Project.query.filter_by(id=project_id).first_or_404()
         return api_response(200, 'success', 'project status', {'status': p.status})
 
-# 项目成员
+# Project-成员
 @api.route('/project/member/', methods=['GET', 'POST'])
 def project_member():
     if request.method == 'POST':
-        project_id = ''
-        username = ''
-        # TODO: insert
         return api_response(200, 'success', 'project member')
     elif request.method == 'GET':
         return api_response(200, 'success', 'project member')
 
+# Task
+@api.route('/project/task/', methods=['GET', 'POST'])
+def project_task():
+    if request.method == 'POST':
+        title = request.json.get('title')
+        description = request.json.get('description')
+        deadline = request.json.get('deadline')
+        execute_user_id = request.json.get('execute_user_id')
+        create_user_id = request.json.get('create_user_id')
+        status = 1
+        createtime = request.json.get('create_time')
 
-# 设置个人信息
-@api.route('/project/setting/person/', methods=['GET', 'POST'])
+        t = Model.Task.query.filter_by(title=title).first_or_404()
+
+        new_t = Model.Task(title=title, description=description, execute_user_id=execute_user_id, deadline=deadline,
+                           create_user_id=create_user_id, createtime=createtime, status=status)
+        db.session.add(new_t)
+        db.session.commit()
+    elif reuqest.method == 'GET':
+        return '等胖子加表咯~~'
+        # project_id = request.json.get('project_id')
+        #
+        # p = Model.Task.query.filter_by(id=project_id).all()
+        # task_list = []
+        # for x in p:
+        #     Model.
+        #
+
+
+
+# ====User=========================== #
+# =================================== #
+
+# User-设置个人信息
+@api.route('/personal/setting/', methods=['GET', 'POST'])
 def set_person():
     if request.method == 'POST':
         name = request.json['name']
@@ -183,13 +202,12 @@ def set_person():
         if person is not None:
             person.username = username
             person.password = password
-            api_response(200, 'success', 'test')
+            api_response(200, 'success', 'Down!')
 
     elif request.method == 'GET':
         return api_response('200', 'success', 'test')
 
-
-# 用户有关的项目
+# User-项目
 @api.route('/user/project/', methods=['GET', 'POST'])
 def project():
     if request.method == 'POST':
@@ -206,13 +224,11 @@ def project():
         members = request.json.get('members')
 
         item = Model.Project.query.filter_by(title=title).first()
-
         if item is None:
             # add new project to database
             project_new = Model.Project(title=title, description=description, level=level, deadline=deadline, status=status, isPublic=is_public, createuserid=creater_id)
             db.session.add(project_new)
             db.session.commit()
-
             # add new row to user_project
             project_new_id = Model.Project.query.filter_by(title=title).first().id
             if person_in_charge is not None:
@@ -229,9 +245,7 @@ def project():
         else:
             return 'already exist!'
     elif request.method == 'GET':
-        # param: userid
         userid = request.json['user_id']
-        # userid = 2
         if userid is not None:
             projects = Model.UserProject.query.filter_by(userId=userid).order_by(Model.UserProject.projectId).all()
             # response_data={}
@@ -239,7 +253,7 @@ def project():
                 index = projects.index(x)
                 projects[index] = projects[index].get_json()
 
-            return api_response(200, 'success', 'get all projects belongs to the team', projects )
+            return api_response(200, 'success', 'get all projects belongs to the team', projects)
         else:
             # error
             return api_response(400, 'bad request', '参数错误')
@@ -290,13 +304,14 @@ def project():
 #         return 'Method Error!'
 
 
-# 部门详情中管理成员
+# ====DepartMent===================== #
+# =================================== #
+
+# DepartMent-管理成员
 @api.route('/department/detail/member/', methods=['GET', 'POST', 'DELETE'])
 def department_member():
     if request.method == 'POST':
-        # 添加成员
         depart_id = request.json['department_id']
-
         members = request.json['members']
         if depart_id is None:
             return api_response(200, 'success', u'没有部门id，TM怎么添加！')
@@ -329,31 +344,23 @@ def department_member():
             m_list.append(u.get_json())
         return api_response(200, 'success', 'all members of the department', m_list)
 
-
-# Task
-@api.route('/project/task/', methods=['GET', 'POST'])
-def project_task():
+# DepartMent-删除成员
+@api.route('/department/detail/member/trash/', methods=['GET', 'POST'])
+def drop_member():
     if request.method == 'POST':
-        title = request.json.get('title')
-        description = request.json.get('description')
-        deadline = request.json.get('deadline')
-        execute_user_id = request.json.get('execute_user_id')
-        create_user_id = request.json.get('create_user_id')
-        status = 1
-        createtime = request.json.get('create_time')
+        depart_id = request.json['department_id']
+        members = request.json['members']
 
-        t = Model.Task.query.filter_by(title=title).first_or_404()
-
-        new_t = Model.Task(title=title, description=description, execute_user_id=execute_user_id, deadline=deadline,
-                           create_user_id=create_user_id, createtime=createtime, status=status)
-        db.session.add(new_t)
+        m_drop = Model.UserDepartMent.query.filter(Model.UserDepartMent.departmentId == depart_id and
+                                                   Model.UserDepartMent.userId.in_(members)).delete()
         db.session.commit()
-    elif reuqest.method == 'GET':
-        return '等胖子加表咯~~'
-        # project_id = request.json.get('project_id')
-        #
-        # p = Model.Task.query.filter_by(id=project_id).all()
-        # task_list = []
-        # for x in p:
-        #     Model.
-        #
+
+    elif request.method == 'GET':
+        pass
+    else:
+        return '405'
+
+
+
+
+
