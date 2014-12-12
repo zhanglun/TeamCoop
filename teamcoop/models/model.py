@@ -59,7 +59,6 @@ class User(db.Model):
 class Project(db.Model):
     __tablename__ = 'project'
     id = db.Column(db.Integer, primary_key=True)
-    # id = db.relationship('UserProject')
     title = db.Column(db.Text, unique=True)
     description = db.Column(db.Text, nullable=False)
     level = db.Column(db.Integer, nullable=False, default=1)
@@ -69,8 +68,12 @@ class Project(db.Model):
     createuserid = db.Column(db.Integer, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
+
     def get_time(self):
         return self.createtime
+
+    def get_json(self):
+        return {'id': self.id, 'title': self.title, 'description': self.description, 'level': self.level, 'importance': importance_list[self.level], 'deadline': self.deadline, 'status': self.status, 'isPublic': self.isPublic, 'createuserid': self.createuserid, 'createtime': self.createtime}
 
     def __repr__(self):
         return '<Project %r>' % self.title

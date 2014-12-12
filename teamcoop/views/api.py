@@ -114,7 +114,6 @@ def project_status():
         status = request.json['project_status']
         p = Model.Project.query.filter_by(id=project_id).first_or_404()
         p.status = status
-        db.session.add(p)
         db.session.commit()
         return 'success'
     elif reuqest.method == 'GET':

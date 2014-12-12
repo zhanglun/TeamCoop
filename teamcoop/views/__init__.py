@@ -20,3 +20,4 @@ def api_response(status, code, message, result=None):
     return response
 
 panel = {'issues': 'issues', 'setting': 'setting', 'dashboard': 'dashboard'}
+
