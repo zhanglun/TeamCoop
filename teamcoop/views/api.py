@@ -193,6 +193,7 @@ def project_task():
                            create_user_id=create_user_id, createtime=createtime, status=status)
         db.session.add(new_t)
         db.session.commit()
+        return api_response(200, 'success', u'添加成功')
     elif request.method == 'GET':
         project_id = request.args.get('project_id')
         p = Model.Task.query.filter_by(id=project_id).all()
