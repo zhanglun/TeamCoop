@@ -49,7 +49,7 @@ class User(db.Model):
 
     def get_json(self):
         return {'id': self.id, 'username': self.username, 'level': self.level, 'name': self.name, 'gender': self.gender,
-                'email': self.email, 'createtime': self.createtime}
+                'email': self.email, 'create_time': self.createtime}
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -67,7 +67,6 @@ class Project(db.Model):
     isPublic = db.Column(db.Integer, nullable=False, default=1)
     createuserid = db.Column(db.Integer, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
-
 
     def get_time(self):
         return self.createtime
@@ -133,9 +132,25 @@ class TaskComment(db.Model):
     def get_time(self):
         return self.createtime
 
+    def get_json(self):
+        return {'id': self.id, 'content': self.content, 'task_id': self.taskId, 'user_id': self.userId,
+                'create_time': self.createtime}
+
     def __repr__(self):
         return '<TaskComment %r>' % self.content
 
+class ProjectComment(db.Model):
+    __tablename__ = 'project_comment'
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    content = db.Column(db.Text, nullable=False, default='')
+    projectId = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
- 
+    def get_json(self):
+        return {'id': self.id, 'content': self.content, 'project_id': self.projectId, 'user_id': self.userId,
+                'create_time': self.createtime}
+
+    def __repr__(self):
+        return '<ProjectComment %r>' % self.content
 

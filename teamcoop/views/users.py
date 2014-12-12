@@ -115,7 +115,6 @@ def project_detail(username, project_id):
             return render_template('project_detail.html', data=data)
         else:
             return redirect(url_for('.user_project', username=username))
-            # return "pid: %s" % (project_id) + '\n' + u'项目不存在'   
 
 
 @users.route('/<username>/setting/')

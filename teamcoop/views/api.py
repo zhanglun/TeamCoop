@@ -51,7 +51,6 @@ def team_member():
             return api_response(200, 'success', 'no department', result)
 
 
-
 # Team 添加部门，获取所有部门
 @api.route('/team/department/', methods=['GET', 'POST'])
 def team_department():
@@ -88,6 +87,7 @@ def team_department():
             x['counts'] = counts
             depart[index] = x
         return api_response(200, 'success', 'get team all department', depart)
+
 
 #Team 删除部门
 @api.route('/team/department/trash/', methods=['POST'])
@@ -138,7 +138,7 @@ def project_member():
         db.session.commit()
 
         return api_response(200, 'success', 'project member')
-    
+
     elif request.method == 'GET':
 
         project_id = reuqest.args.get('project_id')
@@ -146,11 +146,33 @@ def project_member():
 
         return api_response(200, 'success', 'project member')
 
+#Project comment
+@api.route('/project/comment/', methods=['GET', 'POST'])
+def project_comment():
+    if request.method == 'POST':
+        project_id = request.json['project_id']
+        content = request.json['content']
+        user_id = request.json['user_id']
 
-#
+        new_content = Model.ProjectComment(content=content, projectId=project_id, userId=user_id)
+        db.session.add(new_content)
+        db.session.commit()
 
+    elif request.method == 'GET':
 
-# Task
+        project_id = request.args.get('project_id')
+        c = Model.ProjectComment.query.filter_by(projectId=project_id).order_by(Model.ProjectComment.createtime).all()
+
+        for x in c:
+            index = c.index(x)
+            u = Model.User.query.filter_by(id=x.userId).first()
+            x = x.get_json()
+            x['user'] = u.get_json()
+            c[index] = x
+        return api_response(200, 'success', u'项目中所有的评论', {'comments': c})
+
+#Task
+# 添加任务和获取任务
 @api.route('/project/task/', methods=['GET', 'POST'])
 def project_task():
     if request.method == 'POST':
@@ -164,7 +186,7 @@ def project_task():
         createtime = request.json.get('create_time')
 
         t = Model.Task.query.filter(Model.Task.title == title and Model.Task.projectId == project_id).first()
-        if t is None:
+        if t is not None:
             return api_response(200, 'failed', u'在这个项目中，任务名不能重复')
 
         new_t = Model.Task(title=title, description=description, execute_user_id=execute_user_id, deadline=deadline,
@@ -172,7 +194,7 @@ def project_task():
         db.session.add(new_t)
         db.session.commit()
     elif request.method == 'GET':
-        project_id = request.json['project_id']
+        project_id = request.args.get('project_id')
         p = Model.Task.query.filter_by(id=project_id).all()
         task_list = []
         #
@@ -187,7 +209,7 @@ def drop_task():
     if request.method == 'POST':
         project_id = request.json['project_id']
         task_id = request.json['task_id']
-        t = Model.Task.query.filter(Model.Task.id == task_id and Model.Task.projectId == project_id).first()
+        t = Model.Task.query.filter_by(id = task_id, projectId = project_id).first()
         if t is None:
             return api_response(200, 'failed', u'找不到id对应的任务')
         else:
@@ -196,7 +218,8 @@ def drop_task():
             return api_response(200, 'success', u'删除成功')
 
 
-@api.route('/user/project/task/', methods=['GEt', 'POST'])
+# 用户相关的（部署和创建任务）
+@api.route('/user/project/task/', methods=['GET', 'POST'])
 def user_task():
     if request.method == 'POST':
         user_id = request.json['user_id']
@@ -225,6 +248,16 @@ def user_task():
         return api_response(200, 'success', 'all data', {'tasks': {'create': task_c, 'execute': task_e}})
 
 
+# 任务的讨论
+@api.route('/project/task/comment/', methods=['GET', 'POST'])
+def task_comment():
+    if request.method == 'POST':
+        task_id = request.json['task_id']
+        user_id = request.json['user_id']
+        content = request.json['content']
+        c = Model.TaskComment(taskId=taskId, userId=user_id, content=content)
+    elif request.method == 'GET':
+        return '222'
 
 
 
@@ -309,47 +342,33 @@ def project():
         return api_response(400, 'bad request', '参数错误')
 
 
-# @api.route('/department/member/', methods=['GET', 'POST'])
-# def depart_member():
-#     if request.method == 'POST':
-#         # depart = request.json['department_id']
-#         # username = request.json['username']
-#         # aa = request.json['username']
-#
-#         department_id = 1
-#         department_name = u'开发部'
-#         username = 'zhanglun' + str(datetime.datetime.utcnow())
-#
-#         d = Model.DepartMent.query.filter_by(depName=department_name).first()
-#
-#         if d is not None:
-#             return api_response(200, 'fail', 'already exist')
-#
-#         u = Model.User.query.filter_by(username=username).first()
-#
-#         if u is not None:
-#             return api_response(200, 'fail', 'already exist')
-#         else:
-#             user_new = Model.User(username=username)
-#             db.session.add(user_new)
-#             db.session.commit()
-#             print '===='
-#             user_id = user_new.id
-#             new = Model.UserDepartMent(userId=user_id, departmentId=department_id)
-#             db.session.add(new)
-#             db.session.commit()
-#         return '新增成员'
-#     elif request.method == 'GET':
-#         department_id = request.json['department_id']
-#         members = Model.UserDepartMent.query.filter_by(departmentId=department_id).order_by(
-#             Model.UserDepartMent.userId).all()
-#         for x in members:
-#             index = members.index(x)
-#             members[index] = x.userId
-#
-#         return api_response(200, 'success', 'department\'s member', members)
-#     else:
-#         return 'Method Error!'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ====DepartMent===================== #
