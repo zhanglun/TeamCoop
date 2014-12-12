@@ -167,8 +167,10 @@ body {
     }
     span.triangle {
         background: linear-gradient(320deg, transparent 30%, @brand-primary 30%,  @brand-primary);
-        width: 30%;
-        min-width: 220px;
+        @media screen and (max-width:992px) {
+            min-width: 220px;    
+        }
+        min-width: 420px;
         float: left;
         display: inline-block;
         height: 50px;
