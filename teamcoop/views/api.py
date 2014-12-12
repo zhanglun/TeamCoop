@@ -15,10 +15,7 @@ api = Blueprint('api', __name__)
 @api.route('/team/member/', methods=['GET', 'POST'])
 def team_member():
     if request.method == 'POST':
-        # get data from request.json
-        # TODO:
-        # project_id
-        # checkout if the user is already exist
+
         username = request.json['username']
         # print request.json
         # username = 'admin'
@@ -26,23 +23,16 @@ def team_member():
             return api_response(400, 'fail', '参数错误')
         check = Model.User.query.filter_by(username=username).first()
         if check is None:
-            # create a new member
             new_member = Model.User(username=username)
             db.session.add(new_member)
             db.session.commit()
-            # set the response
             return api_response(200, 'success', 'add a new member')
         else:
             return api_response(200, 'success', 'the member is already exist')
 
     elif request.method == 'GET':
         # 返回所有部门和各成员
-
-        # depart = Model.DepartMent.query.all()
-
         depart = Model.DepartMent.query.all()
-        print 'depart'
-        print depart
         result = []
         if depart is None:
             return api_response(200, 'success', 'no department')
@@ -61,19 +51,7 @@ def team_member():
 
             return api_response(200, 'success', 'no department', result)
 
-        # u = Model.User.query.all()
-        # for x in u:
-        #     index = u.index(x)
-        #     department = Model.UserDepartMent.query.filter_by(userId=x.id).first()
-        #     if department is not None:
-        #         x = x.get_json()
-        #         x['department_id'] = department.departmentId
-        #     else:
-        #         x = x.get_json()
-        #         x['department_id'] = 0
-        #     u[index] = x
-        #
-        # return api_response(200, 'success', 'all team members', u)
+
 
 # Team 添加部门，获取所有部门
 @api.route('/team/department/', methods=['GET', 'POST'])
@@ -87,9 +65,9 @@ def team_department():
             db.session.add(new_department)
             db.session.commit()
             for x in members:
-                u = Model.User.query.filter_by(username=x).first()
+                u = Model.User.query.filter_by(name=x).first()
                 if x is not None:
-                    new_user = Model.User(username=x)
+                    new_user = Model.User(name=x, username=x)
                     db.session.add(new_user)
                     db.session.commit()
                     user_depart = Model.UserDepartMent(departmentId=new_department.id, userId=new_user.id)
