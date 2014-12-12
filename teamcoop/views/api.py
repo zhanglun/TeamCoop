@@ -160,26 +160,49 @@ def project_task():
         title = request.json.get('title')
         description = request.json.get('description')
         deadline = request.json.get('deadline')
+        project_id = request.json['project_id']
         execute_user_id = request.json.get('execute_user_id')
         create_user_id = request.json.get('create_user_id')
         status = 1
         createtime = request.json.get('create_time')
 
-        t = Model.Task.query.filter_by(title=title).first_or_404()
+        t = Model.Task.query.filter(Model.Task.title == title and Model.Task.projectId == project_id).first()
+        if t is None:
+            return api_response(200, 'failed', u'在这个项目中，任务名不能重复')
 
         new_t = Model.Task(title=title, description=description, execute_user_id=execute_user_id, deadline=deadline,
                            create_user_id=create_user_id, createtime=createtime, status=status)
         db.session.add(new_t)
         db.session.commit()
-    elif reuqest.method == 'GET':
-        return '等胖子加表咯~~'
-        # project_id = request.json.get('project_id')
+    elif request.method == 'GET':
+        project_id = request.json['project_id']
+        p = Model.Task.query.filter_by(id=project_id).all()
+        print p
+        task_list = []
         #
-        # p = Model.Task.query.filter_by(id=project_id).all()
-        # task_list = []
-        # for x in p:
-        #     Model.
-        #
+        for x in p:
+            task_list.append(x.get_json())
+
+        return api_response(400, 'success', 'test', {'tasks': task_list})
+
+
+@api.route('/project/task/trash/', methods=['GET', 'POST'])
+def drop_task():
+    if request.method == 'POST':
+        project_id = request.json['project_id']
+        task_id = request.json['task_id']
+        t = Model.Task.query.filter(Model.Task.id == task_id and Model.Task.projectId == project_id).first()
+        if t is None:
+            return api_response(200, 'failed', u'找不到id对应的任务')
+        else:
+            db.session.delete(t)
+            db.session.commit()
+            return api_response(200, 'success', u'删除成功')
+
+
+
+
+
 
 
 

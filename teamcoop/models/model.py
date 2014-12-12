@@ -111,6 +111,9 @@ class Task(db.Model):
     def get_time(self):
         return self.createtime
 
+    def get_json(self):
+        return {'id': self.id, 'title': self.title, 'description': self.description, 'deadline': self.deadline, 'execute_user_id': self.executeUserId, 'create_user_id': self.createUserId, 'status': self.status, 'create_time': self.createtime}
+
     def __repr__(self):
         return '<Task %r>' % self.title
 
