@@ -59,17 +59,32 @@ postData.postdata = function(url, data, callback) {
 };
 
 // ajax GET
-postData.getdata = function(url, callback) {
-    $.ajax({
-        url: url,
-        type: "GET",
-        success: function(json) {
-            callback(json);
-        },
-        error: function() {
-            // something error
-        }
-    });
+postData.getdata = function(url, data, callback) {
+    if (arguments.length == 3) {
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: data,
+            success: function(json) {
+                callback(json);
+            },
+            error: function() {
+                // something error
+            }
+        });
+    } else {
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(json) {
+                // argument[1] =>  function
+                data(json);
+            },
+            error: function() {
+                // something error
+            }
+        });
+    }
 };
 
 // ajax DELETE

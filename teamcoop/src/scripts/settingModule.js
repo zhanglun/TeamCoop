@@ -63,10 +63,10 @@ settingModule.personalSetting = function(formselector) {
     $(formselector + ' button').on('click', function() {
         var data = postData.getData(formselector);
         if (postData.checkForm(formselector) == false) {
-            postData.postdata('/api/personal/setting/',data,function(){
+            postData.postdata('/api/personal/setting/', data, function() {
                 console.log('success');
             });
-        }else{
+        } else {
             return false;
         }
     })
@@ -180,7 +180,11 @@ settingModule.addmember = function() {
                     text += data.members[index];
                 }
             });
-            alert(text + '已存在,其余添加成功');
+            if (text == '') {
+                alert('全部添加成功');
+            } else {
+                alert(text + '已存在,其余添加成功');
+            }
         }
     });
 }
