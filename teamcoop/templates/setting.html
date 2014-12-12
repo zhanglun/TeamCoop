@@ -18,21 +18,21 @@
     <form role="form" class="col-md-6 col-md-push-3 personal-setting">
         <div class="form-group">
             <label class="control-label" for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="{{ data.username }}">
+            <input type="text" class="form-control" id="username" name="username" placeholder="{{ data.username }}" required>
         </div>
         <div class="form-group">
             <label class="control-label" for="name">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="{{ data.name }}">
+            <input type="text" class="form-control" id="name" name="name" placeholder="{{ data.name }}" required>
         </div>
         <div class="form-group">
             <label class="control-label" for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
         </div>
         <div class="form-group">
             <label class="control-label" for="confirm_passwd">Confirm_password</label>
-            <input type="password" class="form-control" id="confirm_passwd" placeholder="Password">
+            <input type="password" class="form-control" id="confirm_passwd" name="confirm_password" placeholder="Password" required>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="button" class="btn btn-default">Submit</button>
     </form>
     {% if data.user_level == 1 %}
     <div class="member-setting col-md-12" style="display:none;">

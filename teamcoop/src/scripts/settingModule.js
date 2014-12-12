@@ -58,8 +58,18 @@ settingModule.addperson = function(formselector) {
 }
 
 // personSetting
-settingModule.personalSetting = function() {
+settingModule.personalSetting = function(formselector) {
 
+    $(formselector + ' button').on('click', function() {
+        var data = postData.getData(formselector);
+        if (postData.checkForm(formselector) == false) {
+            postData.postdata('/api/personal/setting/',data,function(){
+                console.log('success');
+            });
+        }else{
+            return false;
+        }
+    })
 
 };
 
@@ -186,7 +196,7 @@ settingModule.deletemember = function(partid, userid, elem) {
             if (json['code'] == 'success') {
                 elem.parentsUntil('form').remove();
                 alert('删除成功');
-            }else{
+            } else {
                 alert('删除成功');
             }
         });
@@ -216,10 +226,13 @@ $(function() {
     settingModule.addperson('#partmentdetailform');
     settingModule.addperson('#newpartmentform');
     settingModule.resetModal();
+    // settingModule.personalSetting event bind
+    settingModule.personalSetting('.personal-setting');
     // new partment event bind
     $('#department_btn').on('click', settingModule.addpartment);
     // new member event bind
     $('#partmentDetail_btn').on('click', settingModule.addmember);
     // partment detail event bind
     $('#partmentList').on('click', 'button', settingModule.delpartment);
+
 });

@@ -159,12 +159,15 @@ $('#project_btn').on('click', function() {
     });
 });
 
+// siderbar height auto change
 $(function() {
-    setTimeout(function() {
-        $('#main-nav').height(function() {
-            return window.innerHeight > $(document).height() ? window.innerHeight : $(document).height();
-        });
-    }, 100);
+    if (window.innerWidth >= 992) {
+        setTimeout(function() {
+            $('#main-nav').height(function() {
+                return window.innerHeight > $(document).height() ? window.innerHeight : $(document).height();
+            });
+        }, 100);
+    }
     $(window).on('resize', function() {
         if (window.innerWidth >= 992) {
             setTimeout(function() {
