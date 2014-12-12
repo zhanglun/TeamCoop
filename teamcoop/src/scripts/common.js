@@ -141,39 +141,6 @@ $(function() {
     });
 });
 
-// new project btn event bind
-$('#project_btn').on('click', function() {
-    if (postData.checkForm('#project_form')) {
-        return false;
-    }
-    // check success
-    var data = postData.getData('#project_form');
-    // string to array
-    if (data.hasOwnProperty('members') == true) {
-        data.members = data.members.split(',');
-    }
-    if (data.hasOwnProperty('person_in_charge') == true) {
-        data.person_in_charge = data.person_in_charge.split(',');
-    }
-    if (data.hasOwnProperty('is_public') == true) {
-        // checked ispublic
-        data.is_public = 1;
-    } else {
-        // not checked is public 
-        data.is_public = 2;
-    }
-    // data add userid
-    data['creater_id'] = $('[data-userid]').attr('data-userid');
-    postData.postdata('/api/user/project/', data, function(json) {
-        if (json['code'] == 'success') {
-            $('#createProject :input').val('');
-            $('#createProject').modal('hide');
-        } else {
-            alert(json['message']);
-        }
-    });
-});
-
 // siderbar height auto change
 $(function() {
     if (window.innerWidth >= 992) {

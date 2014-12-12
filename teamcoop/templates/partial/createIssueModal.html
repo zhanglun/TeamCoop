@@ -7,18 +7,19 @@
                 <h4 class="modal-title">新建任务</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" id="createIssueForm">
                     <div class="form-group">
                         <label for="issueName" class="col-sm-2 control-label">任务名</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="issueName" placeholder="issueName">
+                            <input type="email" class="form-control" id="issueName" placeholder="issueName" name="title" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="participants" class="col-sm-2 control-label">参与者</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control"  name="members" readonly>
+                                <input type="text" class="form-control" readonly>
+                                <input type="hidden" class="form-control"  name="execute_user_id" readonly>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" id="select_participants">+</button>
                                     <!-- <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select_member">+</button> -->
@@ -29,20 +30,20 @@
                     <div class="form-group">
                         <label for="deadline" class="col-sm-2 control-label">截止日期</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control form_datetime" readonly>
+                            <input type="text" class="form-control form_datetime" name="deadline" readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="detail" class="col-sm-2 control-label">详情</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="3"></textarea>
+                            <textarea class="form-control" rows="3" name="description" required></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary" id="btnCreateIssue">保存</button>
             </div>
         </div>
     </div>
