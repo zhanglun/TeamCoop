@@ -105,6 +105,7 @@ class Task(db.Model):
     deadline = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
     executeUserId = db.Column(db.Integer, nullable=False, default=0)
     createUserId = db.Column(db.Integer, nullable=False, default=0)
+    projectId = db.Column(db.Integer, nullable=False, default=0)
     status = db.Column(db.Integer, nullable=False, default=1)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 

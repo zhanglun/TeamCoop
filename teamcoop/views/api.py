@@ -200,6 +200,31 @@ def drop_task():
             return api_response(200, 'success', u'删除成功')
 
 
+@api.route('/user/project/task/', methods=['GEt', 'POST'])
+def user_task():
+    if request.method == 'POST':
+        user_id = request.json['user_id']
+        pass
+    elif request.method == 'GET':
+        user_id = request.json['user_id']
+        project_id = request.json['project_id']
+        # user部署的task
+        task_c = Model.Task.query.filter(Model.Task.projectId == project_id and Model.Task.createUserId == user_id).order_by(Model.Task.title).all()
+        # user执行的task
+        task_e = Model.Task.query.filter(Model.Task.projectId == project_id and Model.Task.executeUserId ==
+                                         user_id).order_by(Model.Task.title).all()
+        if task_c is not None:
+            for c in task_c:
+                index = task_c.index(c)
+                task_c[index] = c.get_json()
+        if task_e is not None:
+            for e in task_e:
+                index = task_e.index(e)
+                task_e[index] = e.get_json()
+
+        return api_response(200, 'success', 'all data', {'tasks': {'create': task_c, 'execute': task_e}})
+
+
 
 
 
