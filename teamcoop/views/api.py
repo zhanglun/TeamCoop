@@ -125,8 +125,12 @@ def project_status():
 @api.route('/project/member/', methods=['GET', 'POST'])
 def project_member():
     if request.method == 'POST':
+
         return api_response(200, 'success', 'project member')
     elif request.method == 'GET':
+        project_id = reuqest.args.get('project_id')
+        u = Model.UserProject.query.filter_by(projectiId=project_id).all()
+
         return api_response(200, 'success', 'project member')
 
 
@@ -195,11 +199,15 @@ def user_task():
         if task_c is not None:
             for c in task_c:
                 index = task_c.index(c)
-                task_c[index] = c.get_json()
+                c = c.get_json()
+                c['creater_name'] = Model.User.query.filter_by(id=c['create_user_id']).first().name
+                task_c[index] = c
         if task_e is not None:
             for e in task_e:
                 index = task_e.index(e)
-                task_e[index] = e.get_json()
+                e = e.get_json()
+                e['execute_name'] = Model.User.query.filter_by(id=c['execute_user_id']).first().name
+                task_e[index] = e
 
         return api_response(200, 'success', 'all data', {'tasks': {'create': task_c, 'execute': task_e}})
 
