@@ -36,13 +36,7 @@
 <script src="{{ url_for('static', filename='scripts/projectModule.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts/progress.js') }}"></script>
 <script>
-    $('#deadline').datetimepicker({
-        format: "dd MM yyyy - hh:ii",
-        autoclose: true,
-        todayBtn: true,
-        pickerPosition: "bottom-left"
-    });
-
+    // init 
     memberlist.init();
 </script>
 {% endblock%}
