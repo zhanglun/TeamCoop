@@ -1,40 +1,11 @@
 from __init__ import *
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-class User(db.Model):
-    __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    # id = db.relationship('UserProject', primaryjoin='user.id')
-    username = db.Column(db.Text, unique=True)
-    password = db.Column(db.Text, default='123456')
-    level = db.Column(db.Integer, default=2)
-    name = db.Column(db.Text, default='')
-    gender = db.Column(db.Text, default='')
-    email = db.Column(db.Text, default='')
-    createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow())
-
-    para_dict = {'id': id}
-
-    # def __init__(self, para_dict):
-    # self.id = para_dict.id
-
-    def get_time(self):
-        return self.createtime
-
-    def get_json(self):
-        return {'id': self.id, 'username': self.username, 'level': self.level, 'name': self.name, 'gender': self.gender,
-                'email': self.email, 'createtime': self.createtime}
-
-    def __repr__(self):
-        return '<User %r>' % self.username
-
-
 class UserDepartMent(db.Model):
     __tablename__ = 'user_department'
     id = db.Column(db.Integer, primary_key=True)
-    departmentId = db.Column(db.Integer, nullable=False)
-    userId = db.Column(db.Text, nullable=False)
+    departmentId = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
+    userId = db.Column(db.Text, db.ForeignKey('user.id'), nullable=False)
 
     def get_time(self):
         return self.createtime
@@ -42,12 +13,9 @@ class UserDepartMent(db.Model):
     def __repr__(self):
         return '<UserDepartMent userid: %d departmentid: %d>' % (self.userId, self.departmentId)
 
-
 class UserProject(db.Model):
     __tablename__ = 'user_project'
     id = db.Column(db.Integer, primary_key=True)
-    # projectId = db.Column(db.Integer, nullable=False)
-    # userId = db.Column(db.Integer, nullable=False)
     projectId = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     level = db.Column(db.Integer, nullable=False, default=2)
@@ -61,6 +29,30 @@ class UserProject(db.Model):
 
     def __repr__(self):
         return '<UserProject %r %r>' % (self.userId, self.projectId)
+
+
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.Text, unique=True)
+    password = db.Column(db.Text, default='123456')
+    level = db.Column(db.Integer, default=2)
+    name = db.Column(db.Text, default='')
+    gender = db.Column(db.Text, default='')
+    email = db.Column(db.Text, default='')
+    createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+
+    department = db.relationship('UserDepartMent', backref='department', lazy='dynamic')
+
+    def get_time(self):
+        return self.createtime
+
+    def get_json(self):
+        return {'id': self.id, 'username': self.username, 'level': self.level, 'name': self.name, 'gender': self.gender,
+                'email': self.email, 'createtime': self.createtime}
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 
 # project
@@ -92,6 +84,8 @@ class DepartMent(db.Model):
     depName = db.Column(db.Text, nullable=False, default='')
     parentId = db.Column(db.Integer, nullable=False, default=0)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
+
+    userid = db.relationship('UserDepartMent', backref='members', lazy='dynamic')
 
     def get_json(self):
         return {'id': self.id, 'department_name': self.depName, 'parent_id': self.parentId}
