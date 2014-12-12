@@ -126,7 +126,7 @@ def project_detail(username, project_id):
 def user_setting(username):
     u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is not None:
-        data = {'username': u.username, 'userid': u.id, 'user_level': u.level}
+        data = {'username': u.username, 'userid': u.id, 'user_level': u.level, 'name': u.name}
         # TODO: can do better
         # print data
         return render_template('setting.html', data=data)
