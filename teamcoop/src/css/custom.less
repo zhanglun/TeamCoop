@@ -1,3 +1,50 @@
+// overide
+.fill { 
+    height: 100%;
+    min-height: 100%;
+}
+.navbar{
+    margin-bottom:0;
+}
+.main-block{
+    min-height: 100%;
+    .row {
+        overflow: hidden;
+        .fill;
+    }
+    >.row>div{
+        padding-top:20px;
+        @media screen and (min-width: 992px) {
+            margin-bottom: -1500px;
+            padding-bottom: 1500px; 
+            &:first-child {
+                background:#ccc;
+                .list-group {
+                    box-shadow:0 0 15px #444;        
+                }
+            }
+            &:last-child {
+                box-shadow:-10px 0 20px #888;
+            }
+
+        }
+    }
+}
+html {
+    .fill;
+}
+body {
+    .fill;
+    padding-top:50px;
+}
+.nav-title{
+    font-size: 1.5em;
+    line-height: 1.5em;
+    padding-top: 1px;
+    span{
+        margin:4px 5px 0 0;
+    }
+}
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -106,5 +153,24 @@
             white-space:nowrap;
             overflow-x: hidden;
         }
+    }
+}
+
+.navbar{
+    .container-fluid {
+        padding-left: 0;
+    }
+    .navbar-brand {
+        padding-left: 25px;
+        background: @brand-primary;
+        color: #fff;
+    }
+    span.triangle {
+        background: linear-gradient(320deg, transparent 30%, @brand-primary 30%,  @brand-primary);
+        width: 30%;
+        min-width: 220px;
+        float: left;
+        display: inline-block;
+        height: 50px;
     }
 }

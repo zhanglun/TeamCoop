@@ -181,10 +181,14 @@ settingModule.deletemember = function(partid, userid, elem) {
         data['department_id'] = partid;
         data['members'] = [];
         data['members'].push(userid);
-        console.log(data);
         postData.postdata('/api/department/detail/member/trash/', data, function(json) {
             // console.log(json);
-            elem.remove();
+            if (json['code'] == 'success') {
+                elem.parentsUntil('form').remove();
+                alert('删除成功');
+            }else{
+                alert('删除成功');
+            }
         });
     }
 }

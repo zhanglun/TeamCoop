@@ -158,3 +158,22 @@ $('#project_btn').on('click', function() {
         }
     });
 });
+
+$(function() {
+    setTimeout(function() {
+        $('#main-nav').height(function() {
+            return window.innerHeight > $(document).height() ? window.innerHeight : $(document).height();
+        });
+    }, 100);
+    $(window).on('resize', function() {
+        if (window.innerWidth >= 992) {
+            setTimeout(function() {
+                $('#main-nav').height(function() {
+                    return window.innerHeight > $(document).height() ? window.innerHeight : $(document).height();
+                });
+            }, 200);
+        } else {
+            $('#main-nav').height('auto');
+        }
+    });
+});
