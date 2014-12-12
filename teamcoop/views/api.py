@@ -352,13 +352,14 @@ def drop_member():
     if request.method == 'POST':
         depart_id = request.json['department_id']
         members = request.json.get('members')
-
-        m_drop = Model.UserDepartMent.query.filter(Model.UserDepartMent.departmentId == depart_id and
-                                                   Model.UserDepartMent.userId.in_(members)).delete()
+        Model.UserDepartMent.query.filter(Model.UserDepartMent.departmentId == depart_id and Model.UserDepartMent.userId.in_(members)).delete()
         db.session.commit()
+        return api_response(200, 'success', 'delete member')
 
     elif request.method == 'GET':
-        pass
+
+        return 'hello'
+
     else:
         return '405'
 
