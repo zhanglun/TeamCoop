@@ -125,9 +125,22 @@ def project_status():
 @api.route('/project/member/', methods=['GET', 'POST'])
 def project_member():
     if request.method == 'POST':
+        project_id = request.json['project_id']
+        members = request.json['members']
+        p = Model.Project.query.filter_by(id=project_id).first_or_404()
+
+        for m in members:
+            user_p = Model.UserProject.query.filter(Model.UserProject.userId == m).first()
+            u = Model.User.query.filter_by(id=m).first()
+            if user_p is None and u is not None:
+                new_user_p = Model.UserProject(projectId=project_id, userId=m)
+                db.session.add(new_user_p)
+        db.session.commit()
 
         return api_response(200, 'success', 'project member')
+    
     elif request.method == 'GET':
+
         project_id = reuqest.args.get('project_id')
         u = Model.UserProject.query.filter_by(projectiId=project_id).all()
 
