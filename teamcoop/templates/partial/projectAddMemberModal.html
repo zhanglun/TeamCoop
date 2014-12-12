@@ -1,0 +1,45 @@
+<div class="modal fade" id="addMemberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">添加成员</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="addmember_form">
+                    <div class="form-group">
+                        <label for="owner" class="col-sm-2 control-label">负责人</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" readonly>
+                                <input type="hidden" class="form-control" name="person_in_charge" readonly>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default select_chargers" type="button">+</button>
+                                    <!-- <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select_member">+</button> -->
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="participants" class="col-sm-2 control-label">参与者</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" readonly>
+                                <input type="hidden" class="form-control"  name="members" readonly>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default select_participants" type="button">+</button>
+                                    <!-- <button class="btn btn-default" type="button" data-toggle="modal" data-target="#select_member">+</button> -->
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addmember_btn">提交</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -49,6 +49,13 @@ projectModule.setStep = function() {
     });
 }
 
+projectModule.addMember = function() {
+    $('#add_btn').on('click', function() {
+        $('#addMemberModal').modal('show');
+
+    });
+}
+
 projectModule.personalIssue = function() {
     var data = {
         "user_id": projectModule.userid,
@@ -132,14 +139,7 @@ projectModule.resetModal = function() {
     $('.modal').on('hidden.bs.modal', function() {
         var divs = $(this).find('form>div');
         divs.each(function(index) {
-            // clear val in input
-            $(this).has('.form-control-static').remove();
             $(this).find('input').val('');
-            if (index == 0 || index == divs.size() - 1) {
-                return;
-            } else {
-                $(this).remove();
-            }
         });
     });
 }
@@ -150,6 +150,8 @@ $(function() {
     projectModule.deleteIssue();
     // select event bind
     projectModule.changeIssueStatus();
+    // addmember 
+    projectModule.addMember();
     // new issue event bind
     $('#btnCreateIssue').on('click', projectModule.newIssue);
     // issue detail 
