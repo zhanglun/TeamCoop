@@ -40,7 +40,6 @@ def team_member():
             for x in depart:
                 depart_id = x.id
                 members = Model.UserDepartMent.query.filter_by(departmentId=depart_id).all()
-                print members
                 if members is not None:
                     m_list = []
                     for m in members:
@@ -131,6 +130,10 @@ def project_member():
     elif request.method == 'GET':
         return api_response(200, 'success', 'project member')
 
+
+#
+
+
 # Task
 @api.route('/project/task/', methods=['GET', 'POST'])
 def project_task():
@@ -155,7 +158,6 @@ def project_task():
     elif request.method == 'GET':
         project_id = request.json['project_id']
         p = Model.Task.query.filter_by(id=project_id).all()
-        print p
         task_list = []
         #
         for x in p:
@@ -184,8 +186,8 @@ def user_task():
         user_id = request.json['user_id']
         pass
     elif request.method == 'GET':
-        user_id = request.json['user_id']
-        project_id = request.json['project_id']
+        user_id = request.args.get('user_id')
+        project_id = request.args.get('project_id')
         # user部署的task
         task_c = Model.Task.query.filter(Model.Task.projectId == project_id and Model.Task.createUserId == user_id).order_by(Model.Task.title).all()
         # user执行的task
