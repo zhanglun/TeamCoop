@@ -3,7 +3,9 @@
 {% block project_class %}active{% endblock %} 
 {% block main %}
 <section>
-    <p class="nav-title"><span class="glyphicon glyphicon-circle-arrow-left"></span>project</p>
+    <p class="nav-title" data-project-id="{{ data.project.id }}"><span class="glyphicon
+    glyphicon-circle-arrow-left"></span
+            >{{ data.project.title }}</p>
     <div role="tabpanel">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
