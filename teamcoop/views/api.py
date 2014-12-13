@@ -176,7 +176,6 @@ def project_comment():
         return api_response(200, 'success', u'项目中所有的评论', {'comments': c})
 
 #Task
-
 @api.route('/project/task/status/', methods=['GET', 'POST'])
 def task_status():
     if request.method == 'POST':
@@ -210,7 +209,7 @@ def project_task():
             return api_response(200, 'failed', u'在这个项目中，任务名不能重复')
 
         new_t = Model.Task(title=title, description=description, executeUserId=execute_user_id, deadline=deadline,
-                           createUserId=create_user_id, createtime=createtime, status=status)
+                           createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
         db.session.add(new_t)
         db.session.commit()
         return api_response(200, 'success', u'添加成功')
@@ -261,15 +260,24 @@ def user_task():
             for c in task_c:
                 index = task_c.index(c)
                 c = c.get_json()
-                c['creater_name'] = Model.User.query.filter_by(id=c['create_user_id']).first().name
-                c['execute_name'] = Model.User.query.filter_by(id=c['execute_user_id']).first().name
+                u_c = Model.User.query.filter_by(id=c['create_user_id']).first()
+                if u_c is not None:
+                    c['creater_name'] = u_c.name
+                u_e = Model.User.query.filter_by(id=c['execute_user_id']).first()
+                if u_e is not None:
+                    c['execute_name'] = u_e.name
                 task_c[index] = c
+
         if task_e is not None:
             for e in task_e:
                 index = task_e.index(e)
                 e = e.get_json()
-                e['creater_name'] = Model.User.query.filter_by(id=c['create_user_id']).first().name
-                e['execute_name'] = Model.User.query.filter_by(id=c['execute_user_id']).first().name
+                u_c = Model.User.query.filter_by(id=e['create_user_id']).first()
+                if u_c:
+                    e['creater_name'] = u_c.name
+                u_e = Model.User.query.filter_by(id=e['execute_user_id']).first()
+                if u_e:
+                    e['execute_name'] = u_e.name
                 task_e[index] = e
 
         return api_response(200, 'success', 'all data', {'tasks': {'create': task_c, 'execute': task_e}})
