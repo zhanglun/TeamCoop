@@ -112,8 +112,9 @@ def project_status():
     if request.method == 'POST':
         project_id = request.json['project_id']
         status = request.json['project_status']
-        p = Model.Project.query.filter_by(id=project_id).first_or_404()
-        p.status = status
+        p = Model.Project.query.filter_by(id=project_id).first()
+        p.status = int(status)
+        db.session.merge(p)
         db.session.commit()
         return 'success'
     elif reuqest.method == 'GET':
@@ -282,7 +283,6 @@ def user_task():
                 task_id = e['id']
                 comment_num = Model.TaskComment.query.filter_by(taskId=task_id).count()
                 e['comment_num'] = comment_num
-                
                 u_c = Model.User.query.filter_by(id=e['create_user_id']).first()
                 if u_c:
                     e['creater_name'] = u_c.name
@@ -324,7 +324,6 @@ def task_comment():
         return api_response(200, 'success', '发布成功')
     elif request.method == 'GET':
         task_id = request.args.get('task_id')
-
         t_c = Model.TaskComment.query.filter_by(taskId=task_id).order_by(Model.TaskComment.createtime).all()
         for x in t_c:
             index = t_c.index(x)
@@ -334,10 +333,6 @@ def task_comment():
             x['publisher'] = u.get_json()
             t_c[index] = x
         return api_response(200, 'success', 'all task comment', {'comments': t_c})
-
-
-
-
 
 
 # ====User=========================== #
