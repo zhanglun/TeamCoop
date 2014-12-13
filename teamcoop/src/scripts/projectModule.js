@@ -42,7 +42,7 @@ projectModule.newProject = function() {
 projectModule.setStep = function() {
     var step = $('.progressBar').attr('data-step'),
         data = {
-            "project_id": projectModule.userid,
+            "project_id": projectModule.projectid,
             "project_status": step
         };
     postData.postdata('/api/project/detail/status/', data, function(json) {
@@ -96,7 +96,7 @@ projectModule.renderIssueList = function() {
     if (array_create.length != 0) {
         $.each(array_excute, function(index, obj) {
             var status = obj['status'];
-            $('#asignToMe tbody').append('<tr data-issueid="' + obj['id'] + '"><td><a href="javascript:void(0);">' + obj['title'] + '</a></td><td>12</td><td>' + obj['create_user_id'] + '</td><td><select name="" id="" class="form-control"><option value="finished">finished</option><option value="unfinish">unfinish</option><option value="executed">executed</option></select></td><td><button type="button" class="btn btn-danger btn-xs">delete</button></td></tr>');
+            $('#asignToMe tbody').append('<tr data-issueid="' + obj['id'] + '"><td><a href="javascript:void(0);">' + obj['title'] + '</a></td><td>' + obj['comment_num'] + '</td><td>' + obj['creater_name'] + '</td><td><select name="" id="" class="form-control"><option value="finished">finished</option><option value="unfinish">unfinish</option><option value="executed">executed</option></select></td><td><button type="button" class="btn btn-danger btn-xs">delete</button></td></tr>');
             $('#asignToMe tbody tr').last().find('option').eq(status - 1).attr('selected', 'selected');
         });
     } else {
@@ -105,7 +105,7 @@ projectModule.renderIssueList = function() {
     if (array_excute.length != 0) {
         $.each(array_create, function(index, obj) {
             var status = obj['status'];
-            $('#asignByMe tbody').append('<tr data-issueid="' + obj['id'] + '"><td><a href="javascript:void(0);" >' + obj['title'] + '</a></td><td>12</td><td>' + obj['execute_user_id'] + '</td><td><select name="" id="" class="form-control"><option value="finished">finished</option><option value="unfinish">unfinish</option><option value="executed">executed</option></select></td><td><button type="button" class="btn btn-danger btn-xs">delete</button></td></tr>');
+            $('#asignByMe tbody').append('<tr data-issueid="' + obj['id'] + '"><td><a href="javascript:void(0);" >' + obj['title'] + '</a></td><td>' + obj['comment_num'] + '</td><td>' + obj['execute_name'] + '</td><td><select name="" id="" class="form-control"><option value="finished">finished</option><option value="unfinish">unfinish</option><option value="executed">executed</option></select></td><td><button type="button" class="btn btn-danger btn-xs">delete</button></td></tr>');
             $('#asignByMe tbody tr').last().find('option').eq(status - 1).attr('selected', 'selected');
         });
     } else {
@@ -119,10 +119,11 @@ projectModule.newIssue = function() {
     }
     var data = postData.getData('#createIssueForm');
     data['project_id'] = projectModule.projectid;
-    // string to array
-    if (data.hasOwnProperty('execute_user_id') == true) {
-        data.execute_user_id = data.execute_user_id.split(',');
-    }
+    data['create_user_id'] = projectModule.userid;
+    // // string to array
+    // if (data.hasOwnProperty('execute_user_id') == true) {
+    //     data.execute_user_id = data.execute_user_id.split(',');
+    // }
     if (postData.checkForm('#createIssueForm') == false) {
         postData.postdata('/api/project/task/', data, function(json) {
             // console.log(json);
@@ -161,7 +162,7 @@ projectModule.deleteIssue = function() {
             };
         if (postData.confirm('确认删除吗?') == true) {
             postData.postdata('/api/project/task/trash/', data, function(json) {
-                project.removeIssue(issueId);
+                projectModule.removeIssue(issueId);
             });
         } else {
             return false;

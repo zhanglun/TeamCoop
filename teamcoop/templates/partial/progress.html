@@ -10,16 +10,16 @@
         <button class="btn btn-default btn-xs">Edit</button>
     </dd>
 </dl> -->
-<div class="row martb10">
-    <p class="col-sm-2 text-right">项目详情:</p>
+<div class="row martb10 project_detailboard">
+    <p class="col-sm-2">项目详情:</p>
     <p class="col-sm-4">{{ data.project.description }}</p>
-    <p class="col-sm-2 text-right">截止日期:</p>
+    <p class="col-sm-2">截止日期:</p>
     <p class="col-sm-4">{{ data.project.deadline }}</p>
-    <p class="col-sm-2 text-right">重要程度:</p>
+    <p class="col-sm-2">重要程度:</p>
     <p class="col-sm-4">{{ data.project.importance }}</p>
-    <p class="col-sm-2 text-right">添加成员:</p>
+    <p class="col-sm-2">添加成员:</p>
     <p class="col-sm-4"><button class="btn btn-default btn-xs" id="add_btn">添加</button></p>
-    <p class="col-sm-2 text-right">项目状态:</p>
+    <p class="col-sm-2">项目状态:</p>
     <p class="col-sm-4"><button class="btn btn-default btn-xs" id="edit_btn">编辑</button></p>
 </div>
 {% include "partial/projectAddMemberModal.html" %}

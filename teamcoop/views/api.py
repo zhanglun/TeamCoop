@@ -214,7 +214,7 @@ def project_task():
             return api_response(200, 'failed', u'在这个项目中，任务名不能重复')
         if execute_user_id is None:
             return api_response(400, 'fail', u'没有执行者' )
-        new_t = Model.Task(title=title, description=description, executeUserId=x, deadline=deadline, createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
+        new_t = Model.Task(title=title, description=description, executeUserId=execute_user_id, deadline=deadline, createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
         db.session.add(new_t)
         db.session.commit()
         return api_response(200, 'success', u'添加成功')
@@ -258,9 +258,7 @@ def user_task():
         project_id = request.args.get('project_id')
         # user部署的task
         task_c = Model.Task.query.filter(Model.Task.projectId == project_id and Model.Task.createUserId == user_id).order_by(Model.Task.title).all()
-        # user执行的task
-        task_e = Model.Task.query.filter(Model.Task.projectId == project_id and Model.Task.executeUserId ==
-                                         user_id).order_by(Model.Task.title).all()
+        print task_c
         if task_c is not None:
             for c in task_c:
                 index = task_c.index(c)
@@ -275,6 +273,11 @@ def user_task():
                 if u_e is not None:
                     c['execute_name'] = u_e.name
                 task_c[index] = c
+                
+        # user执行的task
+        task_e = Model.Task.query.filter(Model.Task.projectId == project_id and Model.Task.executeUserId ==
+                                         user_id).order_by(Model.Task.title).all()
+
 
         if task_e is not None:
             for e in task_e:

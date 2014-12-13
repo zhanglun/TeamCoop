@@ -49,6 +49,7 @@ postData.postdata = function(url, data, callback) {
         type: "POST",
         data: data,
         contentType: 'application/json;charset=UTF-8',
+        cache: false,
         success: function(json) {
             callback(json);
         },
@@ -65,6 +66,7 @@ postData.getdata = function(url, data, callback) {
             url: url,
             type: "GET",
             data: data,
+            cache: false,
             success: function(json) {
                 callback(json);
             },
@@ -125,7 +127,7 @@ $(function() {
         var input = $(event.target);
         // required
         if (input.attr('required') == 'required' && $.trim(input.val()) == '') {
-            input.parentsUntil('form','.form-group').addClass('has-error');
+            input.parentsUntil('form', '.form-group').addClass('has-error');
         }
     });
     $(':input').on('focus', function(event) {
@@ -136,7 +138,7 @@ $(function() {
     $(':password').last().on('blur', function(event) {
         var input = $(event.target);
         if ($(':password').first().val() != $(':password').last().val()) {
-            input.parentsUntil('form','.form-group').addClass('has-error');
+            input.parentsUntil('form', '.form-group').addClass('has-error');
         }
     });
 });
