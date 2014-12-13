@@ -126,16 +126,19 @@ def project_status():
 def project_member():
     if request.method == 'POST':
         project_id = request.json['project_id']
-        members = request.json['members']
+        person_in_charge = request.json.get('person_in_charge')
+        members = request.json.get('members')
+
         p = Model.Project.query.filter_by(id=project_id).first_or_404()
 
-        for m in members:
-            user_p = Model.UserProject.query.filter(Model.UserProject.userId == m).first()
-            u = Model.User.query.filter_by(id=m).first()
-            if user_p is None and u is not None:
-                new_user_p = Model.UserProject(projectId=project_id, userId=m)
-                db.session.add(new_user_p)
-        db.session.commit()
+        if person_in_charge is not None:
+            for x in person_in_charge:
+                charger = Model.UserProject(projectId=project_id, userId=x, level=1)
+                db.session.add(charger)
+        if members is not None:
+            for x in members:
+                member = Model.UserProject(projectId=project_id, userId=x, level=2)
+                db.session.add(member)
 
         return api_response(200, 'success', 'project member')
 

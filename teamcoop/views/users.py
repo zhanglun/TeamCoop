@@ -60,6 +60,36 @@ def get_other_issues(userid):
     L.sort(cmp=lambda x, y: cmp(x.get_time(), y.get_time()))
 
 
+def project_issues(project_id):
+    issues = []
+    p = Model.Project.query.filter_by(projectId).first()
+    # user
+    u_p = Model.UserProject.query.filter_by(projectId=project_id).order_by(Model.UserProject.createtime).all()
+    if u_p is not None:
+        for x in u_p:
+            u = Model.User.query.filter_by(x.userId).first()
+            if x.level == 1:
+                issues.append({u'项目负责人': u.username, u'项目名': p.title})
+            elif x.level == 2:
+                issues.append({u'项目参与者': u.username, u'项目名': p.title})
+
+    # Task
+    t = Model.Task.query.filter_by(projectId=project_id).order_by(Model.Task.createtime).all()
+    if t is not None:
+        for x in t:
+            execute_u = Model.User.query.filter_by(x.executeUserId).first()
+            create_u = Model.User.query.filter_by(x.createUserId).first()
+            issues.append({u'任务部署者': create_u.username, u'任务执行者': execute_u.username, u'项目名': p.title})
+
+    # project_comment
+    p_c = Model.ProjectComment.query.filter_by(projectId=project_id).order_by(Model.ProjectComment.createtime).all()
+
+    if p_c is not None:
+        for c in p_c:
+            u = Model.User.query.filter_by(id=c.userId).first()
+            issues.append({u'发布人': u.username, u'评论':p_c.content})
+
+    return issues
 
 @users.route('/<username>/issues/')
 def user_issues(username):
