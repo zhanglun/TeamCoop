@@ -211,9 +211,10 @@ def project_task():
         t = Model.Task.query.filter(Model.Task.title == title and Model.Task.projectId == project_id).first()
         if t is not None:
             return api_response(200, 'failed', u'在这个项目中，任务名不能重复')
-        for x in execute_user_id:
-            new_t = Model.Task(title=title, description=description, executeUserId=x, deadline=deadline, createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
-            db.session.add(new_t)
+        if execute_user_id is None:
+            return api_response(400, 'fail', u'没有执行者' )
+        new_t = Model.Task(title=title, description=description, executeUserId=x, deadline=deadline, createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
+        db.session.add(new_t)
         db.session.commit()
         return api_response(200, 'success', u'添加成功')
     elif request.method == 'GET':
@@ -263,6 +264,9 @@ def user_task():
             for c in task_c:
                 index = task_c.index(c)
                 c = c.get_json()
+                task_id = c['id']
+                comment_num = Model.TaskComment.query.filter_by(taskId=task_id).count()
+                c['comment_num'] = comment_num
                 u_c = Model.User.query.filter_by(id=c['create_user_id']).first()
                 if u_c is not None:
                     c['creater_name'] = u_c.name
@@ -275,9 +279,14 @@ def user_task():
             for e in task_e:
                 index = task_e.index(e)
                 e = e.get_json()
+                task_id = e['id']
+                comment_num = Model.TaskComment.query.filter_by(taskId=task_id).count()
+                e['comment_num'] = comment_num
+                
                 u_c = Model.User.query.filter_by(id=e['create_user_id']).first()
                 if u_c:
                     e['creater_name'] = u_c.name
+
                 u_e = Model.User.query.filter_by(id=e['execute_user_id']).first()
                 if u_e:
                     e['execute_name'] = u_e.name
