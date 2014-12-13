@@ -258,7 +258,14 @@ def user_task():
 def task_detail():
     project_id = request.args.get('project_id')
     task_id = request.args.get('task_id')
-    
+    task = Model.Task.query.filter_by(id=task_id, projectId=project_id).first()
+    t = task.get_json()
+    t['create_name'] = Model.User.query.filter_by(id=task.createUserId).first().username
+    t['execute_name'] = Model.User.query.filter_by(id=task.executeUserId).first().username
+    if task is None:
+        return api_response(200, 'failed', 'wrong task id')
+    else:
+        return api_response(200, 'success', 'get task detail', {'detail': t})
 
 
 # 任务的讨论
