@@ -114,7 +114,6 @@ memberlist.sendForward = function() {
 memberlist.init = function() {
     memberlist.getStaticData();
     $('.select_chargers,.select_participants').on('click', function() {
-        console.log('a');
         memberlist.triggerbutton = $(this);
         memberlist.modalshow();
         memberlist.renderPartmentList();
