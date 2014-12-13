@@ -108,7 +108,7 @@ postData.checkForm = function(formSelector) {
         var input = $(obj);
         // required
         if (input.attr('required') == 'required' && $.trim(input.val()) == '') {
-            input.parentsUntil('form').addClass('has-error');
+            input.parentsUntil('form', '.form-group').addClass('has-error');
         }
     });
     return $(formSelector + '>div').hasClass('has-error');

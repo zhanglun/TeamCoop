@@ -1,10 +1,10 @@
 var projectModule = {};
 
 projectModule.userid = $('#usertoggle').attr('data-userid');
+// default project id
 projectModule.projectid = "1";
 projectModule.getProjectId = function() {
-
-
+    projectModule.projectid = $('.nav-title').attr('data-project-id');
 }
 
 projectModule.newProject = function() {
@@ -52,7 +52,15 @@ projectModule.setStep = function() {
 projectModule.addMember = function() {
     $('#add_btn').on('click', function() {
         $('#addMemberModal').modal('show');
-
+    });
+    $('#addmember_btn').on('click', function() {
+        var data = postData.getData('#addmember_form');
+        if (data.hasOwnProperty('members') == true) {
+            data.members = data.members.split(',');
+        }
+        if (data.hasOwnProperty('person_in_charge') == true) {
+            data.person_in_charge = data.person_in_charge.split(',');
+        }
     });
 }
 
@@ -90,8 +98,8 @@ projectModule.newIssue = function() {
     if (postData.checkForm('#createIssueForm') == false) {
         postData.postdata('/api/project/task/', data, function(json) {
             // console.log(json);
-            // todo
             $('#createIssue').modal('hide');
+            projectModule.personalIssue();
         });
     } else {
         return false;
@@ -116,8 +124,6 @@ projectModule.deleteIssue = function() {
         console.log(data);
         if (postData.confirm('确认删除吗?') == true) {
             postData.postdata('/api/project/task/trash/', data, function(json) {
-                // todo
-                console.log(json);
                 project.removeIssue(issueId);
             });
         } else {
@@ -139,11 +145,15 @@ projectModule.resetModal = function() {
     $('.modal').on('hidden.bs.modal', function() {
         var divs = $(this).find('form>div');
         divs.each(function(index) {
+            $(this).removeClass('has-error');
             $(this).find('input').val('');
         });
     });
 }
 $(function() {
+    // get project id
+    projectModule.getProjectId();
+    // render  task list
     projectModule.personalIssue();
     projectModule.resetModal();
     // delete issue event bind
