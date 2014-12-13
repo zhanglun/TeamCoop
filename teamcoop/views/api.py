@@ -189,8 +189,8 @@ def project_task():
         if t is not None:
             return api_response(200, 'failed', u'在这个项目中，任务名不能重复')
 
-        new_t = Model.Task(title=title, description=description, execute_user_id=execute_user_id, deadline=deadline,
-                           create_user_id=create_user_id, createtime=createtime, status=status)
+        new_t = Model.Task(title=title, description=description, executeUserId=execute_user_id, deadline=deadline,
+                           createUserId=create_user_id, createtime=createtime, status=status)
         db.session.add(new_t)
         db.session.commit()
         return api_response(200, 'success', u'添加成功')
@@ -210,13 +210,16 @@ def drop_task():
     if request.method == 'POST':
         project_id = request.json['project_id']
         task_id = request.json['task_id']
-        t = Model.Task.query.filter_by(id = task_id, projectId = project_id).first()
-        if t is None:
-            return api_response(200, 'failed', u'找不到id对应的任务')
-        else:
-            db.session.delete(t)
-            db.session.commit()
-            return api_response(200, 'success', u'删除成功')
+        Model.Task.query.filter_by(id=task_id, projectId=project_id).delete()
+
+        db.session.commit()
+        return api_response(200, 'success', u'删除成功')
+        # if t is None:
+        #     return api_response(200, 'failed', u'找不到id对应的任务')
+        # else:
+        #     # db.session.delete()
+        #     db.session.commit()
+        #     return api_response(200, 'success', u'删除成功')
 
 
 # 用户相关的（部署和创建任务）
@@ -238,15 +241,24 @@ def user_task():
                 index = task_c.index(c)
                 c = c.get_json()
                 c['creater_name'] = Model.User.query.filter_by(id=c['create_user_id']).first().name
+                c['execute_name'] = Model.User.query.filter_by(id=c['execute_user_id']).first().name
                 task_c[index] = c
         if task_e is not None:
             for e in task_e:
                 index = task_e.index(e)
                 e = e.get_json()
+                e['creater_name'] = Model.User.query.filter_by(id=c['create_user_id']).first().name
                 e['execute_name'] = Model.User.query.filter_by(id=c['execute_user_id']).first().name
                 task_e[index] = e
 
         return api_response(200, 'success', 'all data', {'tasks': {'create': task_c, 'execute': task_e}})
+
+# 任务的详情
+@api.route('/project/task/detail/')
+def task_detail():
+    project_id = request.args.get('project_id')
+    task_id = request.args.get('task_id')
+    
 
 
 # 任务的讨论
