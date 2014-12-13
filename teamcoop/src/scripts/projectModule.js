@@ -114,6 +114,9 @@ projectModule.renderIssueList = function() {
 }
 
 projectModule.newIssue = function() {
+    if (postData.checkForm('#createIssueForm') == true) {
+        return false;
+    }
     var data = postData.getData('#createIssueForm');
     data['project_id'] = projectModule.projectid;
     // string to array
@@ -245,6 +248,7 @@ projectModule.resetModal = function() {
             $(this).removeClass('has-error');
             $(this).find('input').val('');
         });
+        $('.modal textarea').val('');
     });
 }
 

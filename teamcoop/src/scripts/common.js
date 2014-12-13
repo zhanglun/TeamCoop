@@ -125,7 +125,7 @@ $(function() {
         var input = $(event.target);
         // required
         if (input.attr('required') == 'required' && $.trim(input.val()) == '') {
-            input.parentsUntil('form').addClass('has-error');
+            input.parentsUntil('form','.form-group').addClass('has-error');
         }
     });
     $(':input').on('focus', function(event) {
@@ -136,7 +136,7 @@ $(function() {
     $(':password').last().on('blur', function(event) {
         var input = $(event.target);
         if ($(':password').first().val() != $(':password').last().val()) {
-            input.parentsUntil('form').addClass('has-error');
+            input.parentsUntil('form','.form-group').addClass('has-error');
         }
     });
 });
