@@ -197,7 +197,11 @@ def project_task():
     if request.method == 'POST':
         title = request.json.get('title')
         description = request.json.get('description')
+
         deadline = request.json.get('deadline')
+        if deadline:
+            deadline = dateutil.parser.parse(deadline)
+
         project_id = request.json['project_id']
         execute_user_id = request.json.get('execute_user_id')
         create_user_id = request.json.get('create_user_id')
@@ -207,10 +211,9 @@ def project_task():
         t = Model.Task.query.filter(Model.Task.title == title and Model.Task.projectId == project_id).first()
         if t is not None:
             return api_response(200, 'failed', u'在这个项目中，任务名不能重复')
-
-        new_t = Model.Task(title=title, description=description, executeUserId=execute_user_id, deadline=deadline,
-                           createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
-        db.session.add(new_t)
+        for x in execute_user_id:
+            new_t = Model.Task(title=title, description=description, executeUserId=x, deadline=deadline, createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
+            db.session.add(new_t)
         db.session.commit()
         return api_response(200, 'success', u'添加成功')
     elif request.method == 'GET':
