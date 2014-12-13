@@ -170,7 +170,8 @@ def project_comment():
             index = c.index(x)
             u = Model.User.query.filter_by(id=x.userId).first()
             x = x.get_json()
-            x['user'] = u.get_json()
+            del x['user_id']
+            x['publisher'] = u.get_json()
             c[index] = x
         return api_response(200, 'success', u'项目中所有的评论', {'comments': c})
 
@@ -224,6 +225,7 @@ def project_task():
         return api_response(400, 'success', 'test', {'tasks': task_list})
 
 
+# 删除任务
 @api.route('/project/task/trash/', methods=['GET', 'POST'])
 def drop_task():
     if request.method == 'POST':
@@ -291,12 +293,27 @@ def task_detail():
 @api.route('/project/task/comment/', methods=['GET', 'POST'])
 def task_comment():
     if request.method == 'POST':
+        project_id = request.json['project_id']
         task_id = request.json['task_id']
-        user_id = request.json['user_id']
         content = request.json['content']
-        c = Model.TaskComment(taskId=taskId, userId=user_id, content=content)
+        user_id = request.json['user_id']
+
+        new_content = Model.TaskComment(content=content, taksId=task_id, userId=user_id)
+        db.session.add(new_content)
+        db.session.commit()
+        return api_response(200, 'success', '发布成功')
     elif request.method == 'GET':
-        return '222'
+        task_id = request.args.get('task_id')
+
+        t_c = Model.TaskComment.query.filter_by(taskId=task_id).order_by(Model.TaskComment.createtime).all()
+        for x in t_c:
+            index = t_c.index(x)
+            u = Model.User.query.filter_by(id=x.userId).first()
+            x = x.get_json()
+            del x['user_id']
+            x['publisher'] = u.get_json()
+            t_c[index] = x
+        return api_response(200, 'success', 'all task comment', {'comments': t_c})
 
 
 
