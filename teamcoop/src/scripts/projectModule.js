@@ -165,6 +165,8 @@ projectModule.issueDetail = function(id) {
             $('#issueDetail form p').eq(2).html(o['creater_name']);
             $('#issueDetail form p').eq(3).html(o['execute_name']);
             $('#issueDetail form p').eq(4).html(o['deadline']);
+            // bind issue id
+            $('#issue_comment_btn').attr('data-issueid', id);
             return false;
         }
     });
@@ -181,9 +183,16 @@ projectModule.getIssueComment = function(id) {
 
 }
 
-projectModule.addIssueComment = function() {
-
-
+projectModule.addIssueComment = function(id, content) {
+    var data = {
+        "project_id": projectModule.projectid,
+        "task_id": id,
+        "user_id": projectModule.userid,
+        "content": content
+    };
+    postData.postdata("/api/project/task/comment/", data, function(json) {
+        console.log(json);
+    });
 }
 
 projectModule.removeIssue = function(id) {
@@ -195,11 +204,11 @@ projectModule.getProjectComment = function() {
         "project_id": projectModule.projectid
     };
     postData.getdata('/api/project/comment/', data, function(json) {
-        if (json['code'] == 'success') {
+        if (json['code'] == 'success' && json['result'] != null) {
             $('#project_comment_list').empty();
             var data = json['result']['comments'];
             $.each(data, function(index, obj) {
-                $('#project_comment_list').prepend('<li><p><small>' + obj['user']['username'] + ':</small></p><blockquote><p>' + obj['content'] + '</p><footer>' + obj['create_time'] + '</footer></blockquote></li>');
+                $('#project_comment_list').prepend('<li><p><small>' + obj['publisher']['username'] + ':</small></p><blockquote><p>' + obj['content'] + '</p><footer>' + obj['create_time'] + '</footer></blockquote></li>');
             });
             // enable btn
             $('#project_comment_btn').removeClass('disabled');
@@ -259,8 +268,20 @@ $(function() {
             $('#project_textarea').val('');
         }
     });
-    // projectModule.addProjectComment('gansiruizong');
-
+    // addIssueComment event bind
+    $('#issue_comment_btn').on('click', function() {
+        var content = $.trim($('#issue_textarea').val()),
+            task_id = $(this).attr('data-issueid');
+        if ($('this').hasClass('disabled') == true) {
+            alert('不要重复提交');
+        } else if (content == '') {
+            alert('请填入内容');
+        } else {
+            $('this').addClass('disabled');
+            projectModule.addIssueComment(task_id, content);
+            $('#issue_textarea').val('');
+        }
+    });
     // new issue event bind
     $('#btnCreateIssue').on('click', projectModule.newIssue);
 
