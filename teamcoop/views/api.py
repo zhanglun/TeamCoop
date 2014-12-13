@@ -172,6 +172,22 @@ def project_comment():
         return api_response(200, 'success', u'项目中所有的评论', {'comments': c})
 
 #Task
+
+@api.route('/project/task/status/', methods=['GET', 'POST'])
+def task_status():
+    if request.method == 'POST':
+        project_id = request.json['project_id']
+        task_id = request.json['task_id']
+        status = request.json['status']
+        t = Model.Task.query.filter_by(id=task_id, projectId=project_id).first()
+        if t is not None:
+            t.status = status
+            db.session.commit()
+            return api_response(200, 'success', 'status changed')
+        else:
+            return  api_response(200, 'success', 'no task')
+
+
 # 添加任务和获取任务
 @api.route('/project/task/', methods=['GET', 'POST'])
 def project_task():
