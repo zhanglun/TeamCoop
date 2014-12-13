@@ -64,8 +64,11 @@ projectModule.addMember = function() {
             data.person_in_charge = data.person_in_charge.split(',');
         }
         postData.postdata('/api/project/member/', data, function(json) {
-            // todo
-            console.log(json);
+            // console.log(json);
+            if (json['code'] == 'success') {
+                $('#addMemberModal').modal('hide');
+                alert('添加成功');
+            }
         });
     });
 }
@@ -165,10 +168,16 @@ projectModule.issueDetail = function(id) {
             return false;
         }
     });
+    projectModule.getIssueComment(id);
 }
 
-projectModule.getIssueComment = function() {
-    
+projectModule.getIssueComment = function(id) {
+    var data = {
+        "task_id": id
+    };
+    postData.getdata('/api/project/task/comment/', data, function(json) {
+        console.log(json);
+    });
 
 }
 

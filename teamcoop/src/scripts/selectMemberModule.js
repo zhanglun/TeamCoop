@@ -51,7 +51,7 @@ memberlist.renderPartmentList = function() {
 }
 
 memberlist.renderMemberlist = function(partmentId) {
-    var data = (memberlist.triggerbutton.hasClass('charger') == false) ? memberlist.data_participants : memberlist.data_chargers;
+    var data = (memberlist.triggerbutton.hasClass('select_chargers') == false) ? memberlist.data_participants : memberlist.data_chargers;
     $('#member').attr('title', partmentId).empty();
 
     $.each(memberlist.member_data, function(i, v) {
@@ -70,7 +70,7 @@ memberlist.renderMemberlist = function(partmentId) {
 }
 
 memberlist.getSelectList = function() {
-    var data = (memberlist.triggerbutton.hasClass('charger') == false) ? memberlist.data_participants : memberlist.data_chargers;
+    var data = (memberlist.triggerbutton.hasClass('select_chargers') == false) ? memberlist.data_participants : memberlist.data_chargers;
     $('#member li').each(function() {
         var key = $(this).attr('data-userid'),
             value = $(this).html();
@@ -80,7 +80,7 @@ memberlist.getSelectList = function() {
             delete data[key];
         }
     });
-    if (memberlist.triggerbutton.hasClass('charger') == false) {
+    if (memberlist.triggerbutton.hasClass('select_chargers') == false) {
         memberlist.data_participants = data;
     } else {
         memberlist.data_chargers = data;
@@ -88,7 +88,7 @@ memberlist.getSelectList = function() {
 }
 
 memberlist.sendForward = function() {
-    var data = (memberlist.triggerbutton.hasClass('charger') == false) ? memberlist.data_participants : memberlist.data_chargers;
+    var data = (memberlist.triggerbutton.hasClass('select_chargers') == false) ? memberlist.data_participants : memberlist.data_chargers;
     var inputValue = memberlist.triggerbutton.parentsUntil('.col-sm-10').find('input').get(0),
         inputKey = memberlist.triggerbutton.parentsUntil('.col-sm-10').find('input').get(1);
     inputKey.value = '';
@@ -101,7 +101,7 @@ memberlist.sendForward = function() {
     inputKey.value = inputKey.value.substr(0, inputKey.value.length - 1);
     inputValue.value = inputValue.value.substr(0, inputValue.value.length - 1);
     memberlist.modalhide();
-    if (memberlist.triggerbutton.hasClass('charger') == false) {
+    if (memberlist.triggerbutton.hasClass('select_chargers') == false) {
         memberlist.data_participants = {};
     } else {
         memberlist.data_chargers = {};
