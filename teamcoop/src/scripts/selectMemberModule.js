@@ -2,9 +2,11 @@
 var memberlist = {};
 
 memberlist.errorTip = function(msg) {
-    console.log(msg);
-    alert('something error occured. refresh you page');
-}
+        console.log(msg);
+        alert('something error occured. refresh you page');
+    }
+    // default multiplable choices
+memberlist.multiplable = "true";
 
 // data 
 memberlist.partment_data = {};
@@ -53,7 +55,10 @@ memberlist.renderPartmentList = function() {
 memberlist.renderMemberlist = function(partmentId) {
     var data = (memberlist.triggerbutton.hasClass('select_chargers') == false) ? memberlist.data_participants : memberlist.data_chargers;
     $('#member').attr('title', partmentId).empty();
-
+    // clear storage
+    if (memberlist.multiplable == "false") {
+        data = {};
+    }
     $.each(memberlist.member_data, function(i, v) {
         if (v['department_id'] == partmentId) {
             var members = v['members'];
@@ -71,6 +76,10 @@ memberlist.renderMemberlist = function(partmentId) {
 
 memberlist.getSelectList = function() {
     var data = (memberlist.triggerbutton.hasClass('select_chargers') == false) ? memberlist.data_participants : memberlist.data_chargers;
+    // clear storage
+    if (memberlist.multiplable == "false") {
+        data = {};
+    }
     $('#member li').each(function() {
         var key = $(this).attr('data-userid'),
             value = $(this).html();
@@ -80,6 +89,8 @@ memberlist.getSelectList = function() {
             delete data[key];
         }
     });
+
+
     if (memberlist.triggerbutton.hasClass('select_chargers') == false) {
         memberlist.data_participants = data;
     } else {
@@ -114,6 +125,27 @@ memberlist.sendForward = function() {
 memberlist.init = function() {
     memberlist.getStaticData();
     $('.select_chargers,.select_participants').on('click', function() {
+        if ($(this).attr('data-multiplable')) {
+            memberlist.multiplable = $(this).attr('data-multiplable') == undefined ? "true" : $(this).attr('data-multiplable');
+        }
+        // remove event
+        $('#member').off('click', 'li');
+        if (memberlist.multiplable == "true") {
+            console.log('multiplable');
+            $('#member').on('click', 'li', function(event) {
+                $(this).toggleClass('active');
+                // get and update data
+                memberlist.getSelectList();
+            });
+        } else {
+            console.log('no multiplable');
+            $('#member').on('click', 'li', function(event) {
+                $('#member li').removeClass('active');
+                $(this).addClass('active');
+                // get and update data
+                memberlist.getSelectList();
+            });
+        }
         memberlist.triggerbutton = $(this);
         memberlist.modalshow();
         memberlist.renderPartmentList();
@@ -126,11 +158,6 @@ memberlist.init = function() {
         $(this).addClass('active');
         // render member list
         memberlist.renderMemberlist(partmentId);
-    });
-    $('#member').on('click', 'li', function(event) {
-        $(this).toggleClass('active');
-        // get and update data
-        memberlist.getSelectList();
     });
     $('#send-forward').on('click', function() {
         memberlist.sendForward();
