@@ -112,8 +112,9 @@ def project_status():
     if request.method == 'POST':
         project_id = request.json['project_id']
         status = request.json['project_status']
-        p = Model.Project.query.filter_by(id=project_id).first_or_404()
-        p.status = status
+        p = Model.Project.query.filter_by(id=project_id).first()
+        p.status = int(status)
+        db.session.merge(p)
         db.session.commit()
         return 'success'
     elif reuqest.method == 'GET':
@@ -197,7 +198,11 @@ def project_task():
     if request.method == 'POST':
         title = request.json.get('title')
         description = request.json.get('description')
+
         deadline = request.json.get('deadline')
+        if deadline:
+            deadline = dateutil.parser.parse(deadline)
+
         project_id = request.json['project_id']
         execute_user_id = request.json.get('execute_user_id')
         create_user_id = request.json.get('create_user_id')
@@ -207,9 +212,9 @@ def project_task():
         t = Model.Task.query.filter(Model.Task.title == title and Model.Task.projectId == project_id).first()
         if t is not None:
             return api_response(200, 'failed', u'在这个项目中，任务名不能重复')
-
-        new_t = Model.Task(title=title, description=description, executeUserId=execute_user_id, deadline=deadline,
-                           createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
+        if execute_user_id is None:
+            return api_response(400, 'fail', u'没有执行者' )
+        new_t = Model.Task(title=title, description=description, executeUserId=x, deadline=deadline, createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
         db.session.add(new_t)
         db.session.commit()
         return api_response(200, 'success', u'添加成功')
@@ -260,6 +265,9 @@ def user_task():
             for c in task_c:
                 index = task_c.index(c)
                 c = c.get_json()
+                task_id = c['id']
+                comment_num = Model.TaskComment.query.filter_by(taskId=task_id).count()
+                c['comment_num'] = comment_num
                 u_c = Model.User.query.filter_by(id=c['create_user_id']).first()
                 if u_c is not None:
                     c['creater_name'] = u_c.name
@@ -272,9 +280,13 @@ def user_task():
             for e in task_e:
                 index = task_e.index(e)
                 e = e.get_json()
+                task_id = e['id']
+                comment_num = Model.TaskComment.query.filter_by(taskId=task_id).count()
+                e['comment_num'] = comment_num
                 u_c = Model.User.query.filter_by(id=e['create_user_id']).first()
                 if u_c:
                     e['creater_name'] = u_c.name
+
                 u_e = Model.User.query.filter_by(id=e['execute_user_id']).first()
                 if u_e:
                     e['execute_name'] = u_e.name
@@ -312,7 +324,6 @@ def task_comment():
         return api_response(200, 'success', '发布成功')
     elif request.method == 'GET':
         task_id = request.args.get('task_id')
-
         t_c = Model.TaskComment.query.filter_by(taskId=task_id).order_by(Model.TaskComment.createtime).all()
         for x in t_c:
             index = t_c.index(x)
@@ -322,10 +333,6 @@ def task_comment():
             x['publisher'] = u.get_json()
             t_c[index] = x
         return api_response(200, 'success', 'all task comment', {'comments': t_c})
-
-
-
-
 
 
 # ====User=========================== #
