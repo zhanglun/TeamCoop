@@ -157,7 +157,7 @@ def project_comment():
         new_content = Model.ProjectComment(content=content, projectId=project_id, userId=user_id)
         db.session.add(new_content)
         db.session.commit()
-
+        return api_response(200, 'success', '发布成功')
     elif request.method == 'GET':
 
         project_id = request.args.get('project_id')
@@ -185,7 +185,7 @@ def task_status():
             db.session.commit()
             return api_response(200, 'success', 'status changed')
         else:
-            return  api_response(200, 'success', 'no task')
+            return api_response(200, 'success', 'no task')
 
 
 # 添加任务和获取任务
