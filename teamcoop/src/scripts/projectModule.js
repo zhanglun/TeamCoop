@@ -32,10 +32,12 @@ projectModule.newProject = function() {
     data['creater_id'] = projectModule.userid;
     postData.postdata('/api/user/project/', data, function(json) {
         if (json['code'] == 'success') {
-            $('#createProject :input').val('');
-            $('#createProject').modal('hide');
+            // $('#createProject :input').val('');
+            // $('#createProject').modal('hide');
+            alert('添加成功');
+            teamcoop.refresh();
         } else {
-            alert(json['message']);
+            console.log(json['message']);
         }
     });
 }

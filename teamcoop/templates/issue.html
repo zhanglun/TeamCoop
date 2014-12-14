@@ -4,88 +4,91 @@
 
 
 {% block main %} 
-<div class="panel panel-primary">
-    
-    <div class="panel-heading">个人动态</div>
-    <div class="panel-body">
-        <ul class="list-unstyled issue-list">
-            {% for x in data.related_issues %}
-                {% if x['flag'] == 'add new user' %}
-                    <li>
-                        <p>{{ x.person_in_charge }}在部门：{{ x.department }}中，添加了新成员：{{ x.new_user }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'add new department' %}
-                    <li>
-                        <p>{{ x.person_in_charge }}添加了新部门：{{ x.department }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'add new project' %}
-                    <li>
-                        <p>{{ x.person_in_charge }}添加了新项目：{{ x.project_title }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'add member to project' %}
-                    <li>
-                        <p>{{ x.new_member }}加入项目：{{ x.project_title }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'deploy new task' %}
-                    <li>
-                        <p>{{ x.deployer }}在项目：{{ x.project_title }}中，添加了一个任务：{{ x['task_title'] }}，并指派给{{ x.executer }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'task comment' %}
-                    <li>
-                        <p>{{ x.publisher }}在任务：{{ x.task_title }}中，添加了评论</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+<div class="col-sm-6">
+    <div class="panel panel-primary">
+        
+        <div class="panel-heading">个人动态</div>
+        <div class="panel-body">
+            <ul class="list-unstyled issue-list">
+                {% for x in data.related_issues %}
+                    {% if x['flag'] == 'add new user' %}
+                        <li>
+                            <p>{{ x.person_in_charge }}在部门：{{ x.department }}中，添加了新成员：{{ x.new_user }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'add new department' %}
+                        <li>
+                            <p>{{ x.person_in_charge }}添加了新部门：{{ x.department }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'add new project' %}
+                        <li>
+                            <p>{{ x.person_in_charge }}添加了新项目：{{ x.project_title }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'add member to project' %}
+                        <li>
+                            <p>{{ x.new_member }}加入项目：{{ x.project_title }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'deploy new task' %}
+                        <li>
+                            <p>{{ x.deployer }}在项目：{{ x.project_title }}中，添加了一个任务：{{ x['task_title'] }}，并指派给{{ x.executer }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'task comment' %}
+                        <li>
+                            <p>{{ x.publisher }}在任务：{{ x.task_title }}中，添加了评论</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </div>
+<div class="col-sm-6">
+    <div class="panel panel-primary">
+        <div class="panel-heading">所有动态</div>
+        <div class="panel-body">
+            <ul class="list-unstyled issue-list">
+                {% for x in data.other_issues %}
+                    {% if x['flag'] == 'add new user' %}
+                        <li>
+                            <p>{{ x.person_in_charge }}在部门：{{ x.department }}中，添加了新成员：{{ x.new_user }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'add new department' %}
+                        <li>
+                            <p>{{ x.person_in_charge }}添加了新部门：{{ x.department }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'add new project' %}
+                        <li>
+                            <p>{{ x.person_in_charge }}添加了新项目：{{ x.project_title }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'add member to project' %}
+                        <li>
+                            <p>{{ x.new_member }}加入项目：{{ x.project_title }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'deploy new task' %}
+                        <li>
+                            <p>{{ x.deployer }}在项目：{{ x.project_title }}中，添加了一个任务：{{ x['task_title'] }}，并指派给{{ x.executer }}</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
+                    {% elif x['flag'] == 'task comment' %}
+                        <li>
+                            <p>{{ x.publisher }}在任务：{{ x.task_title }}中，添加了评论</p>
+                            <p>{{ x.create_time }}</p>
+                        </li>
 
-<div class="panel panel-primary">
-    <div class="panel-heading">所有动态</div>
-    <div class="panel-body">
-        <ul class="list-unstyled issue-list">
-            {% for x in data.other_issues %}
-                {% if x['flag'] == 'add new user' %}
-                    <li>
-                        <p>{{ x.person_in_charge }}在部门：{{ x.department }}中，添加了新成员：{{ x.new_user }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'add new department' %}
-                    <li>
-                        <p>{{ x.person_in_charge }}添加了新部门：{{ x.department }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'add new project' %}
-                    <li>
-                        <p>{{ x.person_in_charge }}添加了新项目：{{ x.project_title }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'add member to project' %}
-                    <li>
-                        <p>{{ x.new_member }}加入项目：{{ x.project_title }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'deploy new task' %}
-                    <li>
-                        <p>{{ x.deployer }}在项目：{{ x.project_title }}中，添加了一个任务：{{ x['task_title'] }}，并指派给{{ x.executer }}</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
-                {% elif x['flag'] == 'task comment' %}
-                    <li>
-                        <p>{{ x.publisher }}在任务：{{ x.task_title }}中，添加了评论</p>
-                        <p>{{ x.create_time }}</p>
-                    </li>
+                    {% endif %}
+                {% endfor %}
 
-                {% endif %}
-            {% endfor %}
-
-        </ul>
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock%}

@@ -173,3 +173,6 @@ teamcoop.hash = function(hash) {
         window.location.hash = hash;
     }
 }
+teamcoop.refresh = function() {
+    window.location.reload(false);
+}
