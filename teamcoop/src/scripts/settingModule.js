@@ -31,9 +31,14 @@ settingModule.toggle = function() {
         $('.setting_select button').removeClass('btn-primary');
         $(event.target).addClass('btn-primary');
         var name = $(event.target).attr('data-target');
+        teamcoop.hash(name);
         $('.member-setting,.personal-setting').hide();
         $('.' + name).show();
     });
+    if (teamcoop.hash() != '') {
+        $('[data-target=' + teamcoop.hash().substr(1) + ']').trigger('click');
+    }
+
 }
 
 // add_name

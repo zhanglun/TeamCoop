@@ -164,3 +164,12 @@ $(function() {
         }
     });
 });
+
+var teamcoop = {};
+teamcoop.hash = function(hash) {
+    if (arguments.length == 0) {
+        return window.location.hash;
+    } else {
+        window.location.hash = hash;
+    }
+}

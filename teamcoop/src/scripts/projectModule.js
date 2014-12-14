@@ -240,7 +240,7 @@ projectModule.addProjectComment = function(content) {
     };
     postData.postdata('/api/project/comment/', data, function(json) {
         projectModule.getProjectComment();
-    })
+    });
 }
 projectModule.resetModal = function() {
     $('.modal').on('hidden.bs.modal', function() {
@@ -251,6 +251,15 @@ projectModule.resetModal = function() {
         });
         $('.modal textarea').val('');
     });
+}
+
+projectModule.tabToggle = function() {
+    $('#nav-tabs a').on('click', function(event) {
+        teamcoop.hash($(event.target).attr('href').substr(1));
+    });
+    if (teamcoop.hash != '') {
+        // $('[href="' + teamcoop.hash() + '"]').tab('show');
+    }
 }
 
 $(function() {
@@ -272,6 +281,8 @@ $(function() {
     // getProjectComment
     projectModule.getProjectComment();
 
+    // toggle
+    // projectModule.tabToggle();
     // addProjectComment event bind
     $('#project_comment_btn').on('click', function() {
         var content = $.trim($('#project_textarea').val());

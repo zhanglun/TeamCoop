@@ -3,12 +3,12 @@
 {% block project_class %}active{% endblock %} 
 {% block main %}
 <section>
-    <p class="nav-title" data-project-id="{{ data.project.id }}"><span class="glyphicon
+    <p class="nav-title" data-project-id="{{ data.project.id }}"><a href=""><span class="glyphicon
     glyphicon-circle-arrow-left"></span
-            >{{ data.project.title }}</p>
+            ></a>{{ data.project.title }}</p>
     <div role="tabpanel">
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs" role="tablist" id="nav-tabs">
             <li role="presentation" class="active"><a href="#progress" aria-controls="progress" role="tab" data-toggle="tab">进度</a>
             </li>
             <li role="presentation"><a href="#issues" aria-controls="issues" role="tab" data-toggle="tab">任务</a>
