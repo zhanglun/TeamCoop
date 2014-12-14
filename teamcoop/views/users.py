@@ -34,8 +34,23 @@ def issues_detail(username, issue_id):
 def user_project(username):
     u = Model.User.query.filter_by(username=unicode(username)).first()
     if u is not None:
-        user_project_items = Model.Project.query.filter_by(createuserid=u.id).order_by(Model.Project.title).all()
-        user_project_others = Model.Project.query.filter(Model.Project.createuserid != u.id).all()
+        user_project_items = []
+        user_project_others = []
+        u_p = Model.UserProject.query.filter_by(userId=u.id).all()
+        for p in u_p:
+            user_project_items.append(Model.Project.query.filter_by(id=p.projectId).order_by(Model.Project.title).first())
+
+        u_p_other = Model.UserProject.query.distinct().filter(Model.UserProject.userId!=u.id).all()
+        print 'u_p_other'
+        print u_p_other
+        for p in u_p_other:
+            print 'p'
+            print p
+            user_project_others.append(Model.Project.query.filter_by(id=p.projectId).order_by(Model.Project.title).first())
+
+
+        # user_project_items = Model.Project.query.filter_by(createuserid=u.id).order_by(Model.Project.title).all()
+        # user_project_others = Model.Project.query.filter(Model.Project.createuserid != u.id).all()
         data = {'username': u.username, 'userid': u.id}
         session['username'] = username
         return render_template('project_dashboard.html', data=data, user_project_items=user_project_items,

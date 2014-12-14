@@ -40,9 +40,10 @@ def get_related_issues(userid):
                 u_d = Model.UserDepartMent.query.filter_by(userId=x.id).first()
                 print 'u_d'
                 print u_d
-                d = Model.DepartMent.query.filter_by(id=u_d.departmentId).first()
-                issues.append({'flag': 'add new user', 'person_in_charge': u'你', 'new_user': x.username, 'department':
-                    d.depName, 'create_time': x.createtime})
+                if u_d is not None:
+                    d = Model.DepartMent.query.filter_by(id=u_d.departmentId).first()
+                    issues.append({'flag': 'add new user', 'person_in_charge': u'你', 'new_user': x.username, 'department':
+                        d.depName, 'create_time': x.createtime})
         # 管理员添加部门
         depart = Model.DepartMent.query.all()
         for x in depart:

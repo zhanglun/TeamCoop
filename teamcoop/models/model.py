@@ -29,7 +29,7 @@ class UserProject(db.Model):
         return self.createtime
 
     def __repr__(self):
-        return '<UserProject %r %r>' % (self.userId, self.projectId)
+        return '<UserProject user_id:%r project_id:%r>' % (self.userId, self.projectId)
 
 
 class User(db.Model):
@@ -76,7 +76,7 @@ class Project(db.Model):
         return {'id': self.id, 'title': self.title, 'description': self.description, 'level': self.level, 'importance': importance_list[self.level], 'deadline': self.deadline, 'status': self.status, 'isPublic': self.isPublic, 'createuserid': self.createuserid, 'createtime': self.createtime}
 
     def __repr__(self):
-        return '<Project %r>' % self.title
+        return '<Project title: %r id: %r>' % (self.title, self.id)
 
 
 # department
