@@ -6,6 +6,7 @@ class UserDepartMent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     departmentId = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
     userId = db.Column(db.Text, db.ForeignKey('user.id'), nullable=False)
+    createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
     def get_time(self):
         return self.createtime
