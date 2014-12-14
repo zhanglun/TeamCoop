@@ -214,7 +214,7 @@ def project_task():
             return api_response(200, 'failed', u'在这个项目中，任务名不能重复')
         if execute_user_id is None:
             return api_response(400, 'fail', u'没有执行者' )
-        new_t = Model.Task(title=title, description=description, executeUserId=x, deadline=deadline, createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
+        new_t = Model.Task(title=title, description=description, deadline=deadline, executeUserId=execute_user_id, createUserId=create_user_id, createtime=createtime, status=status, projectId=project_id)
         db.session.add(new_t)
         db.session.commit()
         return api_response(200, 'success', u'添加成功')
