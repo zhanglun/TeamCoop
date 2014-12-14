@@ -103,8 +103,14 @@ body
 
     .center-block;
 }
-.projectStateList
+.projectStateList,
+.issue-list
 {
+    font-size: @font-size-base;
+    li + li
+    {
+        margin-top: .5em;
+    }
     small
     {
         color: @gray;

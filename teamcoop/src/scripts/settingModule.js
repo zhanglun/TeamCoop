@@ -28,6 +28,8 @@ settingModule.getStaticData = function() {
 // toggle selection
 settingModule.toggle = function() {
     $('.setting_select button').on('click', function(event) {
+        $('.setting_select button').removeClass('btn-primary');
+        $(event.target).addClass('btn-primary');
         var name = $(event.target).attr('data-target');
         $('.member-setting,.personal-setting').hide();
         $('.' + name).show();

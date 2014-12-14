@@ -18,9 +18,13 @@
     <p class="col-sm-2">重要程度:</p>
     <p class="col-sm-4">{{ data.project.importance }}</p>
     <p class="col-sm-2">添加成员:</p>
-    <p class="col-sm-4"><button class="btn btn-default btn-xs" id="add_btn">添加</button></p>
+    <p class="col-sm-4">
+        <button class="btn btn-default btn-xs" id="add_btn">添加</button>
+    </p>
     <p class="col-sm-2">项目状态:</p>
-    <p class="col-sm-4"><button class="btn btn-default btn-xs" id="edit_btn">编辑</button></p>
+    <p class="col-sm-4">
+        <button class="btn btn-default btn-xs" id="edit_btn">编辑</button>
+    </p>
 </div>
 {% include "partial/projectAddMemberModal.html" %}
 <div class="progressBar" data-step="{{ data.project.status }}">
@@ -48,31 +52,27 @@
     </ul>
 </div>
 <hr>
-<h4>project state</h4>
-<ul class="list-unstyled projectStateList">
+<div class="panel panel-primary">
+    <div class="panel-heading">项目动态</div>
+    <div class="panel-body">
+        <ul class="list-unstyled projectStateList">
+            {# {% if len(data.issues) >1 %}#} 
+                {% for x in data.issues %} 
+                    {% if x.flag == 'add new project' %}
+                        <li class="clearfix">{{ x.person_in_charge }}添加了一个新项目: {{ x.project_title }} <small class="pull-right">{{ x.create_time }}</small> </li>
+                    {% elif x.flag == 'join new project' %}
+                        <li class="clearfix">{{ x.participant }}加入了新项目: {{ x.project_title }} <small class="pull-right">{{ x.create_time }}</small> </li>
+                    {% elif x.flag == 'deploy new task' %}
+                        <li class="clearfix">{{ x.deployer }}为{{ x.executer }}布置了一个新任务: {{ x.task_title }} <small class="pull-right">{{ x.create_time }}</small> </li>
+                    {% elif x.flag == 'add project comment' %}
+                        <li class="clearfix">{{ x.publisher }}在项目中添加了讨论，点击查看<small class="pull-right">{{ x.create_time }}</small> </li>
+                    {% elif x.flag == 'add task comment' %}
+                        <li class="clearfix">{{ x.publisher }}在任务：{{ x.title }}中添加了讨论，点击查看<small class="pull-right">{{ x.create_time }}</small> </li>
+                    {% endif %} 
+                {% endfor %} 
+            {# {% endif %}#}
+        </ul>
+    </div>
+</div>    
 
-{#    {% if len(data.issues) >1 %}#}
-        {% for x in data.issues %}
-            {% if x.flag == 'add new project' %}
-                <li class="clearfix">{{ x.person_in_charge }}添加了一个新项目: {{ x.project_title }} <small class="pull-right">{{ x.create_time }}</small> </li>
-            {% elif x.flag == 'join new project' %}
-                <li class="clearfix">{{ x.participant }}加入了新项目: {{ x.project_title }} <small class="pull-right">{{ x.create_time }}</small> </li>
-            {% elif x.flag == 'deploy new task' %}
-                <li class="clearfix">{{ x.deployer }}为{{ x.executer }}布置了一个新任务: {{ x.task_title }} <small
-                        class="pull-right"
-                        >{{ x.create_time }}</small> </li>
-            {% elif x.flag == 'add project comment' %}
-            <li class="clearfix">{{ x.publisher }}在项目中添加了讨论，点击查看<small
-                    class="pull-right"
-                    >{{ x.create_time }}</small> </li>
-            {% elif x.flag == 'add task comment' %}
-            <li class="clearfix">{{ x.publisher }}在任务：{{ x.title }}中添加了讨论，点击查看<small
-                    class="pull-right"
-                    >{{ x.create_time }}</small> </li>
-            {%  endif %}
-        {% endfor %}
-{#    {% endif %}#}
-
-
-</ul>
 
