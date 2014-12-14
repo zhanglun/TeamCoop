@@ -67,7 +67,7 @@
                     {% elif x.flag == 'add project comment' %}
                         <li class="clearfix">{{ x.publisher }}在项目中添加了讨论，点击查看<small class="pull-right">{{ x.create_time }}</small> </li>
                     {% elif x.flag == 'add task comment' %}
-                        <li class="clearfix">{{ x.publisher }}在任务：{{ x.title }}中添加了讨论，点击查看<small class="pull-right">{{ x.create_time }}</small> </li>
+                        <li class="clearfix">{{ x.publisher }}在任务：{{ x.task_title }}中添加了讨论<small class="pull-right">{{ x.create_time }}</small> </li>
                     {% endif %} 
                 {% endfor %} 
             {# {% endif %}#}

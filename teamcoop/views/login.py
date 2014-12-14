@@ -32,7 +32,6 @@ def submit():
         if form.password.data == u.password:
             if form.remember.data ==True:
                 session['username'] = name
-
             return redirect(url_for('users.user_issues', username=name))
         else:
             flash(u'用户名或密码错误')

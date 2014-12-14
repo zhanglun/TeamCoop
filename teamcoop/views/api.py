@@ -320,7 +320,7 @@ def task_comment():
         content = request.json['content']
         user_id = request.json['user_id']
 
-        new_content = Model.TaskComment(content=content, taksId=task_id, userId=user_id)
+        new_content = Model.TaskComment(content=content, taskId=task_id, userId=user_id)
         db.session.add(new_content)
         db.session.commit()
         return api_response(200, 'success', '发布成功')
