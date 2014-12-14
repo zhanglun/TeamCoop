@@ -63,18 +63,22 @@ def team_department():
             db.session.add(new_department)
             db.session.commit()
             for x in members:
-                u = Model.User.query.filter_by(name=x).first()
-                if x is not None:
+                u = Model.User.query.filter_by(username=x).first()
+                print u
+                if u is None:
                     new_user = Model.User(name=x, username=x)
                     db.session.add(new_user)
                     db.session.commit()
                     user_depart = Model.UserDepartMent(departmentId=new_department.id, userId=new_user.id)
                     db.session.add(user_depart)
+                    db.session.commit()
+                    return '新增部门和成员'
                 else:
-                    user_depart = Model.UserDepartMent(departmentId=new_department.id, userId=u.id)
-                    db.session.add(user_depart)
-            db.session.commit()
-            return '新增部门和成员'
+                    return api_response(400, 'fail', 'user already exist!')
+                    # user_depart = Model.UserDepartMent(departmentId=new_department.id, userId=u.id)
+                    # db.session.add(user_depart)
+                    # db.session.commit()
+            # db.session.commit()
         else:
             return api_response(400, 'fail', 'department is already exist')
     elif request.method == 'GET':
@@ -94,10 +98,13 @@ def team_department():
 def drop_department():
     if request.method == 'POST':
         depart_id = request.json.get('department_id')
+
         for x in depart_id:
-            p = Model.DepartMent.query.filter(Model.DepartMent.id == x)
-            p.delete()
-        db.session.commit()
+            d = db.session.query(Model.DepartMent).filter_by(id=x).first()
+            u_d = db.session.query(Model.UserDepartMent).filter_by(departmentId=d.id).first()
+            db.session.delete(u_d)
+            db.session.delete(d)
+            db.session.commit()
         return api_response(200, 'success', 'delete department')
     else:
         return '405'
@@ -344,6 +351,7 @@ def task_comment():
 @api.route('/personal/setting/', methods=['GET', 'POST'])
 def set_person():
     if request.method == 'POST':
+        user_id = request.json['user_id']
         name = request.json['name']
         username = request.json['username']
         password = request.json['password']
@@ -352,11 +360,13 @@ def set_person():
         if confirm_password != password:
             return api_response(400, 'bad request', '参数错误')
 
-        person = user.User.query.filter_by(name=name).first()
+        person = Model.User.query.filter_by(id=user_id).first()
         if person is not None:
             person.username = username
             person.password = password
-            api_response(200, 'success', 'Down!')
+            db.session.merge(person)
+            db.session.commit()
+            return api_response(200, 'success', 'Down!')
 
     elif request.method == 'GET':
         return api_response('200', 'success', 'test')

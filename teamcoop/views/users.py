@@ -40,17 +40,11 @@ def user_project(username):
         for p in u_p:
             user_project_items.append(Model.Project.query.filter_by(id=p.projectId).order_by(Model.Project.title).first())
 
-        u_p_other = Model.UserProject.query.distinct().filter(Model.UserProject.userId!=u.id).all()
-        print 'u_p_other'
-        print u_p_other
+        u_p_other = Model.UserProject.query.filter(Model.UserProject.userId!=u.id).order_by(Model.UserProject.projectId).all()
+
         for p in u_p_other:
-            print 'p'
-            print p
             user_project_others.append(Model.Project.query.filter_by(id=p.projectId).order_by(Model.Project.title).first())
-
-
-        # user_project_items = Model.Project.query.filter_by(createuserid=u.id).order_by(Model.Project.title).all()
-        # user_project_others = Model.Project.query.filter(Model.Project.createuserid != u.id).all()
+            
         data = {'username': u.username, 'userid': u.id}
         session['username'] = username
         return render_template('project_dashboard.html', data=data, user_project_items=user_project_items,

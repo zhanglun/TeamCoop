@@ -4,8 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class UserDepartMent(db.Model):
     __tablename__ = 'user_department'
     id = db.Column(db.Integer, primary_key=True)
-    departmentId = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
-    userId = db.Column(db.Text, db.ForeignKey('user.id'), nullable=False)
+    # departmentId = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
+    # userId = db.Column(db.Text, db.ForeignKey('user.id'), nullable=False)
+    departmentId = db.Column(db.Integer, nullable=False)
+    userId = db.Column(db.Text, nullable=False)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
     def get_time(self):
@@ -17,8 +19,10 @@ class UserDepartMent(db.Model):
 class UserProject(db.Model):
     __tablename__ = 'user_project'
     id = db.Column(db.Integer, primary_key=True)
-    projectId = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-    userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # projectId = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    # userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    projectId = db.Column(db.Integer, nullable=False)
+    userId = db.Column(db.Integer, nullable=False)
     level = db.Column(db.Integer, nullable=False, default=2)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
@@ -43,7 +47,7 @@ class User(db.Model):
     email = db.Column(db.Text, default='')
     createtime = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
-    department = db.relationship('UserDepartMent', backref='department', lazy='dynamic')
+    # department = db.relationship('UserDepartMent', backref='department', lazy='dynamic')
 
     def get_time(self):
         return self.createtime
@@ -88,7 +92,7 @@ class DepartMent(db.Model):
     parentId = db.Column(db.Integer, nullable=False, default=0)
     createtime = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow())
 
-    userid = db.relationship('UserDepartMent', backref='members', lazy='dynamic')
+    # userid = db.relationship('UserDepartMent', backref='members', lazy='dynamic')
 
     def get_json(self):
         return {'id': self.id, 'department_name': self.depName, 'parent_id': self.parentId}
