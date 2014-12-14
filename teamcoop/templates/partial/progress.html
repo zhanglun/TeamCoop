@@ -24,6 +24,9 @@
 </div>
 {% include "partial/projectAddMemberModal.html" %}
 <div class="progressBar" data-step="{{ data.project.status }}">
+    <div class="cover text-center">
+        <img src="{{ url_for('static', filename='images/ajax-loader.gif') }}" alt="">
+    </div>
     <ul>
         <li>需求<span>1</span>
         </li>

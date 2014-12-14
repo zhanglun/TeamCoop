@@ -46,9 +46,9 @@ gulp.task('bower', function () {
 
 gulp.task('uglify', function () {
     gulp.src(paths.scripts)
-        // .pipe(sourcemaps.init())
-        // .pipe(uglify())
-        // .pipe(sourcemaps.write())
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(APP_DIR));
 });
 

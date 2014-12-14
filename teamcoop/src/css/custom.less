@@ -9,6 +9,14 @@
     margin-bottom: 0;
 
     box-shadow: 0 5px 10px #ddd;
+    .navbar-brand
+    {
+        &:hover
+        {
+            color: #fff;
+            background: @brand-primary;
+        }
+    }
 }
 .main-block
 {
@@ -16,6 +24,7 @@
     .row
     {
         overflow: hidden;
+
         .fill;
     }
     > .row > div
@@ -156,6 +165,8 @@ body
         list-style: none;
 
         text-align: center;
+
+        opacity: 0;
     }
     ul li
     {
