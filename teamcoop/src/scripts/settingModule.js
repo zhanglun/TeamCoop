@@ -3,6 +3,7 @@ var settingModule = {};
 
 settingModule.partmentList = {};
 settingModule.memberList = {};
+settingModule.userid = $('#usertoggle').attr('data-userid');
 // data
 settingModule.getStaticData = function() {
     postData.getdata('/api/team/department/', function(json) {
@@ -66,12 +67,13 @@ settingModule.addperson = function(formselector) {
 
 // personSetting
 settingModule.personalSetting = function(formselector) {
-
     $(formselector + ' button').on('click', function() {
         var data = postData.getData(formselector);
+        data['user_id'] = settingModule.userid;
         if (postData.checkForm(formselector) == false) {
             postData.postdata('/api/personal/setting/', data, function() {
-                console.log('success');
+                alert('修改成功');
+                teamcoop.refresh();
             });
         } else {
             return false;

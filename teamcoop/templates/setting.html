@@ -17,22 +17,22 @@
 <div class="row">
     <form role="form" class="col-md-6 col-md-push-3 personal-setting">
         <div class="form-group">
-            <label class="control-label" for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="{{ data.username }}" required>
+            <label class="control-label" for="username">用户名</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ data.username }}" placeholder="username" required>
         </div>
         <div class="form-group">
-            <label class="control-label" for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="{{ data.name }}" required>
+            <label class="control-label" for="name">姓名</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ data.name }}" required placehoder="name">
         </div>
         <div class="form-group">
-            <label class="control-label" for="password">Password</label>
+            <label class="control-label" for="password">密码</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
         </div>
         <div class="form-group">
-            <label class="control-label" for="confirm_passwd">Confirm_password</label>
-            <input type="password" class="form-control" id="confirm_passwd" name="confirm_password" placeholder="Password" required>
+            <label class="control-label" for="confirm_passwd">重复密码</label>
+            <input type="password" class="form-control" id="confirm_passwd" name="confirm_password" placeholder="Confirm_Password" required>
         </div>
-        <button type="button" class="btn btn-default">Submit</button>
+        <button type="button" class="btn btn-default">提交</button>
     </form>
     {% if data.user_level == 1 %}
     <div class="member-setting col-md-12" style="display:none;">
