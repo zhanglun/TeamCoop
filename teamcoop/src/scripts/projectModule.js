@@ -2,7 +2,7 @@ var projectModule = {};
 
 projectModule.userid = $('#usertoggle').attr('data-userid');
 // default project id
-projectModule.projectid = "1";
+projectModule.projectid = "";
 projectModule.getProjectId = function() {
     projectModule.projectid = $('.nav-title').attr('data-project-id');
 }
@@ -42,7 +42,7 @@ projectModule.newProject = function() {
 projectModule.setStep = function() {
     var step = $('.progressBar').attr('data-step'),
         data = {
-            "project_id": projectModule.userid,
+            "project_id": projectModule.projectid,
             "project_status": step
         };
     postData.postdata('/api/project/detail/status/', data, function(json) {
@@ -74,6 +74,10 @@ projectModule.addMember = function() {
 }
 
 projectModule.getPersonalIssue = function() {
+    // dashboard no issues
+    if (isNaN(parseInt(projectModule.projectid))) {
+        return false;
+    }
     var data = {
         "user_id": projectModule.userid,
         "project_id": projectModule.projectid,
@@ -89,25 +93,37 @@ projectModule.renderIssueList = function() {
     var array_create = projectModule.issueData['tasks']['create'],
         array_excute = projectModule.issueData['tasks']['execute'];
     $('#asignToMe tbody,#asignByMe tbody').empty();
-    $.each(array_excute, function(index, obj) {
-        var status = obj['status'];
-        $('#asignToMe tbody').append('<tr data-issueid="' + obj['id'] + '"><td><a href="javascript:void(0);">' + obj['title'] + '</a></td><td>12</td><td>' + obj['create_user_id'] + '</td><td><select name="" id="" class="form-control"><option value="finished">finished</option><option value="unfinish">unfinish</option><option value="executed">executed</option></select></td><td><button type="button" class="btn btn-danger btn-xs">delete</button></td></tr>');
-        $('#asignToMe tbody tr').last().find('option').eq(status - 1).attr('selected', 'selected');
-    });
-    $.each(array_create, function(index, obj) {
-        var status = obj['status'];
-        $('#asignByMe tbody').append('<tr data-issueid="' + obj['id'] + '"><td><a href="javascript:void(0);" >' + obj['title'] + '</a></td><td>12</td><td>' + obj['execute_user_id'] + '</td><td><select name="" id="" class="form-control"><option value="finished">finished</option><option value="unfinish">unfinish</option><option value="executed">executed</option></select></td><td><button type="button" class="btn btn-danger btn-xs">delete</button></td></tr>');
-        $('#asignByMe tbody tr').last().find('option').eq(status - 1).attr('selected', 'selected');
-    });
+    if (array_create.length != 0) {
+        $.each(array_excute, function(index, obj) {
+            var status = obj['status'];
+            $('#asignToMe tbody').append('<tr data-issueid="' + obj['id'] + '"><td><a href="javascript:void(0);">' + obj['title'] + '</a></td><td>' + obj['comment_num'] + '</td><td>' + obj['creater_name'] + '</td><td><select name="" id="" class="form-control"><option value="finished">finished</option><option value="unfinish">unfinish</option><option value="executed">executed</option></select></td><td><button type="button" class="btn btn-danger btn-xs">delete</button></td></tr>');
+            $('#asignToMe tbody tr').last().find('option').eq(status - 1).attr('selected', 'selected');
+        });
+    } else {
+        $('#asignToMe tbody').append('<tr><td colspan="5">暂时没有任务</td></tr>');
+    }
+    if (array_excute.length != 0) {
+        $.each(array_create, function(index, obj) {
+            var status = obj['status'];
+            $('#asignByMe tbody').append('<tr data-issueid="' + obj['id'] + '"><td><a href="javascript:void(0);" >' + obj['title'] + '</a></td><td>' + obj['comment_num'] + '</td><td>' + obj['execute_name'] + '</td><td><select name="" id="" class="form-control"><option value="finished">finished</option><option value="unfinish">unfinish</option><option value="executed">executed</option></select></td><td><button type="button" class="btn btn-danger btn-xs">delete</button></td></tr>');
+            $('#asignByMe tbody tr').last().find('option').eq(status - 1).attr('selected', 'selected');
+        });
+    } else {
+        $('#asignByMe tbody').append('<tr><td colspan="5">暂时没有任务</td></tr>');
+    }
 }
 
 projectModule.newIssue = function() {
+    if (postData.checkForm('#createIssueForm') == true) {
+        return false;
+    }
     var data = postData.getData('#createIssueForm');
     data['project_id'] = projectModule.projectid;
-    // string to array
-    if (data.hasOwnProperty('execute_user_id') == true) {
-        data.execute_user_id = data.execute_user_id.split(',');
-    }
+    data['create_user_id'] = projectModule.userid;
+    // // string to array
+    // if (data.hasOwnProperty('execute_user_id') == true) {
+    //     data.execute_user_id = data.execute_user_id.split(',');
+    // }
     if (postData.checkForm('#createIssueForm') == false) {
         postData.postdata('/api/project/task/', data, function(json) {
             // console.log(json);
@@ -146,7 +162,7 @@ projectModule.deleteIssue = function() {
             };
         if (postData.confirm('确认删除吗?') == true) {
             postData.postdata('/api/project/task/trash/', data, function(json) {
-                project.removeIssue(issueId);
+                projectModule.removeIssue(issueId);
             });
         } else {
             return false;
@@ -233,6 +249,7 @@ projectModule.resetModal = function() {
             $(this).removeClass('has-error');
             $(this).find('input').val('');
         });
+        $('.modal textarea').val('');
     });
 }
 

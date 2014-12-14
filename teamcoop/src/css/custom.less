@@ -1,181 +1,263 @@
 // overide
-.fill { 
+.fill
+{
     height: 100%;
     min-height: 100%;
 }
-.navbar{
-    margin-bottom:0;
+.navbar
+{
+    margin-bottom: 0;
+
     box-shadow: 0 5px 10px #ddd;
 }
-.main-block{
+.main-block
+{
     min-height: 100%;
-    .row {
+    .row
+    {
         overflow: hidden;
         .fill;
     }
-    >.row>div{
-        padding-top:20px;
-        @media screen and (min-width: 992px) {
+    > .row > div
+    {
+        padding-top: 20px;
+        @media screen and (min-width: @screen-md)
+        {
             margin-bottom: -1500px;
-            padding-bottom: 1500px; 
-            &:first-child {
-                background:#ccc;
-                .list-group {
-                    box-shadow:0 0 15px #444;        
+            padding-bottom: 1500px;
+            &:first-child
+            {
+                background: #ccc;
+                .list-group
+                {
+                    box-shadow: 0 0 15px #444;
                 }
             }
-            &:last-child {
-                box-shadow:-10px 0 20px #aaa;
+            &:last-child
+            {
+                box-shadow: -10px 0 20px #aaa;
             }
-
         }
     }
 }
-html {
+html
+{
     .fill;
 }
-body {
+body
+{
+    padding-top: 50px;
+
     .fill;
-    padding-top:50px;
 }
-.nav-title{
+.nav-title
+{
     font-size: 1.5em;
     line-height: 1.5em;
+
     padding-top: 1px;
-    span{
-        margin:4px 5px 0 0;
+    span
+    {
+        margin: 4px 5px 0 0;
     }
 }
-.noselect {
-    -webkit-touch-callout: none;
+.noselect
+{
     -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
+    -webkit-touch-callout: none;
     -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
-.issue-list li p {
-    & {
-        &:not(:last-child) {
+.issue-list li p
+{
+    &
+    {
+        &:not(:last-child)
+        {
             margin-bottom: 0;
         }
     }
-    &:last-child {
-        color: #aaa;
+    &:last-child
+    {
         font-size: .9em;
+
+        color: #aaa;
     }
 }
-.setting_select {
+.setting_select
+{
     width: 60%;
+
     .center-block;
 }
-.projectStateList {
-    small {
+.projectStateList
+{
+    small
+    {
         color: @gray;
     }
 }
-#issues {
-    table {
-        select {
-            min-width: 4em;
+#issues
+{
+    table
+    {
+        select
+        {
             width: 7em;
+            min-width: 4em;
         }
-        td {
+        td
+        {
             vertical-align: middle;
         }
     }
 }
-.discussion {
-    ul {
-        p:first-child, p:last-child {
-            color: @gray;
-        }
-        p:not(:first-child) {
-            text-indent: 2em;
+.discussion
+{
+    ul
+    {
+        p
+        {
+            &:first-child,
+            &:last-child
+            {
+                color: @gray;
+            }
+            &:not(:first-child)
+            {
+                text-indent: 2em;
+            }
         }
     }
 }
-.martb10 {
+.martb10
+{
     margin-top: 10px;
     margin-bottom: 10px;
 }
 // progressbar in project detail
-.progressBar {
-    width:80%;
+.progressBar
+{
+    width: 80%;
+
     .center-block;
     .noselect;
-    ul {
+    ul
+    {
+        overflow: hidden;
+
         margin: 0;
         padding: 0;
+
         list-style: none;
-        overflow: hidden;
+
         text-align: center;
     }
-    ul li {
+    ul li
+    {
         float: left;
     }
     /* circle */
-    
-    li:nth-child(odd) span {
-        display: block;
-        width: 3em;
-        height: 3em;
-        line-height: 3em;
-        border-radius: 50%;
-        background: @gray-light;
-        text-align: center;
-        cursor: pointer;
+    li
+    {
+        &:nth-child(odd) span
+        {
+            line-height: 3em;
+
+            display: block;
+
+            width: 3em;
+            height: 3em;
+
+            cursor: pointer;
+            text-align: center;
+
+            border-radius: 50%;
+            background: @gray-light;
+        }
     }
-    li.checked span{
+    li.checked span
+    {
         // .glyphicon;
         // .glyphicon-ok;
         color: #fff;
         background: @brand-primary;
     }
-    li:nth-child(even).checked {
-        background: @brand-primary;
-    }
-    /* line */
-    
-    li:nth-child(even) {
-        border-top: 2px solid #fff;
-        background: @gray-light;
-        /*width: 30px;*/
-        /*width: 9%;*/
-        
-        height: 5px;
-        margin-top: 2.6em;
+    li
+    {
+        &:nth-child(even).checked
+        {
+            background: @brand-primary;
+        }
+        /* line */
+        &:nth-child(even)
+        {
+            /*width: 30px;*/
+            /*width: 9%;*/
+            height: 5px;
+            margin-top: 2.6em;
+
+            border-top: 2px solid #fff;
+            background: @gray-light;
+        }
     }
 }
 // project_dashboard
-.project_dashboard {
-    .caption {
-        h5,p {
-            text-overflow:ellipsis;
-            white-space:nowrap;
+.project_dashboard
+{
+    .caption
+    {
+        h5,
+        p
+        {
             overflow-x: hidden;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
     }
 }
 
-.navbar{
-    .container-fluid {
+.navbar
+{
+    .container-fluid
+    {
         padding-left: 0;
     }
-    .navbar-brand {
+    .navbar-brand
+    {
         padding-left: 25px;
-        background: @brand-primary;
+
         color: #fff;
+        background: @brand-primary;
     }
-    span.triangle {
-        background: linear-gradient(320deg, transparent 30%, @brand-primary 30%,  @brand-primary);
-        @media screen and (max-width:992px) {
-            min-width: 220px;    
-        }
-        min-width: 420px;
-        float: left;
+    span.triangle
+    {
         display: inline-block;
+        float: left;
+
+        min-width: 420px;
         height: 50px;
+
+        background: linear-gradient(320deg, transparent 30%, @brand-primary 30%,  @brand-primary);
+        @media screen and (max-width:@screen-md)
+        {
+            min-width: 220px;
+        }
+    }
+}
+
+.project_detailboard
+{
+    @media screen and (min-width:@screen-md)
+    {
+        .col-sm-2
+        {
+            .text-right;
+        }
     }
 }

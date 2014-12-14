@@ -121,7 +121,6 @@ def project_status():
         project_id = request.json['project_id']
         p = Model.Project.query.filter_by(id=project_id).first_or_404()
         return api_response(200, 'success', 'project status', {'status': p.status})
-
 # Project-成员
 @api.route('/project/member/', methods=['GET', 'POST'])
 def project_member():
@@ -258,9 +257,7 @@ def user_task():
         project_id = request.args.get('project_id')
         # user部署的task
         task_c = Model.Task.query.filter(Model.Task.projectId == project_id and Model.Task.createUserId == user_id).order_by(Model.Task.title).all()
-        # user执行的task
-        task_e = Model.Task.query.filter(Model.Task.projectId == project_id and Model.Task.executeUserId ==
-                                         user_id).order_by(Model.Task.title).all()
+        print task_c
         if task_c is not None:
             for c in task_c:
                 index = task_c.index(c)
@@ -275,6 +272,11 @@ def user_task():
                 if u_e is not None:
                     c['execute_name'] = u_e.name
                 task_c[index] = c
+                
+        # user执行的task
+        task_e = Model.Task.query.filter(Model.Task.projectId == project_id and Model.Task.executeUserId ==
+                                         user_id).order_by(Model.Task.title).all()
+
 
         if task_e is not None:
             for e in task_e:
