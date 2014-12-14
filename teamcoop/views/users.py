@@ -71,11 +71,11 @@ def project_issues(project_id):
         for x in u_p:
             u = Model.User.query.filter_by(id=x.userId).first()
             if x.level == 1:
-                issues.append({'flag': 'add new project', 'person_in_charge': u.username, 'task_title': p.title,
+                issues.append({'flag': 'add new project', 'person_in_charge': u.username, 'project_title': p.title,
                                'create_time':
                     x.createtime})
             elif x.level == 2:
-                issues.append({'flag': 'join new project', 'participant': u.username, 'task_title': p.title,
+                issues.append({'flag': 'join new project', 'participant': u.username, 'project_title': p.title,
                                'create_time':
                     x.createtime})
 
@@ -86,7 +86,15 @@ def project_issues(project_id):
         for x in t:
             execute_u = Model.User.query.filter_by(id=x.executeUserId).first()
             create_u = Model.User.query.filter_by(id=x.createUserId).first()
-            issues.append({'flag': 'deploy new task', 'deployer': create_u.get_json()['username'], 'executer': execute_u.get_json()['username'], 'task_title': p.title, 'create_time': x.createtime})
+            issues.append({'flag': 'deploy new task', 'deployer': create_u.get_json()['username'], 'executer': execute_u.get_json()['username'], 'task_title': x.title, 'create_time': x.createtime})
+
+            # task_comment
+            t_c = Model.TaskComment.query.filter_by(id=x.id).all()
+            for y in t_c:
+                publisher = Model.User.query.filter_by(id=y.id).first()
+                issues.append({'flag': 'add task comment', 'publisher': publisher.username, 'title': task_title,
+                               'comment': y.content,
+                               'create_time': y.createtime})
 
     # project_comment
     p_c = Model.ProjectComment.query.filter_by(projectId=project_id).order_by(Model.ProjectComment.createtime).all()
@@ -94,8 +102,10 @@ def project_issues(project_id):
     if p_c is not None:
         for c in p_c:
             u = Model.User.query.filter_by(id=c.userId).first()
-            issues.append({'flag': 'add new comment', 'publisher': u.username, 'comment': p_c.content, 'create_time':
+            issues.append({'flag': 'add project comment', 'publisher': u.username, 'comment': c.content,
+                           'create_time':
                 c.createtime})
+
 
     issues.sort(key=lambda x: x['create_time'])
     return issues
