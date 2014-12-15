@@ -22,7 +22,7 @@ panel = {'issues': 'issues', 'setting': 'setting', 'dashboard': 'dashboard'}
 
 def get_related_issues(userid):
     current_user = Model.User.query.filter_by(id=userid).first()
-    if current_user.level ==1:
+    if current_user.level == 1:
         is_admin = True
         print u'管理员'
     else:
@@ -30,7 +30,7 @@ def get_related_issues(userid):
         print u'普通用户'
 
     issues = []
-
+    print is_admin
     if is_admin == True:
         u = Model.User.query.filter(Model.User.level != 1).all()
         for x in u:

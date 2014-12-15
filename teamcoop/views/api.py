@@ -72,13 +72,7 @@ def team_department():
                     user_depart = Model.UserDepartMent(departmentId=new_department.id, userId=new_user.id)
                     db.session.add(user_depart)
                     db.session.commit()
-                    return '新增部门和成员'
-                else:
-                    return api_response(400, 'fail', 'user already exist!')
-                    # user_depart = Model.UserDepartMent(departmentId=new_department.id, userId=u.id)
-                    # db.session.add(user_depart)
-                    # db.session.commit()
-            # db.session.commit()
+            return u'新增部门和成员'
         else:
             return api_response(400, 'fail', 'department is already exist')
     elif request.method == 'GET':
