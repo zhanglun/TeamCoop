@@ -78,6 +78,7 @@ postData.getdata = function(url, data, callback) {
         $.ajax({
             url: url,
             type: "GET",
+            cache: false,
             success: function(json) {
                 // argument[1] =>  function
                 data(json);

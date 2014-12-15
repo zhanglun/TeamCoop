@@ -189,6 +189,24 @@ settingModule.addmember = function() {
                     text += data.members[index];
                 }
             });
+            // render new partmentlist
+            postData.getdata('/api/team/department/', function(json) {
+                if (json['code'] == 'success') {
+                    settingModule.partmentList = json['result'];
+                    // render partmentlist
+                    settingModule.memberSetting();
+                } else {
+                    memberlist.errorTip(json['message']);
+                }
+            });
+            postData.getdata('/api/team/member/', function(json) {
+                if (json['code'] == 'success') {
+                    settingModule.memberList = json['result'];
+                } else {
+                    // $('#newpartmentform>div').first().addClass('has-error');
+                    memberlist.errorTip(json['message']);
+                }
+            });
             if (text == '') {
                 alert('全部添加成功');
             } else {
@@ -209,6 +227,24 @@ settingModule.deletemember = function(partid, userid, elem) {
             if (json['code'] == 'success') {
                 elem.parentsUntil('form').remove();
                 alert('删除成功');
+                // render new partmentlist
+                postData.getdata('/api/team/department/', function(json) {
+                    if (json['code'] == 'success') {
+                        settingModule.partmentList = json['result'];
+                        // render partmentlist
+                        settingModule.memberSetting();
+                    } else {
+                        memberlist.errorTip(json['message']);
+                    }
+                });
+                postData.getdata('/api/team/member/', function(json) {
+                    if (json['code'] == 'success') {
+                        settingModule.memberList = json['result'];
+                    } else {
+                        // $('#newpartmentform>div').first().addClass('has-error');
+                        memberlist.errorTip(json['message']);
+                    }
+                });
             } else {
                 alert('删除成功');
             }
