@@ -73,6 +73,14 @@ postData.getdata = function(url, data, callback) {
             error: function() {
                 // something error
             }
+            statusCode: {
+                404: function() {
+                    alert("page not found");
+                },
+                500: function() {
+                    alert('Parameters error');
+                }
+            }
         });
     } else {
         $.ajax({
@@ -85,6 +93,14 @@ postData.getdata = function(url, data, callback) {
             },
             error: function() {
                 // something error
+            },
+            statusCode: {
+                404: function() {
+                    alert("page not found");
+                },
+                500: function() {
+                    alert('Parameters error');
+                }
             }
         });
     }
